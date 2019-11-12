@@ -60,7 +60,14 @@
         <item>마음이 다친 여자</item>
         <item>의욕을 점점 잃어가는 사람</item>
         <item>누군가를 걱정하는 사람</item>
+        <item>인형을 들고 있는 사람</item>
         <item>짜증이 나는 사람</item>
+        <item>기타를 들고 있는 사람</item>
+        <item>중심을 잃은 사람</item>
         <item>평범하지 못한 여자</item>
+        <item>평범하지 못한 남자</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
