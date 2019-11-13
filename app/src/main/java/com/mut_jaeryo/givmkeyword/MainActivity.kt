@@ -35,11 +35,40 @@ class MainActivity : FragmentActivity() {
             }
 
             override fun onTabUnselected(p0: TabLayout.Tab?) {
-
+                val position = p0!!.position
+                p0.text = ""
+                val icon:Int
+                when(position){
+                    0 -> icon = R.drawable.today_goal
+                    1 -> icon = R.drawable.story
+                    else -> icon = R.drawable.settings
+                }
+                p0.setIcon(icon)
             }
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
-                mPager.currentItem = p0?.position ?: 0
+                val position = p0!!.position
+                mPager.currentItem = position
+
+                val icon:Int
+                when(position){
+                    0 -> {
+                        icon = R.drawable.today_goal_white
+                        p0.text = "그림 주제"
+                    }
+                    1 -> {
+                        icon = R.drawable.story_white
+                        p0.text = "스토리"
+                    }
+                    else -> {
+                        icon = R.drawable.settings_white
+                        p0.text = "설정"
+                    }
+                }
+                p0.setIcon(icon)
+
+
+
             }
 
         })
