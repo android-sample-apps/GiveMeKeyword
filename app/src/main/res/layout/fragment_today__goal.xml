@@ -5,41 +5,122 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:animationCache="true"
+    android:background="#ffffff"
     tools:context=".TodayGoalFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/today_goal_t1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="오늘의 주제"
-        android:textColor="#000000"
-        android:gravity="center"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="그림"
+        android:textColor="#000000"
         android:textSize="18sp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/today_goal_t1">
-    </TextView>
+        android:textStyle="bold"></TextView>
 
-    <TextView
+    <ImageButton
+        android:id="@+id/today_goal_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitXY"
+        android:src="@drawable/send"></ImageButton>
+
+    <ImageButton
+        android:id="@+id/today_goal_draw_utility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@id/today_goal_send"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/draw_utility"></ImageButton>
+
+    <ImageButton
+        android:id="@+id/today_goal_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@id/today_goal_draw_utility"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitXY"
+        android:src="@drawable/comment_selected"></ImageButton>
+
+
+    <RelativeLayout
+        android:id="@+id/today_goal_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="가로등 밑에서 비를 맞고 있는 사람"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:gravity="center"
-        android:drawableRight="@drawable/format_right"
-        android:drawableLeft="@drawable/format_left"
-        android:textSize="18sp"
-        android:layout_marginTop="30dp"
         android:layout_below="@id/today_goal_t1"
         android:layout_centerHorizontal="true"
-        android:id="@+id/today_goal_realGoal">
-    </TextView>
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        android:background="@drawable/shape_sqare"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/today_goal_layout_t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="오늘의 주제"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/today_goal_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/goal_refresh">
+
+        </ImageButton>
 
 
+        <TextView
+            android:id="@+id/today_goal_realGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/today_goal_layout_t1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/format_left"
+            android:drawableRight="@drawable/format_right"
+            android:gravity="center"
+            android:text="가로등 밑에서 비를 맞고 있는 사람"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold">
 
+        </TextView>
+
+
+    </RelativeLayout>
+
+    <com.divyanshu.draw.widget.DrawView
+        android:id="@+id/draw_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/today_goal_t1"
+        android:layout_margin="7dp" />
 
 
 </RelativeLayout>

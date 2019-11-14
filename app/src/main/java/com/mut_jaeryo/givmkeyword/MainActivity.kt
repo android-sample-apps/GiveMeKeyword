@@ -1,6 +1,5 @@
 package com.mut_jaeryo.givmkeyword
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -20,6 +19,7 @@ class MainActivity : FragmentActivity() {
 
         mPager = findViewById(R.id.main_pager)
 
+        mPager.isUserInputEnabled = false
         val arrayList:ArrayList<Fragment> = ArrayList()
         arrayList.add(TodayGoalFragment())
         arrayList.add(StoryFragment())
@@ -39,7 +39,7 @@ class MainActivity : FragmentActivity() {
                 p0.text = ""
                 val icon:Int
                 when(position){
-                    0 -> icon = R.drawable.today_goal
+                    0 -> icon = R.drawable.draw_utility
                     1 -> icon = R.drawable.story
                     else -> icon = R.drawable.settings
                 }
@@ -53,8 +53,8 @@ class MainActivity : FragmentActivity() {
                 val icon:Int
                 when(position){
                     0 -> {
-                        icon = R.drawable.today_goal_white
-                        p0.text = "그림 주제"
+                        icon = R.drawable.draw_utility_white
+                        p0.text = "그림"
                     }
                     1 -> {
                         icon = R.drawable.story_white
