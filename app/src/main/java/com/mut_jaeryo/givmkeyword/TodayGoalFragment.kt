@@ -1,17 +1,16 @@
 package com.mut_jaeryo.givmkeyword
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.divyanshu.draw.widget.DrawView
 
 /**
@@ -19,23 +18,33 @@ import com.divyanshu.draw.widget.DrawView
  */
 class TodayGoalFragment : Fragment() {
 
+
     private lateinit var dragView: DrawView
     private var drawUtility :Boolean = false
     private var commentShow :Boolean = true
     private lateinit var commentLayout : RelativeLayout
     private lateinit var goalTextView: TextView
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_today__goal, container, false)
+        val view = inflater.inflate(R.layout.fragment_today__goal, container, false)
+        val centerText:TextView  = view.findViewById(R.id.today_goal_t2)
+        dragView = view.findViewById(R.id.draw_view)
+        dragView.setOnTouchListener{ _: View, motionEvent: MotionEvent ->
+            dragView.onTouchEvent(motionEvent)
+
+            if(centerText.visibility == View.VISIBLE)
+                centerText.visibility = View.GONE
+            true
+        }
+        return view
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dragView = view.findViewById(R.id.draw_view)
-
 
 
 
@@ -43,8 +52,10 @@ class TodayGoalFragment : Fragment() {
         goalTextView = commentLayout.findViewById(R.id.today_goal_realGoal)
         commentLayout.findViewById<ImageButton>(R.id.today_goal_refresh).setOnClickListener{
             goalTextView.text = ""
+            goalTextView.visibility = View.GONE
 
             Handler().postDelayed({
+                goalTextView.visibility=View.VISIBLE
                 goalTextView.text = "가로등 밑에서 비를 맞고 있는 사람"
             },1000)
         }

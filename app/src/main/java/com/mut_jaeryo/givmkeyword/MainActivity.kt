@@ -19,7 +19,7 @@ class MainActivity : FragmentActivity() {
 
         mPager = findViewById(R.id.main_pager)
 
-        mPager.isUserInputEnabled = false
+       mPager.isUserInputEnabled = false
         val arrayList:ArrayList<Fragment> = ArrayList()
         arrayList.add(TodayGoalFragment())
         arrayList.add(StoryFragment())

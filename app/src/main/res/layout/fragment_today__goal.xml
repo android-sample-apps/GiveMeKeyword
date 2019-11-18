@@ -62,13 +62,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_marginRight="15dp"
         android:animateLayoutChanges="true"
         android:animationCache="true"
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
         android:orientation="vertical"
-        android:padding="10dp">
+        >
 
         <TextView
             android:id="@+id/today_goal_layout_t1"
@@ -95,25 +98,78 @@
         </ImageButton>
 
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/today_goal_layout_t1"
+            android:animateLayoutChanges="true"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/today_goal_realGoal_img"
+                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/today_goal_realGoal"
+                android:src="@drawable/format_left">
+            </ImageView>
         <TextView
             android:id="@+id/today_goal_realGoal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/today_goal_layout_t1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/format_left"
-            android:drawableRight="@drawable/format_right"
             android:gravity="center"
+            android:layout_toRightOf="@id/today_goal_realGoal_img"
             android:text="가로등 밑에서 비를 맞고 있는 사람"
             android:textColor="#000000"
             android:textSize="18sp"
+            android:maxWidth="240dp"
             android:textStyle="bold">
 
         </TextView>
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/today_goal_realGoal"
+                android:layout_toRightOf="@id/today_goal_realGoal"
+                android:src="@drawable/format_right">
 
+            </ImageView>
+        </RelativeLayout>
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/today_paint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/today_goal_t1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:animateLayoutChanges="true"
+        android:animationCache="true"
+        android:background="@drawable/shape_sqare"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        >
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/today_goal_t2"
+        android:textColor="@color/colorPrimary"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"
+        android:text="그림을 그려보세요">
+
+    </TextView>
 
     <com.divyanshu.draw.widget.DrawView
         android:id="@+id/draw_view"
