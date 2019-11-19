@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     android:animationCache="true"
     android:background="#ffffff"
@@ -62,12 +63,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_marginRight="15dp"
         android:animateLayoutChanges="true"
         android:animationCache="true"
+        android:visibility="gone"
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
         android:orientation="vertical"
@@ -158,6 +159,157 @@
         android:elevation="4dp"
         android:orientation="vertical"
         >
+
+        <ImageButton
+            android:id="@+id/today_goal_draw_brush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/brush_selected">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/today_goal_draw_eraser"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/today_goal_draw_brush"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/eraser">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/today_goal_draw_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/delete_selector">
+        </ImageButton>
+        <ImageButton
+            android:id="@+id/today_goal_draw_redo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toLeftOf="@id/today_goal_draw_delete"
+            android:layout_marginRight="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/redo_selector">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/today_goal_draw_undo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toLeftOf="@id/today_goal_draw_redo"
+            android:layout_marginRight="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/undo_selector">
+        </ImageButton>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/today_goal_draw_v1"
+            android:layout_marginRight="5dp"
+            android:layout_below="@id/today_goal_draw_brush"
+            android:background="#eeeeee"></View>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/today_goal_draw_v1"
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/today_goal_draw_color_recycle">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/today_goal_draw_v2"
+            android:layout_marginRight="5dp"
+            android:layout_below="@id/today_goal_draw_color_recycle"
+            android:background="#eeeeee"></View>
+
+        <TextView
+            android:id="@+id/today_goal_draw_t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/today_goal_draw_v2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="투명도"
+            android:textColor="@color/colorPrimary"></TextView>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/today_goal_draw_alpha_SeekBar"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/today_goal_draw_t1"
+            android:max="100"
+            android:progress="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/today_goal_draw_t1"
+            >
+
+        </SeekBar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/today_goal_draw_v3"
+            android:layout_marginRight="5dp"
+            android:layout_below="@id/today_goal_draw_alpha_SeekBar"
+            android:background="#eeeeee">
+
+        </View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="크기"
+            android:layout_below="@id/today_goal_draw_v3"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/today_goal_draw_t2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp">
+        </TextView>
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/today_goal_draw_size_SeekBar"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/today_goal_draw_t2"
+            android:max="100"
+            android:progress="10"
+            android:layout_marginRight="15dp"
+            android:layout_alignLeft="@id/today_goal_draw_alpha_SeekBar"
+            android:layout_toRightOf="@id/today_goal_draw_t2"
+            >
+
+        </SeekBar>
+
     </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
