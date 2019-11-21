@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +13,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.setPadding
 import com.divyanshu.draw.widget.DrawView
+import kotlinx.android.synthetic.main.fragment_today__goal.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -27,6 +30,7 @@ class TodayGoalFragment : Fragment() {
     private lateinit var commentLayout : RelativeLayout
     private lateinit var paintLayout : RelativeLayout
     private lateinit var goalTextView: TextView
+    private var selecteColorIndex = 0
     private lateinit var commentBtn : ImageButton
     private lateinit var drawBtn : ImageButton
     private lateinit var sizeSeekBar: SeekBar
@@ -118,11 +122,15 @@ class TodayGoalFragment : Fragment() {
         }
     }
 
+
+
     fun PaintLayoutInit(){
 
         sizeSeekBar = paintLayout.findViewById(R.id.today_goal_draw_size_SeekBar)
         alphaSeekBar = paintLayout.findViewById(R.id.today_goal_draw_alpha_SeekBar)
 
+        drawView.setAlpha(alphaSeekBar.progress)
+        drawView.setStrokeWidth(sizeSeekBar.progress.toFloat())
         sizeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                drawView.setStrokeWidth(p1.toFloat())
@@ -185,8 +193,80 @@ class TodayGoalFragment : Fragment() {
         }
 
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_delete).setOnClickListener { drawView.clearCanvas() }
+
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_black).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_blue).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_green).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_pink).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_red).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_yellow).setOnClickListener(colorClickListener)
     }
 
+    private val colorClickListener = View.OnClickListener {
+
+         val index =  when(it.id)
+          {
+              R.id.today_goal_draw_color_black -> {
+                  brushColor = Color.BLACK
+                  0
+              }
+             R.id.today_goal_draw_color_blue-> {
+                 brushColor = Color.rgb(0,176,255)
+                 1
+             }
+
+             R.id.today_goal_draw_color_green -> {
+                 brushColor = Color.GREEN
+                 2
+             }
+
+             R.id.today_goal_draw_color_pink -> {
+                 brushColor = Color.rgb(213,0,249)
+                 3
+             }
+
+             R.id.today_goal_draw_color_red -> {
+                 brushColor = Color.RED
+                 4
+             }
+
+             else -> {
+                 brushColor = Color.YELLOW
+                 5
+             }
+          }
+
+        if(selecteColorIndex!=index)
+        {
+            drawView.setColor(brushColor)
+            unseletedColor(selecteColorIndex)
+            selecteColorIndex = index
+            it.setPadding(resources.getDimension(R.dimen.colorSelect).toInt())
+        }
+    }
+
+    fun unseletedColor(index : Int)
+    {
+        val res : Int = when (index)
+        {
+            0 -> R.id.today_goal_draw_color_black
+
+            1 -> R.id.today_goal_draw_color_blue
+
+            2 -> R.id.today_goal_draw_color_green
+
+            3 -> R.id.today_goal_draw_color_pink
+
+            4 -> R.id.today_goal_draw_color_red
+
+            else -> R.id.today_goal_draw_color_yellow
+        }
+
+        val it:ImageView = paintLayout.findViewById(res)
+
+
+        it.setPadding(resources.getDimension(R.dimen.colorUnSelect).toInt())
+    }
 }
 
 

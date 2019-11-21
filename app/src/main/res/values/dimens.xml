@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="textBasic">19sp</dimen>
+    <dimen name="colorSelect">5dp</dimen>
+    <dimen name="colorUnSelect">7dp</dimen>
 </resources>
