@@ -70,6 +70,11 @@ class TodayGoalFragment : Fragment() {
         ContentLayoutInit()
         PaintLayoutInit()
 
+        view.findViewById<ImageButton>(R.id.today_goal_send).setOnClickListener {
+            drawView.mPaths
+            Toast.makeText(context,"그림 저장",Toast.LENGTH_LONG).show()
+        }
+
         drawBtn.setOnClickListener{
             it as ImageButton
             drawUtility = !drawUtility

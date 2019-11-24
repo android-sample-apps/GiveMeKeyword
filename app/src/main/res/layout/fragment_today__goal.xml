@@ -71,7 +71,7 @@
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:visibility="gone">
+        >
 
         <TextView
             android:id="@+id/today_goal_layout_t1"
@@ -153,6 +153,7 @@
         android:animationCache="true"
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
+        android:visibility="gone"
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
