@@ -3,7 +3,7 @@ package com.mut_jaeryo.givmkeyword.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.mut_jaeryo.givmkeyword.services.sendAlert
+import com.mut_jaeryo.givmkeyword.services.SendAlert
 import java.util.*
 
 class BootReceiver : BroadcastReceiver() {
@@ -18,7 +18,7 @@ class BootReceiver : BroadcastReceiver() {
           gregorianCalendar.set(Calendar.MINUTE,0)
           gregorianCalendar.set(Calendar.SECOND,0)
 
-          sendAlert.setAlert(p0!!,gregorianCalendar)
+          SendAlert.setAlert(p0!!,gregorianCalendar)
 
       }
     }

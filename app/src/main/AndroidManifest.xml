@@ -16,6 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".receivers.AlertReceiver"
+            android:enabled="true"></receiver>
+
+        <receiver android:name=".receivers.BootReceiver"
+            android:enabled="true"></receiver>
+
+        <service android:name=".services.ShowNotify"
+            android:enabled="false"></service>
     </application>
 
 </manifest>

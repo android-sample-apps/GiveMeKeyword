@@ -67,6 +67,7 @@ class TodayGoalFragment : Fragment() {
         commentBtn = view.findViewById(R.id.today_goal_show)
         drawBtn = view.findViewById(R.id.today_goal_draw_utility)
 
+        
         ContentLayoutInit()
         PaintLayoutInit()
 
