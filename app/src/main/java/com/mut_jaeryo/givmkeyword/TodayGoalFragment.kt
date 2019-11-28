@@ -15,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.setPadding
 import com.divyanshu.draw.widget.DrawView
+import com.mut_jaeryo.givmkeyword.database.BasicDB
+import com.mut_jaeryo.givmkeyword.keyword.Keyword
 import kotlinx.android.synthetic.main.fragment_today__goal.view.*
 
 /**
@@ -67,7 +69,7 @@ class TodayGoalFragment : Fragment() {
         commentBtn = view.findViewById(R.id.today_goal_show)
         drawBtn = view.findViewById(R.id.today_goal_draw_utility)
 
-        
+
         ContentLayoutInit()
         PaintLayoutInit()
 
@@ -117,13 +119,16 @@ class TodayGoalFragment : Fragment() {
     }
 
     fun ContentLayoutInit(){
+        goalTextView.text = BasicDB.getKeyword(context!!)
         commentLayout.findViewById<ImageButton>(R.id.today_goal_refresh).setOnClickListener{
             goalTextView.text = ""
             goalTextView.visibility = View.GONE
 
             Handler().postDelayed({
                 goalTextView.visibility=View.VISIBLE
-                goalTextView.text = "가로등 밑에서 비를 맞고 있는 사람"
+                val keyword = Keyword.getKeyword(context!!)
+                BasicDB.setKeyword(context!!,keyword)
+                goalTextView.text = keyword
             },1000)
         }
     }

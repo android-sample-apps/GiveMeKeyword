@@ -19,7 +19,7 @@ class BasicDB {
 
         fun getKeyword(ctx : Context): String?
         {
-           return getSharedPreferences(ctx).getString(PREF_KETWORD,"")
+           return getSharedPreferences(ctx).getString(PREF_KETWORD,"가로등 밑에서 비를 맞고 있는 사람")
         }
 
         fun setKeyword(ctx: Context, keyword : String)

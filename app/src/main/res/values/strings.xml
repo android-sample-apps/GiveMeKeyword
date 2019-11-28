@@ -6,22 +6,8 @@
         <item>키가 작은 남학생</item>
         <item>키가 작은 여학생</item>
         <item>슬픔에 잠긴 사람</item>
-        <item>누군가를 그리워하는 사람</item>
         <item>희망에 찬 사람</item>
-        <item>다정한 남자</item>
-        <item>머리 끝까지 화난 여자</item>
-        <item>머리 끝까지 화난 남자</item>
-        <item>삐진 여학생</item>
-        <item>삐진 남학생</item>
-        <item>온몸이 무거운 사람</item>
-        <item>후회하는 사람</item>
-        <item>좋아하는 사람이 생긴 여학생</item>
-        <item>좋아하는 사람이 생긴 남학생</item>
-        <item>긴장한 남자</item>
-        <item>부끄러운 사람</item>
-        <item>운동하다 팔이 다친 남자</item>
-        <item>운동하다 팔이 다친 여자</item>
-        <item>넘어져 발에 깁스한 사람</item>
+        <item>발에 깁스한 사람</item>
         <item>한쪽 팔에 깁스한 사람</item>
         <item>희망에 찬 사람</item>
         <item>몸이 피곤한 여자</item>
@@ -30,44 +16,32 @@
         <item>눈물이 흘리는 사람</item>
         <item>절규하는 사람</item>
         <item>신난 사람</item>
-        <item>기분은 좋지만 어딘가 찝찝한 사람</item>
-        <item>기대감에 찬 사람</item>
-        <item>방금 면접 본 남자</item>
-        <item>방금 면접 본 여자</item>
         <item>술에 취한 남자</item>
         <item>술에 취한 여자</item>
-        <item>잘나가는 친구가 부러운 사람</item>
-        <item>항상 병원에서 있었던 남자아이</item>
-        <item>항상 병원에서 있었던 여자아이</item>
-        <item>평범하지 못한 남자</item>
-        <item>가난한 사람</item>
         <item>좋은 향기가 나는 사람</item>
-        <item>무서움이 느껴지는 사람</item>
-        <item>모든게 행복한 사람</item>
-        <item>설렘을 느끼는 사람</item>
-        <item>좀 전에 신기한 일이 있었던 사람</item>
-        <item>꿈을 이룬 사람</item>
-        <item>호기심이 많은 사람</item>
-        <item>이상한 낌새를 눈치챈 사람</item>
-        <item>위험에 처한 사람</item>
-        <item>무표정의 사람</item>
-        <item>마음이 다친 남자</item>
-        <item>무언가 결심한 사람</item>
-        <item>피아노 연주중인 남자</item>
-        <item>피아노 연주중인 여자</item>
-        <item>비를 맞고 있는 여학생</item>
-        <item>비를 맞고 있는 남학생</item>
-        <item>마음이 다친 여자</item>
         <item>의욕을 점점 잃어가는 사람</item>
-        <item>누군가를 걱정하는 사람</item>
         <item>인형을 들고 있는 사람</item>
-        <item>짜증이 나는 사람</item>
         <item>기타를 들고 있는 사람</item>
         <item>중심을 잃은 사람</item>
-        <item>평범하지 못한 여자</item>
-        <item>평범하지 못한 남자</item>
+        <item>할아버지</item>
+        <item>할머니</item>
     </string-array>
 
+    <string-array name="nounOfPlace_array">
+        <item>빈 교실 책상</item>
+        <item>공원의 낡은 벤치</item>
+        <item>등산로 계단 문 턱</item>
+        <item>아무도 없는 학교 옥상</item>
+        <item>비가 내리는 육교 위</item>
+        <item>고양이 들이 쉬고 있는 골목길</item>
+    </string-array>
+    
+    <string-array name="nounOfVerb_array">
+        <item>기타 연주</item>
+        <item>핸드폰에 집중</item>
+        <item>열정적으로 필기</item>
+        <item>비를 맞고 있는a</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
