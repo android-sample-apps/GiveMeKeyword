@@ -214,7 +214,11 @@ class TodayGoalFragment : Fragment() {
     }
 
     private val colorClickListener = View.OnClickListener {
-
+        if(!usingBrush){
+            usingBrush=true
+            paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush_selected)
+            paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
+        }
          val index =  when(it.id)
           {
               R.id.today_goal_draw_color_black -> {

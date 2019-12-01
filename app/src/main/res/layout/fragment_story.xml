@@ -5,10 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".StoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/today_goal_t1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="내 스토리"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"></TextView>
 
+    
 </FrameLayout>
