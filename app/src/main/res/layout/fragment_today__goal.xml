@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:animationCache="true"
     android:background="#ffffff"
     tools:context=".TodayGoalFragment">
 
@@ -64,8 +62,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
-        android:animateLayoutChanges="true"
-        android:animationCache="true"
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
         android:orientation="vertical"
@@ -149,8 +145,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
-        android:animateLayoutChanges="true"
-        android:animationCache="true"
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
         android:visibility="gone"
@@ -400,7 +394,7 @@
 <!--        android:layout_below="@id/today_goal_t1"-->
 <!--        android:layout_margin="7dp" />-->
 
-        <com.simplify.ink.InkView
+        <com.mut_jaeryo.givmkeyword.view.InkView
             android:id="@+id/draw_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

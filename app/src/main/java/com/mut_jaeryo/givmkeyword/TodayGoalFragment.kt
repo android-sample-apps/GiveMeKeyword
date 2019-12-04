@@ -18,7 +18,8 @@ import androidx.core.view.setPadding
 
 import com.mut_jaeryo.givmkeyword.database.BasicDB
 import com.mut_jaeryo.givmkeyword.keyword.Keyword
-import com.simplify.ink.InkView
+import com.mut_jaeryo.givmkeyword.view.InkView
+
 import kotlinx.android.synthetic.main.fragment_today__goal.view.*
 
 /**
@@ -49,6 +50,7 @@ class TodayGoalFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_today__goal, container, false)
         val centerText:TextView  = view.findViewById(R.id.today_goal_t2)
         drawView = view.findViewById(R.id.draw_view)
+
         drawView.setOnTouchListener{ _: View, motionEvent: MotionEvent ->
             drawView.onTouchEvent(motionEvent)
 
