@@ -282,6 +282,29 @@
                     android:padding="7dp"
                     android:src="@drawable/circle_yellow"></ImageView>
 
+                <ImageView
+                    android:id="@+id/today_goal_draw_color_darkBlue"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="7dp"
+                    android:src="@drawable/circle_dark_blue"></ImageView>
+
+                <ImageView
+                    android:id="@+id/today_goal_draw_color_darkGreen"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="7dp"
+                    android:src="@drawable/circle_darkgreen"></ImageView>
+
+                <ImageView
+                    android:id="@+id/today_goal_draw_color_wood"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:padding="7dp"
+                    android:src="@drawable/circle_wood"></ImageView>
             </LinearLayout>
 
         </HorizontalScrollView>
