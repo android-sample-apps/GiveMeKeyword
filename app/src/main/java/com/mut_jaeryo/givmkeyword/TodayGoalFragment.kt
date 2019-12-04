@@ -3,6 +3,7 @@ package com.mut_jaeryo.givmkeyword
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -211,6 +212,9 @@ class TodayGoalFragment : Fragment() {
         paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_pink).setOnClickListener(colorClickListener)
         paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_red).setOnClickListener(colorClickListener)
         paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_yellow).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_darkBlue).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_darkGreen).setOnClickListener(colorClickListener)
+        paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_wood).setOnClickListener(colorClickListener)
     }
 
     private val colorClickListener = View.OnClickListener {
@@ -226,29 +230,80 @@ class TodayGoalFragment : Fragment() {
                   0
               }
              R.id.today_goal_draw_color_blue-> {
-                 brushColor = Color.rgb(0,176,255)
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.colorPrimary)
+                 }else {
+                     resources.getColor(R.color.colorPrimary)
+                 }
                  1
+
              }
 
              R.id.today_goal_draw_color_green -> {
-                 brushColor = Color.GREEN
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.green)
+                 }else {
+                     resources.getColor(R.color.green)
+                 }
                  2
              }
 
              R.id.today_goal_draw_color_pink -> {
-                 brushColor = Color.rgb(213,0,249)
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.pink)
+                 }else {
+                     resources.getColor(R.color.pink)
+                 }
                  3
              }
 
              R.id.today_goal_draw_color_red -> {
-                 brushColor = Color.RED
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.red)
+                 }else {
+                     resources.getColor(R.color.red)
+                 }
                  4
              }
 
-             else -> {
-                 brushColor = Color.YELLOW
+             R.id.today_goal_draw_color_yellow -> {
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.yellow)
+                 }else {
+                     resources.getColor(R.color.yellow)
+                 }
                  5
              }
+
+             R.id.today_goal_draw_color_darkBlue -> {
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.darkBlue)
+                 }else {
+                     resources.getColor(R.color.darkBlue)
+                 }
+                 6
+             }
+
+             R.id.today_goal_draw_color_darkGreen -> {
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.darkGreen)
+                 }else {
+                     resources.getColor(R.color.darkGreen)
+                 }
+                 7
+             }
+
+             else -> {
+
+                 brushColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     context!!.getColor(R.color.wood)
+                 }else {
+                     resources.getColor(R.color.wood)
+                 }
+                     8
+
+             }
+
           }
 
         if(selecteColorIndex!=index)
@@ -274,7 +329,13 @@ class TodayGoalFragment : Fragment() {
 
             4 -> R.id.today_goal_draw_color_red
 
-            else -> R.id.today_goal_draw_color_yellow
+            5-> R.id.today_goal_draw_color_yellow
+
+            6 -> R.id.today_goal_draw_color_darkBlue
+
+            7 -> R.id.today_goal_draw_color_darkGreen
+
+            else -> R.id.today_goal_draw_color_wood
         }
 
         val it:ImageView = paintLayout.findViewById(res)
