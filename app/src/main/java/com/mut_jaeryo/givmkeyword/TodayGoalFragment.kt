@@ -14,9 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.setPadding
-import com.divyanshu.draw.widget.DrawView
+
 import com.mut_jaeryo.givmkeyword.database.BasicDB
 import com.mut_jaeryo.givmkeyword.keyword.Keyword
+import com.simplify.ink.InkView
 import kotlinx.android.synthetic.main.fragment_today__goal.view.*
 
 /**
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_today__goal.view.*
 class TodayGoalFragment : Fragment() {
 
 
-    private lateinit var drawView: DrawView
+    private lateinit var drawView: InkView
     private var drawUtility :Boolean = false
     private var commentShow :Boolean = true
     private var usingBrush : Boolean = true
@@ -74,7 +75,6 @@ class TodayGoalFragment : Fragment() {
         PaintLayoutInit()
 
         view.findViewById<ImageButton>(R.id.today_goal_send).setOnClickListener {
-            drawView.mPaths
             Toast.makeText(context,"그림 저장",Toast.LENGTH_LONG).show()
         }
 
@@ -140,11 +140,12 @@ class TodayGoalFragment : Fragment() {
         sizeSeekBar = paintLayout.findViewById(R.id.today_goal_draw_size_SeekBar)
         alphaSeekBar = paintLayout.findViewById(R.id.today_goal_draw_alpha_SeekBar)
 
-        drawView.setAlpha(alphaSeekBar.progress)
-        drawView.setStrokeWidth(sizeSeekBar.progress.toFloat())
+        drawView.setMaxStrokeWidth(6f);
+        drawView.setMinStrokeWidth(1.5f);
+//        drawView.setStrokeWidth(sizeSeekBar.progress.toFloat())
         sizeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-               drawView.setStrokeWidth(p1.toFloat())
+            //   drawView.setStrokeWidth(p1.toFloat())
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -159,7 +160,7 @@ class TodayGoalFragment : Fragment() {
 
         alphaSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                drawView.setAlpha(p1)
+             //   drawView.setAlpha(p1)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -196,14 +197,14 @@ class TodayGoalFragment : Fragment() {
         }
 
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_undo).setOnClickListener {
-            drawView.undo()
+           // drawView.
         }
 
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_redo).setOnClickListener {
-            drawView.redo()
+          //  drawView.redo()
         }
 
-        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_delete).setOnClickListener { drawView.clearCanvas() }
+        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_delete).setOnClickListener { drawView.clear() }
 
         paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_black).setOnClickListener(colorClickListener)
         paintLayout.findViewById<ImageView>(R.id.today_goal_draw_color_blue).setOnClickListener(colorClickListener)

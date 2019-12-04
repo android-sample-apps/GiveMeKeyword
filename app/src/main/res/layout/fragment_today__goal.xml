@@ -370,12 +370,19 @@
 
     </TextView>
 
-    <com.divyanshu.draw.widget.DrawView
-        android:id="@+id/draw_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/today_goal_t1"
-        android:layout_margin="7dp" />
+<!--    <com.divyanshu.draw.widget.DrawView-->
+<!--        android:id="@+id/draw_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@id/today_goal_t1"-->
+<!--        android:layout_margin="7dp" />-->
+
+        <com.simplify.ink.InkView
+            android:id="@+id/draw_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/today_goal_t1"
+            android:layout_margin="7dp" />
 
 
 </RelativeLayout>
