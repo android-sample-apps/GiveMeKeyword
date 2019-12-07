@@ -35,6 +35,8 @@ dependencies {
     //외부 라이브러리
 //    implementation 'com.github.divyanshub024:AndroidDraw:v0.1'
 
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    apply plugin: 'com.google.gms.google-services'
     implementation 'androidx.preference:preference:1.1.0'
 }
 repositories {
