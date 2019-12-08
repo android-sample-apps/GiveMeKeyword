@@ -337,11 +337,11 @@
             android:layout_below="@id/today_goal_draw_v3"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="크기"
+            android:text="최대 크기"
             android:textColor="@color/colorPrimary"></TextView>
 
         <SeekBar
-            android:id="@+id/today_goal_draw_size_SeekBar"
+            android:id="@+id/today_goal_draw_Maxsize_SeekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/today_goal_draw_alpha_SeekBar"
@@ -349,10 +349,48 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_toRightOf="@id/today_goal_draw_t2"
-            android:max="50"
+            android:max="100"
             android:progress="10">
 
         </SeekBar>
+
+        <View
+            android:id="@+id/today_goal_draw_v4"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_below="@id/today_goal_draw_Maxsize_SeekBar"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#eeeeee">
+
+        </View>
+
+        <TextView
+            android:id="@+id/today_goal_draw_t3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/today_goal_draw_v4"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="최소 크기"
+            android:textColor="@color/colorPrimary"></TextView>
+
+        <SeekBar
+            android:id="@+id/today_goal_draw_Minsize_SeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/today_goal_draw_alpha_SeekBar"
+            android:layout_alignTop="@id/today_goal_draw_t3"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/today_goal_draw_t3"
+            android:max="100"
+            android:progress="4">
+
+        </SeekBar>
+
+
 
     </RelativeLayout>
 

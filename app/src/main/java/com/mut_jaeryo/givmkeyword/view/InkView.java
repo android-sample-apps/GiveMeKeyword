@@ -46,6 +46,8 @@ public class InkView extends View {
      */
     public static final float DEFAULT_MIN_STROKE_WIDTH = 1.5f;
 
+
+    public static final int DEFAULT_ALPHA = 100;
     /**
      * The default smoothing ratio for calculating the control points for the bezier curves.
      * Will be ignored if FLAG_INTERPOLATION is removed
@@ -85,6 +87,7 @@ public class InkView extends View {
     float maxStrokeWidth;
     float minStrokeWidth;
     float smoothingRatio;
+    int alpha;
 
     // points
     ArrayList<InkPoint> pointQueue = new ArrayList<>();
@@ -143,7 +146,7 @@ public class InkView extends View {
         setMaxStrokeWidth(DEFAULT_MAX_STROKE_WIDTH);
         setMinStrokeWidth(DEFAULT_MIN_STROKE_WIDTH);
         setSmoothingRatio(DEFAULT_SMOOTHING_RATIO);
-
+        setAlpha(DEFAULT_ALPHA);
         // init dirty rect
         dirty = new RectF();
 
@@ -356,6 +359,11 @@ public class InkView extends View {
         minStrokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, width, getResources().getDisplayMetrics());
     }
 
+
+    public void setAlpha(int alpha)
+    {
+        this.alpha = alpha;
+    }
     /**
      * Returns the smoothing ratio
      *
@@ -558,7 +566,7 @@ public class InkView extends View {
         dirty.bottom = Math.max(p1.y, p2.y);
 
         paint.setStyle(Paint.Style.STROKE);
-
+        paint.setAlpha(alpha);
         // adjust low-pass ratio from changing acceleration
         // using comfortable range of 0.2 -> 0.3 approx.
         float acceleration = Math.abs((p2.velocity - p1.velocity) / (p2.time - p1.time)); // in/s^2

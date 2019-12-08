@@ -38,7 +38,8 @@ class TodayGoalFragment : Fragment() {
     private var selecteColorIndex = 0
     private lateinit var commentBtn : ImageButton
     private lateinit var drawBtn : ImageButton
-    private lateinit var sizeSeekBar: SeekBar
+    private lateinit var MaxsizeSeekBar: SeekBar
+    private lateinit var MinsizeSeekBar: SeekBar
     private lateinit var alphaSeekBar: SeekBar
 
     private var brushColor = Color.rgb(0,0,0) //black
@@ -140,15 +141,37 @@ class TodayGoalFragment : Fragment() {
 
     fun PaintLayoutInit(){
 
-        sizeSeekBar = paintLayout.findViewById(R.id.today_goal_draw_size_SeekBar)
+        MaxsizeSeekBar = paintLayout.findViewById(R.id.today_goal_draw_Maxsize_SeekBar)
+        MinsizeSeekBar =  paintLayout.findViewById(R.id.today_goal_draw_Minsize_SeekBar)
         alphaSeekBar = paintLayout.findViewById(R.id.today_goal_draw_alpha_SeekBar)
 
-        drawView.setMaxStrokeWidth(6f);
-        drawView.setMinStrokeWidth(1.5f);
-//        drawView.setStrokeWidth(sizeSeekBar.progress.toFloat())
-        sizeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+        drawView.setAlpha(alphaSeekBar.progress)
+        drawView.setMaxStrokeWidth(MaxsizeSeekBar.progress/2f)
+        drawView.setMinStrokeWidth(MinsizeSeekBar.progress/2f)
+
+        MaxsizeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-            //   drawView.setStrokeWidth(p1.toFloat())
+             drawView.setMaxStrokeWidth(p1/2f)
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
+
+        MinsizeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                if(p1>MaxsizeSeekBar.progress)
+                {
+                    Toast.makeText(context,"최대 크기보다 작아야 합니다.",Toast.LENGTH_LONG).show()
+                    MinsizeSeekBar.progress = MaxsizeSeekBar.progress
+                }else
+                drawView.setMinStrokeWidth(p1/2f)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -163,7 +186,7 @@ class TodayGoalFragment : Fragment() {
 
         alphaSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-             //   drawView.setAlpha(p1)
+                drawView.setAlpha(p1)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
