@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.keyword
+package com.mut_jaeryo.givmkeyword.utills.keywords
 
 import android.content.Context
 import com.mut_jaeryo.givmkeyword.R

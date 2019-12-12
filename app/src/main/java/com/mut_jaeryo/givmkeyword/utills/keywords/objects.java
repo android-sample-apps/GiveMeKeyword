@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.keyword;
+package com.mut_jaeryo.givmkeyword.utills.keywords;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -6,8 +6,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.DisplayMetrics
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -16,11 +14,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.setPadding
 
-import com.mut_jaeryo.givmkeyword.database.BasicDB
-import com.mut_jaeryo.givmkeyword.keyword.Keyword
+import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
-
-import kotlinx.android.synthetic.main.fragment_today__goal.view.*
 
 /**
  * A simple [Fragment] subclass.

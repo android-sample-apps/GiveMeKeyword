@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.services
+package com.mut_jaeryo.givmkeyword.utills.services
 
 import android.app.NotificationManager
 import android.app.PendingIntent

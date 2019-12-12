@@ -1,11 +1,11 @@
-package com.mut_jaeryo.givmkeyword.services
+package com.mut_jaeryo.givmkeyword.utills.services
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.mut_jaeryo.givmkeyword.receivers.AlertReceiver
+import com.mut_jaeryo.givmkeyword.utills.receivers.AlertReceiver
 
 import java.util.*
 
@@ -15,7 +15,7 @@ class SendAlert {
 
         fun setAlert(context : Context, time:GregorianCalendar)
         {
-            val intent : Intent = Intent(context,AlertReceiver::class.java)
+            val intent : Intent = Intent(context, AlertReceiver::class.java)
 
             val pending:PendingIntent = PendingIntent.getBroadcast(
                     context.applicationContext,

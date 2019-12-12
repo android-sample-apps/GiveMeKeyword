@@ -42,6 +42,8 @@
         <item>열정적으로 필기</item>
         <item>비를 맞고 있는a</item>
     </string-array>
+
+    <string name="KeywordDrawingNone">[<![CDATA[이 <font color=\"#2a7de2\">키워드</font>에 대한 그림이 존재하지 않습니다.\n <b>사용자의 그림<b>을 올려 사람들에게 보여주세요!!]]></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

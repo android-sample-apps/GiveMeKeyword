@@ -21,14 +21,14 @@
         </activity>
 
         <receiver
-            android:name=".receivers.AlertReceiver"
+            android:name="com.mut_jaeryo.givmkeyword.utills.receivers.AlertReceiver"
             android:enabled="true" />
         <receiver
-            android:name=".receivers.BootReceiver"
+            android:name="com.mut_jaeryo.givmkeyword.utills.receivers.BootReceiver"
             android:enabled="true" />
 
         <service
-            android:name=".services.ShowNotify"
+            android:name="com.mut_jaeryo.givmkeyword.utills.services.ShowNotify"
             android:enabled="false" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.database
+package com.mut_jaeryo.givmkeyword.utills.Database
 
 import android.content.Context
 import android.database.SQLException
@@ -17,7 +17,7 @@ class KeywordDB() {
 
     constructor(context: Context):this()
     {
-        mCtx=context
+        mCtx =context
     }
     private inner class  DatabaseHelper(val mCtx:Context,val name:String,val factory:SQLiteDatabase.CursorFactory?,val version:Int) : SQLiteOpenHelper(mCtx,name,factory,version) {
 
@@ -31,6 +31,7 @@ class KeywordDB() {
             p0!!.execSQL("DROP TABLE IF EXISTS " + KeywordTable.Table_Name)
             onCreate(p0)
         }
+
     }
 
 
@@ -38,7 +39,7 @@ class KeywordDB() {
     @Throws(SQLException::class)
     fun open(): KeywordDB? {
         mDBHelper = DatabaseHelper(mCtx!!, "${KeywordTable.Table_Name}.db", null, visionCode)
-        KeywordDB= mDBHelper!!.writableDatabase
+        KeywordDB = mDBHelper!!.writableDatabase
 
         return this
     }

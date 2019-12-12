@@ -1,12 +1,12 @@
-package com.mut_jaeryo.givmkeyword.receivers
+package com.mut_jaeryo.givmkeyword.utills.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.mut_jaeryo.givmkeyword.database.BasicDB
-import com.mut_jaeryo.givmkeyword.keyword.Keyword
-import com.mut_jaeryo.givmkeyword.services.SendAlert
-import com.mut_jaeryo.givmkeyword.services.ShowNotify
+import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
+import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
+import com.mut_jaeryo.givmkeyword.utills.services.ShowNotify
 import java.util.*
 
 class AlertReceiver : BroadcastReceiver() {

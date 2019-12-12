@@ -1,9 +1,9 @@
-package com.mut_jaeryo.givmkeyword.receivers
+package com.mut_jaeryo.givmkeyword.utills.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.mut_jaeryo.givmkeyword.services.SendAlert
+import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
 import java.util.*
 
 class BootReceiver : BroadcastReceiver() {

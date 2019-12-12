@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.database
+package com.mut_jaeryo.givmkeyword.utills.Database
 
 import android.content.Context
 import android.content.SharedPreferences
