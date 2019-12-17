@@ -5,5 +5,5 @@ package com.mut_jaeryo.givmkeyword.view.Items
   Declaration은 주제와 부적절한 그림에 대한 신고
 
  */
-data class drawingItem(var goal:String,var ImageUrl:String,var recommend:Int,var Declaration:Int ) {
+data class drawingItem(var keyword:String,var ImageUrl:String,var recommend:Int,var Declaration:Int ) {
 }
