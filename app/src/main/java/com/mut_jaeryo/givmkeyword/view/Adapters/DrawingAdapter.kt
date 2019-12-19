@@ -1,9 +1,11 @@
 package com.mut_jaeryo.givmkeyword.view.Adapters
 
 import android.app.Activity
-import android.content.Context
+
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
@@ -27,5 +29,18 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
     override fun onBindViewHolder(holder: drawingHolder, position: Int) {
 
         //Image 적용
+
+
+        val id = arrayList[position].id
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.jpg")
+
+        holder.name.text = arrayList[position].name
+    // ImageView in your Activity
+
+    // Download directly from StorageReference using Glide
+    // (See MyAppGlideModule for Loader registration)
+        Glide.with(activity)
+                .load(storageReference)
+                .into(holder.ImageContainer)
     }
 }

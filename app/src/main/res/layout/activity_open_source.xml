@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="https://github.com/square/okhttp"
+                android:text="https://developer.android.com/viewpager2"
                 android:id="@+id/open_source_okhttp_link"
                 android:layout_marginLeft="30dp"
                 android:layout_below="@id/open_source_okhttp">
@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Copyright 2019 Square, Inc."
+                android:text="Copyright 2019 Google, Inc"
                 android:layout_marginLeft="30dp"
                 android:layout_below="@id/open_source_okhttp_link"
                 android:id="@+id/open_source_okhttp_tv"
@@ -78,14 +78,14 @@
                 android:layout_below="@id/open_source_okhttp_license"
                 android:textSize="16sp"
                 android:layout_marginLeft="15dp"
-                android:text="InkView"
+                android:text="ink_android"
                 android:textColor="#000000">
             </TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="https://developers.google.com/vision"
+                android:text="https://github.com/simplifycom/ink-android"
                 android:id="@+id/open_source_vision_link"
                 android:layout_marginLeft="30dp"
                 android:layout_below="@id/open_source_vision">
@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Copyright 2019 Google, Inc"
+                android:text="Copyright 2019 Simplifycom"
                 android:layout_marginLeft="30dp"
                 android:layout_below="@id/open_source_vision_link"
                 android:id="@+id/open_source_vision_tv"

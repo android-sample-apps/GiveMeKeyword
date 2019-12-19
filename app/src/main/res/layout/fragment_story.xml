@@ -6,8 +6,6 @@
     tools:context=".StoryFragment">
 
 
-
-
     <TextView
         android:id="@+id/today_story_t1"
         android:layout_width="wrap_content"
@@ -19,8 +17,6 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"></TextView>
-
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

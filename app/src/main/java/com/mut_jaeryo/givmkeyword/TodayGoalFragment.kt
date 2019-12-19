@@ -2,6 +2,7 @@ package com.mut_jaeryo.givmkeyword
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.widget.*
 import androidx.core.view.setPadding
 
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
 import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
 
@@ -75,6 +77,12 @@ class TodayGoalFragment : Fragment() {
         PaintLayoutInit()
 
         view.findViewById<ImageButton>(R.id.today_goal_send).setOnClickListener {
+
+            ImageSave.drawingImage = drawView.bitmap
+
+            val intent = Intent(activity,UploadActivity::class.java)
+            startActivity(intent)
+
             Toast.makeText(context,"그림 저장",Toast.LENGTH_LONG).show()
         }
 

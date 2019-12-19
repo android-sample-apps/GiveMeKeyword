@@ -11,6 +11,8 @@ class BasicDB {
     companion object
     {
         val PREF_KETWORD = "Keyword"
+        val PREF_NAME = "name"
+        val PREF_DATE = "Date"
 
         fun getSharedPreferences(ctx : Context) : SharedPreferences
         {
@@ -20,6 +22,30 @@ class BasicDB {
         fun getKeyword(ctx : Context): String?
         {
            return getSharedPreferences(ctx).getString(PREF_KETWORD,"가로등 밑에서 비를 맞고 있는 사람")
+        }
+
+        fun setName(ctx: Context, name : String)
+        {
+            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
+            editor.putString(PREF_NAME,name)
+            editor.apply()
+        }
+
+        fun getName(ctx : Context): String?
+        {
+            return getSharedPreferences(ctx).getString(PREF_NAME,"알수 없음")
+        }
+
+        fun setDate(ctx: Context, date : String)
+        {
+            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
+            editor.putString(PREF_DATE,date)
+            editor.apply()
+        }
+
+        fun getDate(ctx : Context): String?
+        {
+            return getSharedPreferences(ctx).getString(PREF_DATE,"2019-12-19")
         }
 
         fun setKeyword(ctx: Context, keyword : String)

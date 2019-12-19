@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
 
 
 class MainActivity : FragmentActivity() {
@@ -83,6 +84,11 @@ class MainActivity : FragmentActivity() {
         {
             mPager.currentItem = mPager.currentItem-1
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ImageSave.drawingImage = null
     }
 
     private inner class ScreenSlidePagerAdapter(fa:FragmentActivity,val array:ArrayList<Fragment>) :FragmentStateAdapter(fa){
