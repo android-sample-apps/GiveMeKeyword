@@ -26,6 +26,10 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
     }
     override fun getItemCount(): Int  = arrayList.size
 
+    fun setArray(array : ArrayList<drawingItem>)
+    {
+        this.arrayList = array
+    }
     override fun onBindViewHolder(holder: drawingHolder, position: Int) {
 
         //Image 적용

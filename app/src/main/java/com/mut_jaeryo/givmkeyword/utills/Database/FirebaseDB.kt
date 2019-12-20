@@ -1,6 +1,7 @@
 package com.mut_jaeryo.givmkeyword.utills.Database
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
@@ -40,7 +41,13 @@ class FirebaseDB{
                 )
 
                 doc.set(data)
-                        .addOnSuccessListener { Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show() }
+                        .addOnSuccessListener {
+                            val drawingDB = DrawingDB(activity.applicationContext)
+                            drawingDB.open()
+                            drawingDB.DrawingInsert(doc.id,content)
+                            drawingDB.close()
+
+                            Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show() }
                         .addOnCanceledListener {
                             Toast.makeText(activity, "서버에 저장이 실패했습니다 ㅠㅠ", Toast.LENGTH_LONG).show()
                             imagesRef.delete()
@@ -51,7 +58,7 @@ class FirebaseDB{
             return true
         }
 
-        public fun getDrawings(keyword: String): ArrayList<drawingItem> {
+        public fun getKeywordDrawings(keyword: String): ArrayList<drawingItem> {
             val array: ArrayList<drawingItem> = ArrayList()
             val db = FirebaseFirestore.getInstance()
 
@@ -67,6 +74,15 @@ class FirebaseDB{
                     .addOnFailureListener { exception ->
                         Log.w("GetDrawing", "Error getting documents: ", exception)
                     }
+            return array
+        }
+
+        public fun getMineDrawings(context: Context): ArrayList<drawingItem> {
+
+            val drawingDB = DrawingDB(context)
+            drawingDB.open()
+            val array: ArrayList<drawingItem> = drawingDB.getMyDrawing()
+            drawingDB.close()
             return array
         }
     }

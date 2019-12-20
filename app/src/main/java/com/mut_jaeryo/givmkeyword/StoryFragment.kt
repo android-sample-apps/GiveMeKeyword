@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.Adapters.DrawingAdapter
+import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import kotlinx.android.synthetic.main.fragment_story.*
 
 /**
@@ -24,9 +25,10 @@ class StoryFragment : Fragment() {
 
 
     lateinit var TodayGoal:String
-
     lateinit var adater: DrawingAdapter
-
+    var keywordStory = true
+    lateinit var Keyword_array:ArrayList<drawingItem>
+    var Mine_array:ArrayList<drawingItem>? = null
     override fun onResume() {
         super.onResume()
         TodayGoal = BasicDB.getKeyword(context!!) ?: ""
@@ -36,6 +38,30 @@ class StoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+
+        story_today_keyword.setOnClickListener {
+            if(!keywordStory)
+            {
+                keywordStory = true
+                adater.setArray(Keyword_array)
+                adater.notifyDataSetChanged()
+            }
+        }
+
+        story_mine.setOnClickListener {
+            if(keywordStory)
+            {
+                keywordStory =false
+                if(Mine_array == null){
+                    Mine_array =  FirebaseDB.getMineDrawings(context!!)
+                }
+
+                adater.setArray(Mine_array!!)
+                adater.notifyDataSetChanged()
+            }
+        }
+
         return inflater.inflate(R.layout.fragment_story, container, false)
     }
 
@@ -58,9 +84,9 @@ class StoryFragment : Fragment() {
 
     fun SettingRecycler(){
 
-        val array = FirebaseDB.getDrawings(BasicDB.getKeyword(context!!) ?: "")
+        Keyword_array = FirebaseDB.getKeywordDrawings(BasicDB.getKeyword(context!!) ?: "")
 
-        if(array.size == 0){
+        if(Keyword_array.size == 0){
             UploadedZero()
             return
         }
@@ -71,7 +97,7 @@ class StoryFragment : Fragment() {
         }
 
         story_recycler.layoutManager = GridLayoutManager(context, spanCount)
-        adater = DrawingAdapter(array,activity!!)
+        adater = DrawingAdapter(Keyword_array,activity!!)
         story_recycler.adapter =adater
 
     }
