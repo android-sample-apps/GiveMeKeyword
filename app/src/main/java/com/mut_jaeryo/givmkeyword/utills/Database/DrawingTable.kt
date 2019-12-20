@@ -8,7 +8,8 @@ class DrawingTable{
 
         const val column1 = "id"
         const val column2 = "content"
-        const val _create = "create table $Table_Name( $column1 text, $column2 text);"
+        const val column3 = "date"
+        const val _create = "create table $Table_Name( $column1 text, $column2 text,$column3 text);"
 
     }
 }

@@ -37,9 +37,9 @@ class DrawingDB() {
     }
 
 
-    fun DrawingInsert(id:String,content:String) {
+    fun DrawingInsert(id:String,content:String,date:String) {
 
-        DrawingDB!!.execSQL("INSERT INTO  $DrawingTable.Table_Name  VALUES ('$id','$content');") // string은 값은 '이름' 처럼 따음표를 붙여줘야함
+        DrawingDB!!.execSQL("INSERT INTO  $DrawingTable.Table_Name  VALUES ('$id','$content','$date');") // string은 값은 '이름' 처럼 따음표를 붙여줘야함
     }
 
     fun getMyDrawing(): ArrayList<drawingItem>

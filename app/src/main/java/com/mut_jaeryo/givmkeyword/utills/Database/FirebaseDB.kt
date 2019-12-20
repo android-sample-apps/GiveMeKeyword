@@ -10,6 +10,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import java.io.ByteArrayOutputStream
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 //이미지 저장, 삭제 , 조회 구현
@@ -39,12 +41,13 @@ class FirebaseDB{
                         "name" to name,
                         "content" to content
                 )
+               val now = GregorianCalendar()
 
                 doc.set(data)
                         .addOnSuccessListener {
                             val drawingDB = DrawingDB(activity.applicationContext)
                             drawingDB.open()
-                            drawingDB.DrawingInsert(doc.id,content)
+                            drawingDB.DrawingInsert(doc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
                             drawingDB.close()
 
                             Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show() }
