@@ -38,36 +38,16 @@ class StoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-
-        story_today_keyword.setOnClickListener {
-            if(!keywordStory)
-            {
-                keywordStory = true
-                adater.setArray(Keyword_array)
-                adater.notifyDataSetChanged()
-            }
-        }
-
-        story_mine.setOnClickListener {
-            if(keywordStory)
-            {
-                keywordStory =false
-                if(Mine_array == null){
-                    Mine_array =  FirebaseDB.getMineDrawings(context!!)
-                }
-
-                adater.setArray(Mine_array!!)
-                adater.notifyDataSetChanged()
-            }
-        }
-
         return inflater.inflate(R.layout.fragment_story, container, false)
     }
+
+
 
     fun UploadedZero(){
         val notice :TextView = view!!.findViewById(R.id.story_notice)
 
+
+        if(notice.text == "")
         notice.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // FROM_HTML_MODE_LEGACY is the behaviour that was used for versions below android N
             // we are using this flag to give a consistent behaviour
@@ -79,7 +59,39 @@ class StoryFragment : Fragment() {
         story_recycler.visibility = View.GONE
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        story_today_keyword.setOnClickListener {
 
+            if(!keywordStory) {
+                story_notice.visibility = View.GONE
+                story_recycler.visibility = View.VISIBLE
+                keywordStory = true
+                if (Keyword_array.size == 0) {
+                    UploadedZero()
+                } else {
+                    adater.setArray(Keyword_array)
+                    adater.notifyDataSetChanged()
+                }
+            }
+        }
+
+        story_mine.setOnClickListener {
+            if(keywordStory)
+            {
+                story_notice.visibility = View.GONE
+                story_recycler.visibility = View.VISIBLE
+                keywordStory =false
+                if(Mine_array == null){
+                    Mine_array =  FirebaseDB.getMineDrawings(context!!)
+                }
+
+                if(Mine_array!!.size==0)
+                    UploadedZero()
+                else {
+                    adater.setArray(Mine_array!!)
+                    adater.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     fun SettingRecycler(){

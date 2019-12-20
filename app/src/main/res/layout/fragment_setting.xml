@@ -32,12 +32,80 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="#eeeeee"
+                android:id="@+id/setting_profile_layout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알수 없음"
+                    android:textSize="23sp"
+                    android:textColor="#000000"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_storke_layout"
+                    android:text="이름변경"
+                    android:textStyle="bold"
+                    android:id="@+id/setting_profile_name_edit"
+                    android:layout_alignParentRight = "true"
+                    android:textColor="@color/colorAccent">
+                </Button>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/setting_profile_name_edit"
+                    android:layout_marginLeft="10dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    app:cardUseCompatPadding="true"
+                    android:background="#eeeeee"
+                    android:padding="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/profile_linechart_layout">
+
+                    <com.db.williamchart.view.BarChartView
+                        android:id="@+id/barChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="20dp"
+                        app:chart_axis="x"
+                        app:chart_barsColor="@color/colorPrimary"
+                        app:chart_barsRadius="4dp"
+                        app:chart_spacing="15dp"
+                        app:chart_labelsSize="10sp"
+                        app:chart_labelsColor="#FF70977F"
+                    />
+
+
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/setting_alert_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/setting_profile_layout"
                 android:layout_marginLeft="15dp"
                 android:text="알림설정"
                 android:textColor="#000000">

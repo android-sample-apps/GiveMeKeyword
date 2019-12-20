@@ -91,7 +91,7 @@
         android:layout_height="1dp"
         android:id="@+id/upload_v1"
         android:layout_below="@id/upload_image"
-        android:background="@color/colorNotAccent"></View>
+        android:background="#eeeeee"></View>
 
 
     <TextView
