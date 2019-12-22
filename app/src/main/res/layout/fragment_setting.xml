@@ -7,12 +7,10 @@
     android:layout_height="match_parent"
    >
 
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="설정"
+        android:text="기타 설정"
         android:textColor="#000000"
         android:gravity="center"
         android:textStyle="bold"
@@ -92,10 +90,8 @@
                         app:chart_barsRadius="4dp"
                         app:chart_spacing="15dp"
                         app:chart_labelsSize="10sp"
-                        app:chart_labelsColor="#FF70977F"
+                        app:chart_labelsColor="@color/colorPrimary"
                     />
-
-
 
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
