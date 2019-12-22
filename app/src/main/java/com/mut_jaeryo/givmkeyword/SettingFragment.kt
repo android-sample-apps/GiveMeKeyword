@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import kotlinx.android.synthetic.main.fragment_setting.*
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -20,21 +22,27 @@ class SettingFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_setting, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val db = DrawingDB(context!!)
+        db.open()
+
+        barSet = db.getHistory()
+        barChart.animate(barSet)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
         barChart.animation.duration = animationDuration
-        barChart.animate(barSet)
+
+
     }
 
     companion object {
 
-
-
-        private val barSet = linkedMapOf(
+        var barSet = linkedMapOf(
                 "JAN" to 10F,
                 "FEB" to 9F,
                 "MAR" to 2F,
@@ -42,7 +50,6 @@ class SettingFragment : Fragment() {
                 "APR" to 1F,
                 "JUN" to 3F
         )
-
 
         private val animationDuration = 1000L
     }

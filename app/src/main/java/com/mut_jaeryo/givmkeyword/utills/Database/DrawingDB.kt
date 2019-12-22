@@ -5,7 +5,12 @@ import android.database.Cursor
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
+import com.mut_jaeryo.givmkeyword.utills.DrawingUtils
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.LinkedHashMap
 
 class DrawingDB() {
 
@@ -39,14 +44,14 @@ class DrawingDB() {
 
     fun DrawingInsert(id:String,content:String,date:String) {
 
-        DrawingDB!!.execSQL("INSERT INTO  $DrawingTable.Table_Name  VALUES ('$id','$content','$date');") // string은 값은 '이름' 처럼 따음표를 붙여줘야함
+        DrawingDB!!.execSQL("INSERT INTO  ${DrawingTable.Table_Name} VALUES ('$id','$content','$date');") // string은 값은 '이름' 처럼 따음표를 붙여줘야함
     }
 
     fun getMyDrawing(): ArrayList<drawingItem>
     {
-        var array = ArrayList<drawingItem>()
+        val array = ArrayList<drawingItem>()
 
-        val cursor: Cursor = DrawingDB!!.rawQuery("select * from $DrawingTable.Table_Name ", null)
+        val cursor: Cursor = DrawingDB!!.rawQuery("select * from ${DrawingTable.Table_Name} ", null)
 
         val name:String = BasicDB.getName(mCtx!!)!!
 
@@ -55,9 +60,32 @@ class DrawingDB() {
             array.add(drawingItem(cursor.getString(0),name,cursor.getString(1)))
         }
 
-
         cursor.close()
         return array
+    }
+
+    fun getHistory():LinkedHashMap<String,Float>{
+
+        val linkHash = linkedMapOf<String,Float>()
+
+        for(index in 0..6) {
+            val date = GregorianCalendar()
+            date.add(Calendar.DAY_OF_MONTH,-(6-index))
+
+            val weekDay : String = if(index != 6) DrawingUtils.getDayOfWeek(date.get(Calendar.DAY_OF_WEEK))
+            else "오늘"
+
+            Log.d("week",weekDay)
+            val date_s = "${date.get(Calendar.YEAR)}-${date.get(Calendar.MONTH)+1}-${date.get(Calendar.DAY_OF_MONTH)}"
+
+            val cursor: Cursor = DrawingDB!!.rawQuery("select * from ${DrawingTable.Table_Name} where date = '$date_s'", null)
+
+            linkHash[weekDay] = cursor.count.toFloat()
+
+            cursor.close()
+        }
+
+        return linkHash
     }
 
 
