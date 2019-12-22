@@ -6,7 +6,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
+import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : FragmentActivity() {
@@ -17,6 +21,10 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if(!BasicDB.getInit(applicationContext)) //알람 설정
+            SendAlert.setAlert(applicationContext, GregorianCalendar())
+
 
         mPager = findViewById(R.id.main_pager)
 

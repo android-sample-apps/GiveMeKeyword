@@ -13,6 +13,7 @@ class BasicDB {
         val PREF_KETWORD = "Keyword"
         val PREF_NAME = "name"
         val PREF_DATE = "Date"
+        val PREF_INIT = "init"
 
         fun getSharedPreferences(ctx : Context) : SharedPreferences
         {
@@ -29,6 +30,18 @@ class BasicDB {
             val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
             editor.putString(PREF_NAME,name)
             editor.apply()
+        }
+
+        fun setInit(ctx: Context, init : Boolean)
+        {
+            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
+            editor.putBoolean(PREF_INIT,init)
+            editor.apply()
+        }
+
+        fun getInit(ctx : Context): Boolean
+        {
+            return getSharedPreferences(ctx).getBoolean(PREF_INIT,false)
         }
 
         fun getName(ctx : Context): String?
