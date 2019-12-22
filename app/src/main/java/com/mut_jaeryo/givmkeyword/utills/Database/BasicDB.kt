@@ -46,7 +46,7 @@ class BasicDB {
 
         fun getName(ctx : Context): String?
         {
-            return getSharedPreferences(ctx).getString(PREF_NAME,"알수 없음")
+            return getSharedPreferences(ctx).getString(PREF_NAME,"이름 미정")
         }
 
         fun setDate(ctx: Context, date : String)

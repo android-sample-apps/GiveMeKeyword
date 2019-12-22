@@ -82,8 +82,6 @@ class TodayGoalFragment : Fragment() {
 
             val intent = Intent(activity,UploadActivity::class.java)
             startActivity(intent)
-
-            Toast.makeText(context,"그림 저장",Toast.LENGTH_LONG).show()
         }
 
         drawBtn.setOnClickListener{
