@@ -125,7 +125,16 @@ class TodayGoalFragment : Fragment() {
     }
 
     fun ContentLayoutInit(){
+
+        if(!BasicDB.getInit(context!!))
+        {
+            val keyword = Keyword.getKeyword(context!!)
+            BasicDB.setKeyword(context!!,keyword)
+            goalTextView.text = keyword
+            BasicDB.setInit(context!!,true)
+        }else
         goalTextView.text = BasicDB.getKeyword(context!!)
+
         commentLayout.findViewById<ImageButton>(R.id.today_goal_refresh).setOnClickListener{
             goalTextView.text = ""
             goalTextView.visibility = View.GONE

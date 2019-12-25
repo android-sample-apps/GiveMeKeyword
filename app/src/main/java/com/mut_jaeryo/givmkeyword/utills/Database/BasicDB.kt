@@ -15,6 +15,9 @@ class BasicDB {
         val PREF_DATE = "Date"
         val PREF_INIT = "init"
         val PREF_ID = "user_id"
+        val PREF_SOUND = "sound"
+        val PREF_VIB = "vibradtion"
+
 
         fun getSharedPreferences(ctx : Context) : SharedPreferences
         {
@@ -24,6 +27,30 @@ class BasicDB {
         fun getKeyword(ctx : Context): String?
         {
            return getSharedPreferences(ctx).getString(PREF_KETWORD,"가로등 밑에서 비를 맞고 있는 사람")
+        }
+
+        fun getSound(ctx : Context): Boolean
+        {
+            return getSharedPreferences(ctx).getBoolean(PREF_SOUND,true)
+        }
+
+        fun getVibradtion(ctx: Context): Boolean
+        {
+            return getSharedPreferences(ctx).getBoolean(PREF_VIB,true)
+        }
+
+        fun setSound(ctx: Context,isSound : Boolean)
+        {
+            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
+            editor.putBoolean(PREF_SOUND,isSound)
+            editor.apply()
+        }
+
+        fun setVibradtion(ctx: Context,isVib: Boolean)
+        {
+            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
+            editor.putBoolean(PREF_VIB,isVib)
+            editor.apply()
         }
 
         fun setName(ctx: Context, name : String)

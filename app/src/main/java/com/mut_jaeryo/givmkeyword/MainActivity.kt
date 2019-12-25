@@ -26,7 +26,6 @@ class MainActivity : FragmentActivity() {
         if(!BasicDB.getInit(applicationContext)) //알람 설정
         {
             SendAlert.setAlert(applicationContext, GregorianCalendar())
-            BasicDB.setInit(applicationContext,true)
         }
 
         mPager = findViewById(R.id.main_pager)

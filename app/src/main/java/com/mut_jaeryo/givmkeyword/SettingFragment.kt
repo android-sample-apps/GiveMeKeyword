@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -45,10 +46,27 @@ class SettingFragment : Fragment() {
         if(BasicDB.getId(context!!) == "")
             setting_profile_name_edit.visibility = View.GONE
 
+        setting_alert_sound_switch.isChecked =  BasicDB.getSound(context!!)
+
+        setting_alert_vibration_switch.isChecked = BasicDB.getSound(context!!)
+
+        val  switchListner = CompoundButton.OnCheckedChangeListener { p0, p1 ->
+            when(p0!!.id) {
+                R.id.setting_alert_sound_switch -> BasicDB.setSound(context!!,p1)
+
+                else -> BasicDB.setVibradtion(context!!,p1)
+            }
+        }
+        
+        setting_alert_vibration_switch.setOnCheckedChangeListener(switchListner)
+        setting_alert_sound_switch.setOnCheckedChangeListener(switchListner)
+
+
         setting_profile_name_edit.setOnClickListener {
             showNameEditDialog()
         }
 
+        setting_profile_name.text = BasicDB.getName(context!!)
     }
 
     private fun showNameEditDialog(){
