@@ -18,7 +18,7 @@ class SendAlert {
             val intent : Intent = Intent(context, AlertReceiver::class.java)
 
             val pending:PendingIntent = PendingIntent.getBroadcast(
-                    context.applicationContext,
+                    context,
                     777,
                     intent,
                     PendingIntent.FLAG_CANCEL_CURRENT

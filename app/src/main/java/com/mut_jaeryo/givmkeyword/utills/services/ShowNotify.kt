@@ -30,7 +30,7 @@ class ShowNotify : Service() {
 
 
 
-        var context = "오늘의 그림 키워드를 확인해보세요"
+        val context = "오늘의 그림 키워드를 확인해보세요"
 
 
         val builder = NotificationCompat.Builder(this, MyApp.CANNEL_ID)

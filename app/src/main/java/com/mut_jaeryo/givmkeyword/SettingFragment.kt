@@ -68,7 +68,7 @@ class SettingFragment : Fragment() {
                 val db = FirebaseFirestore.getInstance().collection("users")
                 val doc = db.document() //고유 id를 자동으로 생성
 
-                
+
                 BasicDB.setId(context!!,doc.id)
                 val data = hashMapOf(
                         "name" to name,

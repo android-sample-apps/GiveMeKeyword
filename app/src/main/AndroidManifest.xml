@@ -3,6 +3,8 @@
     package="com.mut_jaeryo.givmkeyword">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".Application.MyApp"
@@ -31,7 +33,7 @@
 
         <service
             android:name=".utills.services.ShowNotify"
-            android:enabled="false" />
+            android:enabled="true" />
     </application>
 
 </manifest>

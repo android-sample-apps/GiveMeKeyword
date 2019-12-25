@@ -1,6 +1,7 @@
 package com.mut_jaeryo.givmkeyword
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -23,8 +24,10 @@ class MainActivity : FragmentActivity() {
         setContentView(R.layout.activity_main)
 
         if(!BasicDB.getInit(applicationContext)) //알람 설정
+        {
             SendAlert.setAlert(applicationContext, GregorianCalendar())
-
+            BasicDB.setInit(applicationContext,true)
+        }
 
         mPager = findViewById(R.id.main_pager)
 
