@@ -3,30 +3,6 @@
 
     <string name="loading_name">오늘의\n그림은.</string>
 
-    <string-array name="nounOfPerson_array">
-        <item>키가 작은 남학생</item>
-        <item>키가 작은 여학생</item>
-        <item>슬픔에 잠긴 사람</item>
-        <item>희망에 찬 사람</item>
-        <item>발에 깁스한 사람</item>
-        <item>한쪽 팔에 깁스한 사람</item>
-        <item>희망에 찬 사람</item>
-        <item>몸이 피곤한 여자</item>
-        <item>졸린 남자</item>
-        <item>고민중인 사람</item>
-        <item>눈물이 흘리는 사람</item>
-        <item>절규하는 사람</item>
-        <item>신난 사람</item>
-        <item>술에 취한 남자</item>
-        <item>술에 취한 여자</item>
-        <item>좋은 향기가 나는 사람</item>
-        <item>의욕을 점점 잃어가는 사람</item>
-        <item>인형을 들고 있는 사람</item>
-        <item>기타를 들고 있는 사람</item>
-        <item>중심을 잃은 사람</item>
-        <item>할아버지</item>
-        <item>할머니</item>
-    </string-array>
 
     <string-array name="nounOfPlace_array">
         <item>빈 교실 책상</item>
@@ -38,13 +14,13 @@
     </string-array>
 
     <string-array name="nounOfVerb_array">
-        <item>기타 연주</item>
-        <item>핸드폰에 집중</item>
-        <item>열정적으로 필기</item>
-        <item>비를 맞고 있는a</item>
+        <item>기타 연주하는 사람</item>
+        <item>핸드폰에 집중하는 사람</item>
+        <item>열정적으로 필기하는 사람</item>
+        <item>비를 맞고 있는 사람</item>
     </string-array>
 
-    <string name="KeywordDrawingNone">[<![CDATA[이 <font color=\"#2a7de2\">키워드</font>에 대한 그림이 존재하지 않습니다.\n <b>사용자의 그림<b>을 올려 사람들에게 보여주세요!!]]></string>
+    <string name="KeywordDrawingNone"><![CDATA[ 이 <font color=\"#2a7de2\">키워드</font>에 대한 그림이 존재하지 않습니다.\n <b>사용자의 그림</b>을 올려 사람들에게 보여주세요!!]]></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

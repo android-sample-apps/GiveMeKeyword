@@ -131,7 +131,6 @@ class TodayGoalFragment : Fragment() {
             val keyword = Keyword.getKeyword(context!!)
             BasicDB.setKeyword(context!!,keyword)
             goalTextView.text = keyword
-            BasicDB.setInit(context!!,true)
         }else
         goalTextView.text = BasicDB.getKeyword(context!!)
 

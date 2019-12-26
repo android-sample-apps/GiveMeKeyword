@@ -19,17 +19,8 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         return drawingHolder(view)
     }
 
-    //주제가 변경되었을 때, 배열의 내용 변경
-    fun changeGoal(arrayList: ArrayList<drawingItem>)
-    {
-        this.arrayList = arrayList
-    }
     override fun getItemCount(): Int  = arrayList.size
 
-    fun setArray(array : ArrayList<drawingItem>)
-    {
-        this.arrayList = array
-    }
     override fun onBindViewHolder(holder: drawingHolder, position: Int) {
 
         //Image 적용
@@ -38,6 +29,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         val id = arrayList[position].id
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.jpg")
 
+        holder.content.text = arrayList[position].content
         holder.name.text = arrayList[position].name
     // ImageView in your Activity
 

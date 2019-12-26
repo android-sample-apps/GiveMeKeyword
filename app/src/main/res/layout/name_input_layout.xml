@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:hint="최초 1회 변경 가능"
             android:imeOptions="actionDone"
-            android:inputType="textPassword" />
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

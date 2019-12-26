@@ -43,7 +43,7 @@ class SettingFragment : Fragment() {
 
         barChart.animation.duration = animationDuration
 
-        if(BasicDB.getId(context!!) == "")
+        if(BasicDB.getId(context!!) != "")
             setting_profile_name_edit.visibility = View.GONE
 
         setting_alert_sound_switch.isChecked =  BasicDB.getSound(context!!)
@@ -57,7 +57,7 @@ class SettingFragment : Fragment() {
                 else -> BasicDB.setVibradtion(context!!,p1)
             }
         }
-        
+
         setting_alert_vibration_switch.setOnCheckedChangeListener(switchListner)
         setting_alert_sound_switch.setOnCheckedChangeListener(switchListner)
 
@@ -78,7 +78,8 @@ class SettingFragment : Fragment() {
 
         val input = viewInflated.findViewById(R.id.input) as EditText
 
-        builder.setPositiveButton("OK") { dialogInterface , i->
+        builder.setView(viewInflated)
+        builder.setPositiveButton("OK") { dialogInterface, _ ->
 
             val name = input.text.toString()
             if(name == "")Toast.makeText(context,"입력해주세요",Toast.LENGTH_SHORT).show()

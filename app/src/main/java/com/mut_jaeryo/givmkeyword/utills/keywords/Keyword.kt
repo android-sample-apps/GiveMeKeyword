@@ -15,17 +15,9 @@ class Keyword {
             val keywordClass = Keyword()
 
             var verb = keywordClass.getVerb(context)
-            if(!verb.contains("a"))verb+="하는"
-            return "${keywordClass.getNounPlace(context)}에서 $verb ${keywordClass.getNounPerson(context)}"
+            return "${keywordClass.getNounPlace(context)}에서 $verb"
         }
 
-    }
-    fun getNounPerson(context: Context):String{
-
-        val nounPersonArray = context.resources.getStringArray(R.array.nounOfPerson_array)
-
-        val index:Int= (Math.random()*nounPersonArray.size).toInt()
-        return nounPersonArray[index]
     }
 
     fun getNounPlace(context: Context):String{

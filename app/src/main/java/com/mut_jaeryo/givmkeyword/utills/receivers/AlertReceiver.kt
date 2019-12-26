@@ -24,10 +24,14 @@ class AlertReceiver : BroadcastReceiver() {
         val month = now[Calendar.MONTH]+1
 
         //키워드 변경
-        val keyword = Keyword.getKeyword(p0)
-        BasicDB.setKeyword(p0,keyword)
-        BasicDB.setDate(p0,"${now[Calendar.YEAR]}-$month-${now[Calendar.DAY_OF_MONTH]}")
-
+        if(BasicDB.getInit(p0)) {
+            val keyword = Keyword.getKeyword(p0)
+            BasicDB.setKeyword(p0, keyword)
+            BasicDB.setDate(p0, "${now[Calendar.YEAR]}-$month-${now[Calendar.DAY_OF_MONTH]}")
+        }else
+        {
+            BasicDB.setInit(p0,true)
+        }
         val service = Intent(p0, ShowNotify::class.java)
         p0.startService(service)
     }

@@ -11,4 +11,5 @@ class drawingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     public val ImageContainer : ImageView = itemView.findViewById(R.id.drawing_image)
     public val name : TextView = itemView.findViewById(R.id.drawing_name)
+    public val content : TextView = itemView.findViewById(R.id.drawing_content)
 }

@@ -19,39 +19,13 @@
         android:textStyle="bold"></TextView>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="오늘의 키워드"
-        android:padding="5dp"
-        android:layout_below="@id/today_story_t1"
-        android:id="@+id/story_today_keyword"
-        android:layout_marginLeft="10dp"
-        android:textSize="14sp"
-        android:layout_marginTop="10dp"
-        android:textColor="#ffffff"
-        android:background="@drawable/round_layout">
-    </Button>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="내 작품"
-        android:layout_marginLeft="10dp"
-        android:padding="5dp"
-        android:layout_alignTop="@id/story_today_keyword"
-        android:layout_toRightOf="@id/story_today_keyword"
-        android:id="@+id/story_mine"
-        android:textColor="@color/colorPrimary"
-        android:background="@drawable/round_storke_layout">
-    </Button>
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_below="@id/story_today_keyword"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_below="@id/today_story_t1"
+        android:background="#eeeeee"
         android:id="@+id/story_recycler"
         android:layout_height="match_parent"
         >
@@ -60,13 +34,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/today_story_t1"
         android:text=""
         android:gravity="center"
         android:id="@+id/story_notice"
-        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
         android:layout_centerHorizontal="true"
         android:textColor="#000000"
-        android:layout_marginTop="15dp">
+        >
     </TextView>
 </RelativeLayout>
