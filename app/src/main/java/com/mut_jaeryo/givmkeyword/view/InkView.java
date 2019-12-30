@@ -93,6 +93,9 @@ public class InkView extends View {
     ArrayList<InkPoint> pointQueue = new ArrayList<>();
     ArrayList<InkPoint> pointRecycle = new ArrayList<>();
 
+
+
+
     // misc
     float density;
     Bitmap bitmap;

@@ -77,9 +77,6 @@ class MainActivity : FragmentActivity() {
                     }
                 }
                 p0.setIcon(icon)
-
-
-
             }
 
         })

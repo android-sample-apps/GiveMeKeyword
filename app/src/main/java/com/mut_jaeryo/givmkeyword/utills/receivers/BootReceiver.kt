@@ -21,7 +21,7 @@ class BootReceiver : BroadcastReceiver() {
           val month :Int= date[1].toInt()
           val day = date[2].toInt()
           gregorianCalendar.set(Calendar.YEAR,year)
-          gregorianCalendar.set(Calendar.MONTH,month)
+          gregorianCalendar.set(Calendar.MONTH,month-1)
           gregorianCalendar.set(Calendar.DAY_OF_MONTH,day)
           gregorianCalendar.set(Calendar.HOUR_OF_DAY,8)
           gregorianCalendar.set(Calendar.MINUTE,0)

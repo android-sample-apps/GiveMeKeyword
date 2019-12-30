@@ -1,7 +1,6 @@
 package com.mut_jaeryo.givmkeyword
 
 
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -11,11 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
-import com.mut_jaeryo.givmkeyword.view.Adapters.DrawingAdapter
+import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import kotlinx.android.synthetic.main.fragment_story.*

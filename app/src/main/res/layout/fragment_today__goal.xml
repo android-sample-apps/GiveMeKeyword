@@ -65,6 +65,7 @@
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
         android:orientation="vertical"
+        android:clickable="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         >
