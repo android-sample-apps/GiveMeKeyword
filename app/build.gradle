@@ -36,8 +36,6 @@ dependencies {
     //외부 라이브러리
 //    implementation 'com.github.divyanshub024:AndroidDraw:v0.1'
 
-    implementation 'com.github.pedromassango:doubleClick:3.0'
-
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-firestore:21.3.1'

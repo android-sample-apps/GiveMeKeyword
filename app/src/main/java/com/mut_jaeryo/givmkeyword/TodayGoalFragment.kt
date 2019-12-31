@@ -162,6 +162,10 @@ class TodayGoalFragment : Fragment() {
         MaxsizeSeekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
              drawView.setMaxStrokeWidth(p1/2f)
+                if(p1<MinsizeSeekBar.progress) {
+                    MinsizeSeekBar.progress = p1
+                    drawView.setMinStrokeWidth(p1/2f)
+                }
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {

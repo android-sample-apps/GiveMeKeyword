@@ -14,8 +14,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
-import com.pedromassango.doubleclick.DoubleClick
-import com.pedromassango.doubleclick.DoubleClickListener
+
 
 class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activity) : RecyclerView.Adapter<drawingHolder>() {
 
