@@ -144,8 +144,50 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/open_source_Chart_tv2"
                 android:text="Apache License, Version 2.0"
                 android:layout_below="@id/open_source_Chart_tv"
+                android:layout_marginLeft="30dp">
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/open_source_readMoreText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/open_source_Chart_tv2"
+                android:textSize="16sp"
+                android:layout_marginLeft="15dp"
+                android:text="ReadMoreTextView"
+                android:textColor="#000000">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="https://github.com/bravoborja/ReadMoreTextView"
+                android:id="@+id/open_source_readMoreText_link"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@id/open_source_readMoreText">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright 2016 Borja Bravo"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@id/open_source_readMoreText_link"
+                android:id="@+id/open_source_readMoreText_tv"
+                ></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apache License, Version 2.0"
+                android:layout_below="@id/open_source_readMoreText_tv"
+                android:id="@+id/open_source_readMoreText_tv2"
                 android:layout_marginLeft="30dp">
             </TextView>
         </RelativeLayout>

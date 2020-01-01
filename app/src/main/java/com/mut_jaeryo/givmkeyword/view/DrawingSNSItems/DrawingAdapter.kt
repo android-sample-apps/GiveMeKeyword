@@ -45,6 +45,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
 
         //Image 적용
 
+        val item : drawingItem = arrayList[position]
 
         val id = arrayList[position].id
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.jpg")
@@ -95,8 +96,16 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
 
             })
         }
-        holder.content.text = arrayList[position].content
-        holder.name.text = arrayList[position].name
+        if(item.heart == 0)
+        holder.favorite_text.visibility = View.INVISIBLE
+        else
+            holder.favorite_text.text = "${item.heart} likes"
+
+        if(item.isHeart)
+            holder.favorite_image.setImageResource(R.drawable.favorite)
+
+        holder.content.text = item.content
+        holder.name.text = item.name
     // ImageView in your Activity
 
 

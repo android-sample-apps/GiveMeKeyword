@@ -64,21 +64,21 @@
         app:srcCompat="@mipmap/ic_launcher" />
 
 
-
     <TextView
         android:id="@+id/drawing_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#000000"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:maxLines="1"
+        android:textColor="#000000"
+        android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drawing_image"
+        app:layout_constraintTop_toBottomOf="@+id/like_textView"
         tools:text="Title" />
+
+
 
     <ImageView
         android:id="@+id/like_imageView"
@@ -90,5 +90,25 @@
         app:layout_constraintTop_toTopOf="@+id/drawing_image"
         android:alpha="0"
         app:srcCompat="@drawable/avd_instargram_like" />
+
+    <ImageView
+        android:id="@+id/favorite_imageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/drawing_image"
+        app:srcCompat="@drawable/favorite_none" />
+
+    <TextView
+        android:id="@+id/like_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="256 likes"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favorite_imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
