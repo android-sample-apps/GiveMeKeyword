@@ -64,7 +64,7 @@ class StoryFragment : Fragment() {
 
     fun SettingRecycler(){
 
-        Keyword_array = FirebaseDB.getKeywordDrawings(BasicDB.getKeyword(context!!) ?: "")
+        Keyword_array = FirebaseDB.getKeywordDrawings(BasicDB.getKeyword(context!!) ?: "",context!!)
 
         if(Keyword_array.size == 0){
             UploadedZero()
