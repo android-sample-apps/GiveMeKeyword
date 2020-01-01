@@ -91,7 +91,13 @@ public class InkView extends View {
 
     // points
     ArrayList<InkPoint> pointQueue = new ArrayList<>();
+    ArrayList<InkPoint> drawQueue = new ArrayList<>();
     ArrayList<InkPoint> pointRecycle = new ArrayList<>();
+
+
+
+    ArrayList<ArrayList<InkPoint>> Path = new ArrayList<>();
+    ArrayList<ArrayList<InkPoint>> UndonePath = new ArrayList<>();
 
 
 
@@ -174,8 +180,9 @@ public class InkView extends View {
         isEmpty = false;
         // on down, initialize stroke point
         if (action == MotionEvent.ACTION_DOWN) {
-            addPoint(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
-
+        //    addPoint(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
+            Path.add(pointQueue);
+            pointQueue.add(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
             // notify listeners of sign
             for (InkListener listener : listeners) {
                 listener.onInkDraw();
@@ -185,25 +192,26 @@ public class InkView extends View {
         // on move, add next point
         else if (action == MotionEvent.ACTION_MOVE) {
             if (!pointQueue.get(pointQueue.size() - 1).equals(e.getX(), e.getY())) {
-                addPoint(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
+               pointQueue.add(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
             }
         }
 
         // on up, draw remaining queue
         if (action == MotionEvent.ACTION_UP) {
+
             // draw final points
-            if (pointQueue.size() == 1) {
-                draw(pointQueue.get(0));
-            } else if (pointQueue.size() == 2) {
-                pointQueue.get(1).findControlPoints(pointQueue.get(0), null);
-                draw(pointQueue.get(0), pointQueue.get(1));
-            }
+//            if (pointQueue.size() == 1) {
+//                draw(pointQueue.get(0));
+//            } else if (pointQueue.size() == 2) {
+//                pointQueue.get(1).findControlPoints(pointQueue.get(0), null);
+//                draw(pointQueue.get(0), pointQueue.get(1));
+//            }
 
             // recycle remaining points
-            pointRecycle.addAll(pointQueue);
-            pointQueue.clear();
+//            pointRecycle.addAll(pointQueue);
+            pointQueue = new ArrayList<>();
         }
-
+        invalidate();
         return true;
     }
 
@@ -211,7 +219,20 @@ public class InkView extends View {
     protected void onDraw(Canvas canvas) {
         // simply paint the bitmap on the canvas
         if(bitmap==null)clear();
-        canvas.drawBitmap(bitmap, 0, 0, null);
+    //    canvas.drawBitmap(bitmap, 0, 0, null);
+
+        for(ArrayList<InkPoint> queue : Path)
+        {
+            for(InkPoint p: queue)
+                addPoint(p);
+            if (drawQueue.size() == 1) {
+                draw(pointQueue.get(0));
+            } else if (drawQueue.size() == 2) {
+                drawQueue.get(1).findControlPoints(drawQueue.get(0), null);
+                draw(drawQueue.get(0), drawQueue.get(1));
+            }
+            drawQueue.clear();
+        }
 
         super.onDraw(canvas);
     }
@@ -493,9 +514,9 @@ public class InkView extends View {
     }
 
     void addPoint(InkPoint p) {
-        pointQueue.add(p);
+        drawQueue.add(p);
 
-        int queueSize = pointQueue.size();
+        int queueSize = drawQueue.size();
         if (queueSize == 1) {
             // compute starting velocity
             int recycleSize = pointRecycle.size();
@@ -504,7 +525,7 @@ public class InkView extends View {
             // compute starting stroke width
             paint.setStrokeWidth(computeStrokeWidth(p.velocity));
         } else if (queueSize == 2) {
-            InkPoint p0 = pointQueue.get(0);
+            InkPoint p0 = drawQueue.get(0);
 
             // compute velocity for new point
             p.velocity = p0.velocityTo(p);
@@ -518,8 +539,8 @@ public class InkView extends View {
             // update starting stroke width
             paint.setStrokeWidth(computeStrokeWidth(p0.velocity));
         } else if (queueSize == 3) {
-            InkPoint p0 = pointQueue.get(0);
-            InkPoint p1 = pointQueue.get(1);
+            InkPoint p0 = drawQueue.get(0);
+            InkPoint p1 = drawQueue.get(1);
 
             // find control points for second point
             p1.findControlPoints(p0, p);
@@ -531,7 +552,7 @@ public class InkView extends View {
             draw(p0, p1);
 
             // recycle 1st point
-            pointRecycle.add(pointQueue.remove(0));
+            pointRecycle.add(drawQueue.remove(0));
         }
     }
 
