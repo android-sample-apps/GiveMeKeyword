@@ -231,6 +231,7 @@ class TodayGoalFragment : Fragment() {
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setOnClickListener {
             it as ImageButton
 
+            drawView.undo()
             if(usingBrush)
             {
                 usingBrush = false

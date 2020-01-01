@@ -24,13 +24,16 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.mut_jaeryo.givmkeyword.R;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Queue;
 
 @SuppressWarnings("unused")
 public class InkView extends View {
@@ -78,6 +81,7 @@ public class InkView extends View {
     static final float THRESHOLD_VELOCITY = 7f;         // in/s
     static final float THRESHOLD_ACCELERATION = 3f;    // in/s^2
     static final float FILTER_RATIO_MIN = 0.22f;
+    static final int DEFAULT_mBackgroundColor = 0xFFFFFFFF;
     static final float FILTER_RATIO_ACCELERATION_MODIFIER = 0.1f;
     static final int DEFAULT_FLAGS = FLAG_INTERPOLATION | FLAG_RESPONSIVE_WIDTH;
     static final int DEFAULT_STROKE_COLOR = 0xFF000000;
@@ -107,10 +111,13 @@ public class InkView extends View {
     Bitmap bitmap;
     Canvas canvas;
     Paint paint;
+    private Paint mBackgroundPaint;
     RectF dirty;
     ArrayList<InkListener> listeners = new ArrayList<>();
 
     private boolean isEmpty;
+
+
 
     public InkView(Context context) {
         this(context, DEFAULT_FLAGS);
@@ -147,6 +154,7 @@ public class InkView extends View {
 
         // init paint
         paint = new Paint();
+        mBackgroundPaint = new Paint();
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setAntiAlias(true);
 
@@ -167,6 +175,8 @@ public class InkView extends View {
     // Events
     //--------------------------------------
 
+
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -177,12 +187,14 @@ public class InkView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         int action = e.getAction();
+
         isEmpty = false;
         // on down, initialize stroke point
         if (action == MotionEvent.ACTION_DOWN) {
-        //    addPoint(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
+            InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
+            addPoint(p);
             Path.add(pointQueue);
-            pointQueue.add(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
+            pointQueue.add(p);
             // notify listeners of sign
             for (InkListener listener : listeners) {
                 listener.onInkDraw();
@@ -191,27 +203,33 @@ public class InkView extends View {
 
         // on move, add next point
         else if (action == MotionEvent.ACTION_MOVE) {
-            if (!pointQueue.get(pointQueue.size() - 1).equals(e.getX(), e.getY())) {
-               pointQueue.add(getRecycledPoint(e.getX(), e.getY(), e.getEventTime()));
+            if (!drawQueue.get(drawQueue.size() - 1).equals(e.getX(), e.getY())) {
+                InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
+                addPoint(p);
+               pointQueue.add(p);
             }
         }
 
         // on up, draw remaining queue
         if (action == MotionEvent.ACTION_UP) {
 
+
             // draw final points
-//            if (pointQueue.size() == 1) {
-//                draw(pointQueue.get(0));
-//            } else if (pointQueue.size() == 2) {
-//                pointQueue.get(1).findControlPoints(pointQueue.get(0), null);
-//                draw(pointQueue.get(0), pointQueue.get(1));
-//            }
+            if (drawQueue.size() == 1) {
+                draw(drawQueue.get(0));
+            } else if (drawQueue.size() == 2) {
+                drawQueue.get(1).findControlPoints(drawQueue.get(0), null);
+                draw(drawQueue.get(0), drawQueue.get(1));
+            }
 
             // recycle remaining points
-//            pointRecycle.addAll(pointQueue);
+            pointRecycle.addAll(drawQueue);
+
+            drawQueue.clear();
             pointQueue = new ArrayList<>();
         }
-        invalidate();
+
+
         return true;
     }
 
@@ -219,24 +237,38 @@ public class InkView extends View {
     protected void onDraw(Canvas canvas) {
         // simply paint the bitmap on the canvas
         if(bitmap==null)clear();
-    //    canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+
+        super.onDraw(canvas);
+        //drawPath(canvas);
+    }
+
+
+    private void drawPath()
+    {
 
         for(ArrayList<InkPoint> queue : Path)
         {
-            for(InkPoint p: queue)
+            Log.d("drawPath Path count",""+queue.size());
+            for(int i=0 ;i<queue.size();i++)
+            {
+                InkPoint p = queue.get(i);
+                p = getRecycledPoint(p.x,p.y,p.time);
                 addPoint(p);
+
+                Log.d("drawPath Point count","Point"+i);
+            }
             if (drawQueue.size() == 1) {
-                draw(pointQueue.get(0));
+                draw(drawQueue.get(0));
             } else if (drawQueue.size() == 2) {
                 drawQueue.get(1).findControlPoints(drawQueue.get(0), null);
                 draw(drawQueue.get(0), drawQueue.get(1));
             }
+
+            pointRecycle.addAll(drawQueue);
             drawQueue.clear();
         }
-
-        super.onDraw(canvas);
     }
-
 
     //--------------------------------------
     // Public Methods
@@ -421,14 +453,14 @@ public class InkView extends View {
      */
     public void clear() {
         // clean up existing bitmap
-        if (bitmap != null) {
-            bitmap.recycle();
-        }
 
-        // init bitmap cache
+        if(bitmap!=null)bitmap.recycle();
+
         bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(bitmap);
+        canvas =  new Canvas(bitmap);
 
+        Path.clear();
+        UndonePath.clear();
         // notify listeners
         for (InkListener listener : listeners) {
             listener.onInkClear();
@@ -436,6 +468,7 @@ public class InkView extends View {
 
         invalidate();
         isEmpty = true;
+
     }
 
     /**
@@ -454,6 +487,7 @@ public class InkView extends View {
      * @return The bitmap
      */
     public Bitmap getBitmap(int backgroundColor) {
+
         // create new bitmap
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas bitmapCanvas = new Canvas(bitmap);
@@ -582,6 +616,7 @@ public class InkView extends View {
         invalidate();
     }
 
+
     void draw(InkPoint p1, InkPoint p2) {
         // init dirty rect
         dirty.left = Math.min(p1.x, p2.x);
@@ -670,6 +705,22 @@ public class InkView extends View {
         invalidate((int) (dirty.left - maxStrokeWidth / 2), (int) (dirty.top - maxStrokeWidth / 2), (int) (dirty.right + maxStrokeWidth / 2), (int) (dirty.bottom + maxStrokeWidth / 2));
     }
 
+
+    public void undo()
+    {
+        if (Path.size() > 0)
+        {
+          //  UndonePath.add(Path.remove(Path.size() - 1));
+
+            if(bitmap!=null)bitmap.recycle();
+
+            bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            canvas =  new Canvas(bitmap);
+
+            drawPath();
+            invalidate();
+        }
+    }
 
     //--------------------------------------
     // Util Classes
