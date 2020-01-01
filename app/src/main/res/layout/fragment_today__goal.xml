@@ -65,7 +65,8 @@
         android:background="@drawable/shape_sqare"
         android:elevation="4dp"
         android:orientation="vertical"
-        android:clickable="false"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         >
@@ -145,6 +146,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/today_goal_t1"
         android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"

@@ -19,6 +19,7 @@ import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
 import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
+import kotlinx.android.synthetic.main.fragment_today__goal.*
 
 /**
  * A simple [Fragment] subclass.
@@ -42,7 +43,7 @@ class TodayGoalFragment : Fragment() {
 
     private var brushColor = Color.rgb(0,0,0) //black
 
-    @SuppressLint("ClickableViewAccessibility")
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -50,13 +51,15 @@ class TodayGoalFragment : Fragment() {
         val centerText:TextView  = view.findViewById(R.id.today_goal_t2)
         drawView = view.findViewById(R.id.draw_view)
 
-        drawView.setOnTouchListener{ _: View, motionEvent: MotionEvent ->
-            drawView.onTouchEvent(motionEvent)
 
-            if(centerText.visibility == View.VISIBLE)
-                centerText.visibility = View.GONE
-            true
-        }
+        drawView.addListener(object : InkView.InkListener{
+            override fun onInkClear() {
+            }
+            override fun onInkDraw() {
+                if(centerText.visibility == View.VISIBLE)
+                    centerText.visibility = View.GONE
+            }
+        })
         return view
     }
 
@@ -124,7 +127,8 @@ class TodayGoalFragment : Fragment() {
 
     }
 
-    fun ContentLayoutInit(){
+    private fun ContentLayoutInit(){
+
 
         if(!BasicDB.getInit(context!!))
         {
@@ -149,7 +153,7 @@ class TodayGoalFragment : Fragment() {
 
 
 
-    fun PaintLayoutInit(){
+    private fun PaintLayoutInit(){
 
         MaxsizeSeekBar = paintLayout.findViewById(R.id.today_goal_draw_Maxsize_SeekBar)
         MinsizeSeekBar =  paintLayout.findViewById(R.id.today_goal_draw_Minsize_SeekBar)
@@ -348,7 +352,7 @@ class TodayGoalFragment : Fragment() {
         }
     }
 
-    fun unseletedColor(index : Int)
+    private fun unseletedColor(index : Int)
     {
         val res : Int = when (index)
         {

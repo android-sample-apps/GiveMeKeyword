@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -39,7 +40,9 @@ class FirebaseDB{
             }.addOnSuccessListener {
                 val data = hashMapOf(
                         "name" to name,
-                        "content" to content
+                        "content" to content,
+                        "heart" to 0,
+                        "hate" to 0
                 )
                val now = GregorianCalendar()
 
@@ -61,9 +64,12 @@ class FirebaseDB{
             return true
         }
 
-        public fun getKeywordDrawings(keyword: String): ArrayList<drawingItem> {
+        public fun getKeywordDrawings(keyword: String,context:Context): ArrayList<drawingItem> {
             val array: ArrayList<drawingItem> = ArrayList()
             val db = FirebaseFirestore.getInstance()
+
+            val heartDB = DrawingDB(context)
+            heartDB.open()
 
             db.collection(keyword)
                     .get()
@@ -71,22 +77,78 @@ class FirebaseDB{
                         for (document in documents) {
                             val name: String = document.getString("name") ?: "알수없음"
                             val content: String = document.getString("content") ?: ""
-                            array.add(drawingItem(document.id, name, content))
+                            val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
+                            array.add(drawingItem(document.id,keyword,name, content,heartNum,heartDB.getMyHeart(document.id)))
                         }
                     }
                     .addOnFailureListener { exception ->
                         Log.w("GetDrawing", "Error getting documents: ", exception)
                     }
+
+            heartDB.close()
             return array
         }
 
-        public fun getMineDrawings(context: Context): ArrayList<drawingItem> {
+//        public fun getMineDrawings(context: Context): ArrayList<drawingItem> {
+//
+//            val drawingDB = DrawingDB(context)
+//            drawingDB.open()
+//            val array: ArrayList<drawingItem> = drawingDB.getMyDrawing()
+//            drawingDB.close()
+//            return array
+//        }
+//
+        fun changeHeart(item: drawingItem,context: Context){
+            val db = FirebaseFirestore.getInstance()
 
-            val drawingDB = DrawingDB(context)
-            drawingDB.open()
-            val array: ArrayList<drawingItem> = drawingDB.getMyDrawing()
-            drawingDB.close()
-            return array
+
+            val sfDocRef = db.collection(item.keyword).document(item.id)
+
+            db.runTransaction { transaction ->
+                val snapshot = transaction.get(sfDocRef)
+
+                // Note: this could be done without a transaction
+                //       by updating the population using FieldValue.increment()
+                var heartNum = snapshot.getLong("heart")!!.toInt()
+                if(item.isHeart)heartNum++
+                else {
+                    if(heartNum>0)
+                    heartNum--
+                }
+                transaction.update(sfDocRef, "heart", heartNum)
+
+                // Success
+                null
+            }.addOnSuccessListener {
+                item.heart = if (item.isHeart) item.heart +1 else item.heart - 1
+                item.isHeart = !item.isHeart
+            }.addOnFailureListener {
+                        Toast.makeText(context,"현재 서버문제로 좋아요 기능을 사용할 수 없습니다.",Toast.LENGTH_SHORT).show()
+                    }
+
+        }
+        fun addHate(item: drawingItem,context: Context){
+            val db = FirebaseFirestore.getInstance()
+
+
+            val sfDocRef = db.collection(item.keyword).document(item.id)
+
+            db.runTransaction { transaction ->
+                val snapshot = transaction.get(sfDocRef)
+
+                // Note: this could be done without a transaction
+                //       by updating the population using FieldValue.increment()
+                val heartNum = snapshot.getLong("hate")!!.toInt() + 1
+
+                transaction.update(sfDocRef, "heart", heartNum)
+
+                // Success
+                null
+            }.addOnSuccessListener {  }
+                    .addOnFailureListener {
+                        Toast.makeText(context,"현재 서버문제로 신고 기능을 사용할 수 없습니다.",Toast.LENGTH_SHORT).show()
+                    }
+
         }
     }
 }
