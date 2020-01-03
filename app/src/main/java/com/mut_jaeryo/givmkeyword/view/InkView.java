@@ -22,6 +22,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -85,6 +86,7 @@ public class InkView extends View {
     static final float FILTER_RATIO_ACCELERATION_MODIFIER = 0.1f;
     static final int DEFAULT_FLAGS = FLAG_INTERPOLATION | FLAG_RESPONSIVE_WIDTH;
     static final int DEFAULT_STROKE_COLOR = 0xFF000000;
+
 
     // settings
     int flags;
@@ -191,10 +193,12 @@ public class InkView extends View {
         isEmpty = false;
         // on down, initialize stroke point
         if (action == MotionEvent.ACTION_DOWN) {
-            InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
-            addPoint(p);
+           // InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
+            InkPoint p =new InkPoint(e.getX(),e.getY(),e.getEventTime());
             Path.add(pointQueue);
             pointQueue.add(p);
+            addPoint(p);
+
             // notify listeners of sign
             for (InkListener listener : listeners) {
                 listener.onInkDraw();
@@ -204,9 +208,11 @@ public class InkView extends View {
         // on move, add next point
         else if (action == MotionEvent.ACTION_MOVE) {
             if (!drawQueue.get(drawQueue.size() - 1).equals(e.getX(), e.getY())) {
-                InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
+               // InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
+                InkPoint p =new InkPoint(e.getX(),e.getY(),e.getEventTime());
+                pointQueue.add(p);
                 addPoint(p);
-               pointQueue.add(p);
+
             }
         }
 
@@ -223,7 +229,7 @@ public class InkView extends View {
             }
 
             // recycle remaining points
-            pointRecycle.addAll(drawQueue);
+            //pointRecycle.addAll(drawQueue);
 
             drawQueue.clear();
             pointQueue = new ArrayList<>();
@@ -240,7 +246,6 @@ public class InkView extends View {
         canvas.drawBitmap(bitmap, 0, 0, null);
 
         super.onDraw(canvas);
-        //drawPath(canvas);
     }
 
 
@@ -249,15 +254,15 @@ public class InkView extends View {
 
         for(ArrayList<InkPoint> queue : Path)
         {
-            Log.d("drawPath Path count",""+queue.size());
+
             for(int i=0 ;i<queue.size();i++)
             {
                 InkPoint p = queue.get(i);
-                p = getRecycledPoint(p.x,p.y,p.time);
+              //  p = getRecycledPoint(p.x,p.y,p.time);
                 addPoint(p);
 
-                Log.d("drawPath Point count","Point"+i);
             }
+
             if (drawQueue.size() == 1) {
                 draw(drawQueue.get(0));
             } else if (drawQueue.size() == 2) {
@@ -267,6 +272,7 @@ public class InkView extends View {
 
             pointRecycle.addAll(drawQueue);
             drawQueue.clear();
+
         }
     }
 
@@ -608,6 +614,7 @@ public class InkView extends View {
     }
 
     void draw(InkPoint p) {
+        Log.d("draw","x:"+p.x+" y:"+p.y);
         paint.setStyle(Paint.Style.FILL);
 
         // draw dot
@@ -619,6 +626,8 @@ public class InkView extends View {
 
     void draw(InkPoint p1, InkPoint p2) {
         // init dirty rect
+
+        Log.d("draw","x1:"+p1.x+" y1:"+p1.y+"x2:"+p2.x+" y2:"+p2.y);
         dirty.left = Math.min(p1.x, p2.x);
         dirty.right = Math.max(p1.x, p2.x);
         dirty.top = Math.min(p1.y, p2.y);
@@ -710,7 +719,7 @@ public class InkView extends View {
     {
         if (Path.size() > 0)
         {
-          //  UndonePath.add(Path.remove(Path.size() - 1));
+            UndonePath.add(Path.remove(Path.size() - 1));
 
             if(bitmap!=null)bitmap.recycle();
 
