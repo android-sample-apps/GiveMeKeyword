@@ -166,7 +166,6 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
             android:src="@drawable/brush_selected">
-
         </ImageButton>
 
         <ImageButton
@@ -179,6 +178,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/eraser"></ImageButton>
 
+
         <ImageButton
             android:id="@+id/today_goal_draw_delete"
             android:layout_width="24dp"
@@ -189,6 +189,27 @@
             android:scaleType="fitXY"
             android:src="@drawable/delete_selector"></ImageButton>
 
+        <ImageButton
+            android:id="@+id/today_goal_draw_redo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toLeftOf="@id/today_goal_draw_delete"
+            android:layout_marginRight="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/redo_selector">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/today_goal_draw_undo"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toLeftOf="@id/today_goal_draw_redo"
+            android:layout_marginRight="15dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/undo_selector">
+        </ImageButton>
 
         <View
             android:id="@+id/today_goal_draw_v1"

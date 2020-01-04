@@ -241,6 +241,15 @@ class TodayGoalFragment : Fragment() {
             }
         }
 
+        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_undo).setOnClickListener {
+            drawView.undo()
+        }
+
+        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_redo).setOnClickListener {
+            drawView.redo()
+        }
+
+
 
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_delete).setOnClickListener { drawView.clear() }
 
