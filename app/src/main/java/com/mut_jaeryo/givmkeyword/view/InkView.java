@@ -200,7 +200,7 @@ public class InkView extends View {
            // InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
             InkPoint p =new InkPoint(e.getX(),e.getY(),e.getEventTime());
             if(Path.size()==PATH_SIZE) saveHistory(Path.remove(0));
-            Path.add(new HistoryPaths(pointQueue,paint.getColor()));
+            Path.add(new HistoryPaths(pointQueue,paint.getColor(),paint.getAlpha(),maxStrokeWidth,minStrokeWidth));
             pointQueue.add(p);
             addPoint(p);
 
@@ -257,11 +257,20 @@ public class InkView extends View {
     private void drawPath()
     {
         int tempColor = paint.getColor();
+        int tempAlpha = paint.getAlpha();
+
+        float tempMaxSize = maxStrokeWidth;
+        float tempMinSize = minStrokeWidth;
         for(HistoryPaths historyPaths : Path)
         {
             int color = historyPaths.Color;
+            int alpha = historyPaths.alpha;
+
+            maxStrokeWidth = historyPaths.maxSize;
+            minStrokeWidth = historyPaths.minSize;
             ArrayList<InkPoint> queue = historyPaths.paths;
 
+            paint.setAlpha(alpha);
             paint.setColor(color);
             for(int i=0 ;i<queue.size();i++)
             {
@@ -282,7 +291,10 @@ public class InkView extends View {
             drawQueue.clear();
 
         }
+        maxStrokeWidth = tempMaxSize;
+        minStrokeWidth = tempMinSize;
         paint.setColor(tempColor);
+        paint.setAlpha(tempAlpha);
     }
 
     //--------------------------------------
@@ -568,11 +580,16 @@ public class InkView extends View {
     void saveHistory(HistoryPaths historyPaths){
         Canvas temp = this.canvas;
         int tempColor = paint.getColor();
+        int tempAlpha = paint.getAlpha();
+        float tempMin = minStrokeWidth;
+        float tempMax = maxStrokeWidth;
         canvas = new Canvas(saveHistory);
 
         ArrayList<InkPoint> queue = historyPaths.paths;
         paint.setColor(historyPaths.Color);
-
+        paint.setAlpha(historyPaths.alpha);
+        maxStrokeWidth = historyPaths.maxSize;
+        minStrokeWidth = historyPaths.minSize;
         for(int i=0 ;i<queue.size();i++)
         {
             InkPoint p = queue.get(i);
@@ -591,7 +608,10 @@ public class InkView extends View {
         pointRecycle.addAll(drawQueue);
         drawQueue.clear();
 
+        minStrokeWidth = tempMin;
+        maxStrokeWidth = tempMax;
         paint.setColor(tempColor);
+        paint.setAlpha(tempAlpha);
         canvas = temp;
     }
 
@@ -891,11 +911,17 @@ public class InkView extends View {
 
         ArrayList<InkPoint> paths;
         int Color;
+        int alpha;
+        float maxSize;
+        float minSize;
 
-        public HistoryPaths(ArrayList<InkPoint> paths,int Color)
+        public HistoryPaths(ArrayList<InkPoint> paths,int Color,int alpha,float max,float min)
         {
             this.paths = paths;
             this.Color = Color;
+            this.alpha = alpha;
+            this.maxSize = max;
+            this.minSize = min;
         }
     }
 }
