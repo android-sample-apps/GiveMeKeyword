@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -26,7 +27,7 @@ class FirebaseDB{
             val doc = db.document() //고유 id를 자동으로 생성
 
 
-            val imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("images/" + doc.id + ".jpg")
+            val imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("images/" + doc.id + ".png")
 
 
             val baos = ByteArrayOutputStream()
@@ -48,10 +49,9 @@ class FirebaseDB{
 
                 doc.set(data)
                         .addOnSuccessListener {
-                            val drawingDB = DrawingDB(activity.applicationContext)
-                            drawingDB.open()
-                            drawingDB.DrawingInsert(doc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
-                            drawingDB.close()
+
+                            DrawingDB.db.DrawingInsert(doc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
+
 
                             Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show() }
                         .addOnCanceledListener {
@@ -64,30 +64,6 @@ class FirebaseDB{
             return true
         }
 
-        public fun getKeywordDrawings(keyword: String,context:Context): ArrayList<drawingItem> {
-            val array: ArrayList<drawingItem> = ArrayList()
-            val db = FirebaseFirestore.getInstance()
-
-            val heartDB = DrawingDB(context)
-            heartDB.open()
-
-            db.collection(keyword)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        for (document in documents) {
-                            val name: String = document.getString("name") ?: "알수없음"
-                            val content: String = document.getString("content") ?: ""
-                            val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
-                            array.add(drawingItem(document.id,keyword,name, content,heartNum,heartDB.getMyHeart(document.id)))
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.w("GetDrawing", "Error getting documents: ", exception)
-                    }
-
-            heartDB.close()
-            return array
-        }
 
 //        public fun getMineDrawings(context: Context): ArrayList<drawingItem> {
 //
@@ -110,7 +86,10 @@ class FirebaseDB{
                 // Note: this could be done without a transaction
                 //       by updating the population using FieldValue.increment()
                 var heartNum = snapshot.getLong("heart")!!.toInt()
-                if(item.isHeart)heartNum++
+                if(item.isHeart){
+
+                    heartNum++
+                }
                 else {
                     if(heartNum>0)
                     heartNum--
@@ -120,6 +99,7 @@ class FirebaseDB{
                 // Success
                 null
             }.addOnSuccessListener {
+                DrawingDB.db.changeHeart(item.id,item.isHeart)
                 item.heart = if (item.isHeart) item.heart +1 else item.heart - 1
                 item.isHeart = !item.isHeart
             }.addOnFailureListener {

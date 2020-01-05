@@ -31,11 +31,8 @@ class SettingFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val db = DrawingDB(context!!)
-        db.open()
-        barSet = db.getHistory()
+        barSet = DrawingDB.db.getHistory()
         barChart.animate(barSet)
-        db.close()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,9 +40,11 @@ class SettingFragment : Fragment() {
 
         barChart.animation.duration = animationDuration
 
+
         if(BasicDB.getId(context!!) != "")
             setting_profile_name_edit.visibility = View.GONE
 
+        setting_profile_name.text = BasicDB.getName(context!!)
         setting_alert_sound_switch.isChecked =  BasicDB.getSound(context!!)
 
         setting_alert_vibration_switch.isChecked = BasicDB.getSound(context!!)
@@ -97,6 +96,7 @@ class SettingFragment : Fragment() {
                 doc.set(data)
                         .addOnSuccessListener {
                             BasicDB.setName(context!!,name)
+                            setting_profile_name.text = name
                             Toast.makeText(context,"이름이 변경되었습니다",Toast.LENGTH_LONG).show()
                         }
                         .addOnCanceledListener {   Toast.makeText(context,"잠시 후에 다시 시도해주세요",Toast.LENGTH_LONG).show() }

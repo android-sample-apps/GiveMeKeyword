@@ -23,6 +23,7 @@ class UploadActivity : AppCompatActivity() {
         setSupportActionBar(upload_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        upload_name.text = BasicDB.getName(applicationContext)
         ImageSave.drawingImage = null
         if(Image != null)
         upload_image.setImageBitmap(Image)

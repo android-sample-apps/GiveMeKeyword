@@ -21,6 +21,7 @@ class DrawingDB() {
         var HeartDB: SQLiteDatabase? = null
         private var mDBHelper: DatabaseHelper? = null
         private var mCtx: Context? = null
+        lateinit var db:DrawingDB
     }
 
     constructor(context: Context):this()
@@ -92,16 +93,18 @@ class DrawingDB() {
 
     fun getMyHeart(id:String):Boolean{
 
-
-
         val cursor: Cursor = HeartDB!!.rawQuery("select * from ${HeartTable.Table_Name} where id = '$id'", null)
+        return cursor.count>0
+    }
 
-        if(cursor.count>0){
-            cursor.close()
-            return true
-        } else {
-            cursor.close()
-            return false
+    fun changeHeart(id:String,isHeart:Boolean)
+    {
+        if(isHeart){
+            //제거
+            HeartDB!!.execSQL("DELETE FROM ${HeartTable.Table_Name} where id = '$id';")
+        }else
+        { //추가
+            HeartDB!!.execSQL("INSERT INTO  ${HeartTable.Table_Name} VALUES ('$id');") // string은 값은 '이름' 처럼 따음표를 붙여줘야함
         }
     }
 
@@ -115,7 +118,7 @@ class DrawingDB() {
     }
 
     fun close() { //3개 table 쓰기 모드 종료
-       DrawingDB!!.close()
+        DrawingDB!!.close()
         HeartDB!!.close()
     }
 }

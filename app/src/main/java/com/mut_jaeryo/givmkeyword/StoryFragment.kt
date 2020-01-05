@@ -1,9 +1,11 @@
 package com.mut_jaeryo.givmkeyword
 
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +13,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
@@ -43,6 +47,8 @@ class StoryFragment : Fragment() {
 
 
 
+
+
     fun UploadedZero(){
         val notice :TextView = view!!.findViewById(R.id.story_notice)
 
@@ -64,26 +70,44 @@ class StoryFragment : Fragment() {
 
     fun SettingRecycler(){
 
-        Keyword_array = FirebaseDB.getKeywordDrawings(BasicDB.getKeyword(context!!) ?: "",context!!)
-
-        if(Keyword_array.size == 0){
-            UploadedZero()
-            return
-        }
-
-//        var spanCount = 3
-//        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            spanCount = 4
-//        }
-//
-//        story_recycler.layoutManager = GridLayoutManager(context, spanCount)
+        Keyword_array = ArrayList()
         story_recycler.layoutManager = LinearLayoutManager(context)
         val spaceDecoration = RecyclerDecoration(20)
 
         adater = DrawingAdapter(Keyword_array,activity!!)
         story_recycler.addItemDecoration(spaceDecoration)
         story_recycler.adapter =adater
+//        var spanCount = 3
+//        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            spanCount = 4
+//        }
+//
+//        story_recycler.layoutManager = GridLayoutManager(context, spanCount)
+
+        val keyword = BasicDB.getKeyword(context!!)
+        val db = FirebaseFirestore.getInstance()
+
+
+
+        db.collection(keyword!!)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        val name: String = document.getString("name") ?: "알수없음"
+                        val content: String = document.getString("content") ?: ""
+                        val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
+                        Keyword_array.add(drawingItem(document.id,keyword,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
+                    }
+
+                    adater.notifyDataSetChanged()
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("GetDrawing", "Error getting documents: ", exception)
+                    UploadedZero()
+                }
+
 
     }
+
 
 }

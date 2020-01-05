@@ -231,9 +231,9 @@ class TodayGoalFragment : Fragment() {
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setOnClickListener {
             it as ImageButton
 
-            drawView.undo()
             if(usingBrush)
             {
+                selecteColorIndex = -1;
                 usingBrush = false
                 it.setImageResource(R.drawable.eraser_selected)
                 drawView.setColor(Color.rgb(255,255,255))
@@ -243,6 +243,7 @@ class TodayGoalFragment : Fragment() {
 
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_undo).setOnClickListener {
             drawView.undo()
+
         }
 
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_redo).setOnClickListener {

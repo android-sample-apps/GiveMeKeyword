@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
 import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
 import java.util.*
@@ -27,6 +28,9 @@ class MainActivity : FragmentActivity() {
         {
             SendAlert.setAlert(applicationContext, GregorianCalendar())
         }
+
+        DrawingDB.db = DrawingDB(applicationContext)
+        DrawingDB.db.open()
 
         mPager = findViewById(R.id.main_pager)
 
@@ -96,6 +100,7 @@ class MainActivity : FragmentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         ImageSave.drawingImage = null
+        DrawingDB.db.close()
     }
 
     private inner class ScreenSlidePagerAdapter(fa:FragmentActivity,val array:ArrayList<Fragment>) :FragmentStateAdapter(fa){
