@@ -20,7 +20,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.health.PackageHealthStats;
@@ -28,8 +31,13 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 
 import com.mut_jaeryo.givmkeyword.R;
 
@@ -40,6 +48,30 @@ import java.util.Queue;
 @SuppressWarnings("unused")
 public class InkView extends View {
 
+    private static final int NONE = 0;
+    private static final int DRAG = 1;
+    private static final int ZOOM = 2;
+    private static final String TAG = "InkView";
+    private int mode = NONE;
+
+    private boolean isZoomMode = false;
+    private static final float MIN_ZOOM = 0.1f;
+    private static final float MAX_ZOOM = 10.0f;
+
+    private float mScaleFactor = 1.0f;
+    private float lastScaleFactor = 0f;
+
+    // Where the finger first  touches the screen
+    private float startX = 0f;
+    private float startY = 0f;
+
+    // How much to translate the canvas
+    private float dx = 0f;
+    private float dy = 0f;
+    private float prevDx = 0f;
+    private float prevDy = 0f;
+
+    private static final int SPAN_SLOP = 5;
     /**
      * The default maximum stroke width (dp).
      * Will be used as the standard stroke width if FLAG_RESPONSIVE_WIDTH is removed
@@ -96,15 +128,16 @@ public class InkView extends View {
     float smoothingRatio;
     int alpha;
 
+
     // points
     ArrayList<InkPoint> pointQueue = new ArrayList<>();
     ArrayList<InkPoint> drawQueue = new ArrayList<>();
     ArrayList<InkPoint> pointRecycle = new ArrayList<>();
 
-
-
     ArrayList<HistoryPaths> Path = new ArrayList<>();
     ArrayList<HistoryPaths> UndonePath = new ArrayList<>();
+
+    private ScaleGestureDetector mScaleGestureDetector;
 
 
 
@@ -133,6 +166,7 @@ public class InkView extends View {
         init(flags);
     }
 
+
     public InkView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -152,6 +186,7 @@ public class InkView extends View {
         // init flags
         setFlags(flags);
 
+        mScaleGestureDetector =new ScaleGestureDetector(getContext(), new ScaleListener());
         // init screen density
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         density = (metrics.xdpi + metrics.ydpi) / 2f;
@@ -185,16 +220,70 @@ public class InkView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-       // clear();
     }
+
+    public void setZoomMode(boolean isZoom)
+    {
+        isZoomMode =  isZoom;
+    }
+
+    public boolean onZoomTouch(MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                Log.i(TAG, "DOWN");
+                if (mScaleFactor> MIN_ZOOM) {
+                    mode = DRAG;
+                    startX = motionEvent.getX() - prevDx;
+                    startY = motionEvent.getY() - prevDy;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mode == DRAG) {
+                    dx = motionEvent.getX() - startX;
+                    dy = motionEvent.getY() - startY;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                mode = ZOOM;
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                mode = NONE;
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i(TAG, "UP");
+                mode = NONE;
+                prevDx = dx;
+                prevDy = dy;
+                break;
+        }
+        mScaleGestureDetector.onTouchEvent(motionEvent);
+
+        if ((mode == DRAG && mScaleFactor >= MIN_ZOOM) || mode == ZOOM) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+            float maxDx = (getWidth() - (getWidth() / mScaleFactor)) / 2 * mScaleFactor;
+            float maxDy = (getHeight() - (getHeight() / mScaleFactor))/ 2 * mScaleFactor;
+            dx = Math.min(Math.max(dx, -maxDx), maxDx);
+            dy = Math.min(Math.max(dy, -maxDy), maxDy);
+
+            applyScaleAndTranslation();
+        }
+
+        return true;
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         int action = e.getAction();
-
         isEmpty = false;
+
+        if(isZoomMode){
+
+            return onZoomTouch(e);
+        }
         // on down, initialize stroke point
         if (action == MotionEvent.ACTION_DOWN) {
+
 
             if(UndonePath.size()>0)UndonePath.clear();
            // InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
@@ -212,6 +301,8 @@ public class InkView extends View {
 
         // on move, add next point
         else if (action == MotionEvent.ACTION_MOVE) {
+
+
             if (!drawQueue.get(drawQueue.size() - 1).equals(e.getX(), e.getY())) {
                // InkPoint p =getRecycledPoint(e.getX(), e.getY(), e.getEventTime());
                 InkPoint p =new InkPoint(e.getX(),e.getY(),e.getEventTime());
@@ -222,8 +313,7 @@ public class InkView extends View {
         }
 
         // on up, draw remaining queue
-        if (action == MotionEvent.ACTION_UP) {
-
+        else if (action == MotionEvent.ACTION_UP) {
 
             // draw final points
             if (drawQueue.size() == 1) {
@@ -239,14 +329,14 @@ public class InkView extends View {
             drawQueue.clear();
             pointQueue = new ArrayList<>();
         }
-
-
         return true;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         // simply paint the bitmap on the canvas
+
+
         if(bitmap==null)clear();
         canvas.drawBitmap(bitmap, 0, 0, null);
 
@@ -295,6 +385,7 @@ public class InkView extends View {
         minStrokeWidth = tempMinSize;
         paint.setColor(tempColor);
         paint.setAlpha(tempAlpha);
+
     }
 
     //--------------------------------------
@@ -487,6 +578,7 @@ public class InkView extends View {
         bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         saveHistory = Bitmap.createBitmap(getWidth(),getHeight(),Bitmap.Config.ARGB_8888);
         canvas =  new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
 
         Path.clear();
         UndonePath.clear();
@@ -787,6 +879,7 @@ public class InkView extends View {
             //bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
             bitmap = Bitmap.createBitmap(saveHistory);
             canvas =  new Canvas(bitmap);
+            canvas.drawColor(Color.WHITE);
             drawPath();
             invalidate();
         }
@@ -809,6 +902,7 @@ public class InkView extends View {
             //bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
             bitmap = Bitmap.createBitmap(saveHistory);
             canvas =  new Canvas(bitmap);
+            canvas.drawColor(Color.WHITE);
             drawPath();
             invalidate();
 
@@ -924,4 +1018,43 @@ public class InkView extends View {
             this.minSize = min;
         }
     }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector scaleDetector) {
+            Log.i(TAG, "onScaleBegin");
+            return true;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleDetector) {
+            float scaleFactor = scaleDetector.getScaleFactor();
+            Log.i(TAG, "onScale" + scaleFactor);
+            if (lastScaleFactor == 0 || (Math.signum(scaleFactor) == Math.signum(lastScaleFactor))) {
+                mScaleFactor *= scaleFactor;
+                mScaleFactor = Math.max(MIN_ZOOM, Math.min(mScaleFactor, MAX_ZOOM));
+                lastScaleFactor = scaleFactor;
+            } else {
+                lastScaleFactor = 0;
+            }
+            return true;
+        }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector scaleDetector) {
+            Log.i(TAG, "onScaleEnd");
+        }
+    }
+
+    private void applyScaleAndTranslation() {
+        if(mScaleFactor>=1.0f) {
+            setTranslationX(dx);
+            setTranslationY(dy);
+
+        }
+        setScaleX(mScaleFactor);
+        setScaleY(mScaleFactor);
+
+    }
+
 }

@@ -27,10 +27,17 @@ import kotlinx.android.synthetic.main.fragment_today__goal.*
 class TodayGoalFragment : Fragment() {
 
 
+    companion object
+    {
+        const val brush : Int = 10;
+        const val eraser: Int = 11;
+        const val zoom : Int = 12;
+    }
+
     private lateinit var drawView: InkView
     private var drawUtility :Boolean = false
     private var commentShow :Boolean = true
-    private var usingBrush : Boolean = true
+    private var mode = brush
     private lateinit var commentLayout : RelativeLayout
     private lateinit var paintLayout : RelativeLayout
     private lateinit var goalTextView: TextView
@@ -220,8 +227,19 @@ class TodayGoalFragment : Fragment() {
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setOnClickListener {
            it as ImageButton
 
-            if(!usingBrush) {
-                usingBrush = true
+            if(mode != brush) {
+                when(mode)
+                {
+                    eraser->{
+                        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
+                    }
+
+                    zoom ->{
+                        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_zoom).setImageResource(R.drawable.zoom)
+                        drawView.setZoomMode(false)
+                    }
+                }
+                mode = brush
                 drawView.setColor(brushColor)
                 it.setImageResource(R.drawable.brush_selected)
                 paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
@@ -231,13 +249,51 @@ class TodayGoalFragment : Fragment() {
         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setOnClickListener {
             it as ImageButton
 
-            if(usingBrush)
+            if(mode != eraser)
             {
+                when(mode)
+                {
+                    brush->{
+                        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush)
+                    }
+
+                    zoom ->{
+                        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_zoom).setImageResource(R.drawable.zoom)
+                        drawView.setZoomMode(false)
+                    }
+                }
                 selecteColorIndex = -1;
-                usingBrush = false
+                mode = eraser
                 it.setImageResource(R.drawable.eraser_selected)
                 drawView.setColor(Color.rgb(255,255,255))
-                paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush)
+
+            }
+        }
+
+        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_zoom).setOnClickListener {
+            it as ImageButton
+
+            if(mode != zoom)
+            {
+                it.setImageResource(R.drawable.zoom_selected)
+
+                drawView.setZoomMode(true)
+                when(mode)
+                {
+                    brush -> {
+                        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush)
+                    }
+                    eraser ->{
+                        paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
+                    }
+                }
+                mode = zoom;
+            }else
+            {
+                it.setImageResource(R.drawable.zoom)
+                mode = brush
+                drawView.setColor(brushColor)
+                it.setImageResource(R.drawable.brush_selected)
             }
         }
 
@@ -266,8 +322,8 @@ class TodayGoalFragment : Fragment() {
     }
 
     private val colorClickListener = View.OnClickListener {
-        if(!usingBrush){
-            usingBrush=true
+        if(mode != brush){
+            mode = brush
             paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush_selected)
             paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
         }

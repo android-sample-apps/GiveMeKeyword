@@ -178,6 +178,17 @@
             android:scaleType="fitXY"
             android:src="@drawable/eraser"></ImageButton>
 
+        <ImageButton
+            android:id="@+id/today_goal_draw_zoom"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/today_goal_draw_eraser"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:src="@drawable/zoom"></ImageButton>
+
+
 
         <ImageButton
             android:id="@+id/today_goal_draw_delete"
@@ -440,12 +451,20 @@
 <!--        android:layout_below="@id/today_goal_t1"-->
 <!--        android:layout_margin="7dp" />-->
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/today_goal_t1"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorNotAccent"
+        android:layout_height="match_parent"
+        >
         <com.mut_jaeryo.givmkeyword.view.InkView
             android:id="@+id/draw_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/today_goal_t1"
             android:layout_margin="7dp" />
+    </RelativeLayout>
+
 
 
 </RelativeLayout>
