@@ -2,6 +2,7 @@ package com.mut_jaeryo.givmkeyword
 
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
@@ -71,40 +73,49 @@ class StoryFragment : Fragment() {
     fun SettingRecycler(){
 
         Keyword_array = ArrayList()
-        story_recycler.layoutManager = LinearLayoutManager(context)
-        val spaceDecoration = RecyclerDecoration(20)
+        val spaceDecoration = RecyclerDecoration(40)
 
         adater = DrawingAdapter(Keyword_array,activity!!)
         story_recycler.addItemDecoration(spaceDecoration)
         story_recycler.adapter =adater
-//        var spanCount = 3
-//        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            spanCount = 4
-//        }
-//
-//        story_recycler.layoutManager = GridLayoutManager(context, spanCount)
+        var spanCount = 2
+        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            spanCount = 3
+        }
+
+        story_recycler.layoutManager = GridLayoutManager(context, spanCount)
 
         val keyword = BasicDB.getKeyword(context!!)
         val db = FirebaseFirestore.getInstance()
 
 
+        Keyword_array.add(drawingItem("test","","","",0,false))
+        Keyword_array.add(drawingItem("test","","","",0,false))
+        Keyword_array.add(drawingItem("test","","","",0,false))
+        Keyword_array.add(drawingItem("test","","","",0,false))
+        Keyword_array.add(drawingItem("test","","","",0,false))
 
-        db.collection(keyword!!)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val name: String = document.getString("name") ?: "알수없음"
-                        val content: String = document.getString("content") ?: ""
-                        val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
-                        Keyword_array.add(drawingItem(document.id,keyword,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
-                    }
 
-                    adater.notifyDataSetChanged()
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("GetDrawing", "Error getting documents: ", exception)
-                    UploadedZero()
-                }
+        adater.notifyDataSetChanged()
+//        db.collection(keyword!!)
+//                .get()
+//                .addOnSuccessListener { documents ->
+//                    for (document in documents) {
+//                        val name: String = document.getString("name") ?: "알수없음"
+//                        val content: String = document.getString("content") ?: ""
+//                        val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
+//                        Keyword_array.add(drawingItem(document.id,keyword,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
+//                    }
+//
+//                    if(Keyword_array.size>0)
+//                    adater.notifyDataSetChanged()
+//                    else
+//                        UploadedZero()
+//                }
+//                .addOnFailureListener { exception ->
+//                    Log.w("GetDrawing", "Error getting documents: ", exception)
+//                    UploadedZero()
+//                }
 
 
     }
