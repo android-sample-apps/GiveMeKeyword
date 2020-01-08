@@ -14,7 +14,7 @@ class BasicDB {
         val PREF_NAME = "name"
         val PREF_DATE = "Date"
         val PREF_INIT = "init"
-        val PREF_ID = "user_id"
+
         val PREF_SOUND = "sound"
         val PREF_VIB = "vibradtion"
 
@@ -60,17 +60,7 @@ class BasicDB {
             editor.apply()
         }
 
-        fun setId(ctx: Context, id:String)
-        {
-            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
-            editor.putString(PREF_ID,id)
-            editor.apply()
-        }
 
-        fun getId(ctx : Context): String?
-        {
-            return getSharedPreferences(ctx).getString(PREF_ID,"")
-        }
 
         fun setInit(ctx: Context, init : Boolean)
         {

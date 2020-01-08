@@ -8,24 +8,46 @@
       >
 
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/open_source_appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="오픈 소스"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/open_source_title">
+        app:layout_constraintTop_toTopOf="parent">
 
-    </TextView>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/open_source_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#ffffff">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="오픈 소스"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="17sp"
+                    android:id="@+id/open_source_title">
+
+                </TextView>
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/open_source_title"
+        android:layout_below="@id/open_source_appbar"
         android:layout_height="match_parent">
 
         <RelativeLayout

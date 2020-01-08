@@ -2,6 +2,7 @@ package com.mut_jaeryo.givmkeyword
 
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.setPadding
+import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
@@ -88,10 +90,15 @@ class TodayGoalFragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.today_goal_send).setOnClickListener {
 
-            ImageSave.drawingImage = drawView.bitmap
+            if (BasicDB.getName(context!!) == "이름 미정") {
 
-            val intent = Intent(activity,UploadActivity::class.java)
-            startActivity(intent)
+                AlertUtills.BasicAlert(context!!,"test")
+            } else { //go to upload Activity
+                ImageSave.drawingImage = drawView.bitmap
+
+                val intent = Intent(activity, UploadActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         drawBtn.setOnClickListener{
@@ -142,6 +149,7 @@ class TodayGoalFragment : Fragment() {
             val keyword = Keyword.getKeyword(context!!)
             BasicDB.setKeyword(context!!,keyword)
             goalTextView.text = keyword
+            BasicDB.setInit(context!!,true)
         }else
         goalTextView.text = BasicDB.getKeyword(context!!)
 
@@ -193,7 +201,6 @@ class TodayGoalFragment : Fragment() {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
                 if(p1>MaxsizeSeekBar.progress)
                 {
-                    Toast.makeText(context,"최대 크기보다 작아야 합니다.",Toast.LENGTH_LONG).show()
                     MinsizeSeekBar.progress = MaxsizeSeekBar.progress
                 }else
                 drawView.setMinStrokeWidth(p1/2f)
@@ -293,7 +300,7 @@ class TodayGoalFragment : Fragment() {
                 it.setImageResource(R.drawable.zoom)
                 mode = brush
                 drawView.setColor(brushColor)
-                it.setImageResource(R.drawable.brush_selected)
+                paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush_selected)
             }
         }
 

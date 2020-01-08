@@ -1,5 +1,7 @@
 package com.mut_jaeryo.givmkeyword
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -88,13 +90,13 @@ class MainActivity : FragmentActivity() {
     }
 
     override fun onBackPressed() {
-        if(mPager.currentItem == 0 )
-        {
-            super.onBackPressed()
-        }else
-        {
-            mPager.currentItem = mPager.currentItem-1
-        }
+
+        AlertDialog.Builder(this).setMessage("나가면 그림이 저장되지 않습니다. \n 나가시겠습니까?")
+                .setPositiveButton("나가기"){ _: DialogInterface, i: Int ->
+                    super.onBackPressed()
+                }.setNegativeButton("취소"){_: DialogInterface, i: Int ->
+
+                }.show()
     }
 
     override fun onDestroy() {

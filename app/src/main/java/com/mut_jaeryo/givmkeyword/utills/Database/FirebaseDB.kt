@@ -31,8 +31,10 @@ class FirebaseDB{
 
 
             val baos = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            image.compress(Bitmap.CompressFormat.PNG, 100, baos)
             val data_byte = baos.toByteArray()
+
+
 
             val uploadTask = imagesRef!!.putBytes(data_byte)
             uploadTask.addOnFailureListener {
@@ -53,7 +55,8 @@ class FirebaseDB{
                             DrawingDB.db.DrawingInsert(doc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
 
 
-                            Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show() }
+                            Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show()
+                        }
                         .addOnCanceledListener {
                             Toast.makeText(activity, "서버에 저장이 실패했습니다 ㅠㅠ", Toast.LENGTH_LONG).show()
                             imagesRef.delete()
@@ -65,20 +68,11 @@ class FirebaseDB{
         }
 
 
-//        public fun getMineDrawings(context: Context): ArrayList<drawingItem> {
-//
-//            val drawingDB = DrawingDB(context)
-//            drawingDB.open()
-//            val array: ArrayList<drawingItem> = drawingDB.getMyDrawing()
-//            drawingDB.close()
-//            return array
-//        }
-//
         fun changeHeart(item: drawingItem,context: Context){
             val db = FirebaseFirestore.getInstance()
 
 
-            val sfDocRef = db.collection(item.keyword).document(item.id)
+            val sfDocRef = db.collection(item.keyword ?: "").document(item.id ?: "")
 
             db.runTransaction { transaction ->
                 val snapshot = transaction.get(sfDocRef)
@@ -99,7 +93,7 @@ class FirebaseDB{
                 // Success
                 null
             }.addOnSuccessListener {
-                DrawingDB.db.changeHeart(item.id,item.isHeart)
+                DrawingDB.db.changeHeart(item.id ?: "",item.isHeart)
                 item.heart = if (item.isHeart) item.heart +1 else item.heart - 1
                 item.isHeart = !item.isHeart
             }.addOnFailureListener {
@@ -111,7 +105,7 @@ class FirebaseDB{
             val db = FirebaseFirestore.getInstance()
 
 
-            val sfDocRef = db.collection(item.keyword).document(item.id)
+            val sfDocRef = db.collection(item.keyword ?: "").document(item.id ?: "")
 
             db.runTransaction { transaction ->
                 val snapshot = transaction.get(sfDocRef)
@@ -131,4 +125,5 @@ class FirebaseDB{
 
         }
     }
+
 }

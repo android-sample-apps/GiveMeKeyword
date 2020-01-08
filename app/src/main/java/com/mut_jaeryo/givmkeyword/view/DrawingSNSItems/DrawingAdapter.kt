@@ -2,6 +2,7 @@ package com.mut_jaeryo.givmkeyword.view.DrawingSNSItems
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -14,6 +15,7 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
+import com.mut_jaeryo.givmkeyword.DrawingMainActivity
 import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
@@ -53,55 +55,13 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         val id = arrayList[position].id
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.png")
 
-//        holder.more.setOnClickListener {
-//            val builder = AlertDialog.Builder(activity)
-//                    .setItems(arrayOf("신고..")) { _, position ->
-//                        when(position){
-//                            0-> {
-//                                //신고
-//                                FirebaseDB.addHate(arrayList[position],activity.applicationContext)
-//                            }
-//                        }
-//                    }
-//                    .create()
-//
-//            builder.show()
-//
-//        }
+        holder.ImageContainer.setOnClickListener{
+            val intent = Intent(activity,DrawingMainActivity::class.java)
+            intent.putExtra("data",item)
+            activity.startActivity(intent)
+        }
 
-//        holder.ImageContainer.setOnClickListener(
-//
-//            DoubleClick(object : DoubleClickListener{
-//                override fun onDoubleClick(view: View?) {
-//              //      clickListener.onHeartClick(view!!,position)
-//
-//                    FirebaseDB.changeHeart(arrayList[position],activity.applicationContext)
-//
-//                    val drawable:Drawable = holder.heart.drawable
-//                    holder.heart.alpha = 0.7f
-//
-//                    when(drawable)
-//                    {
-//                        is AnimatedVectorDrawable ->{
-//                            drawable.start()
-//                        }
-//
-//                        is AnimatedVectorDrawableCompat->{
-//                            drawable.start()
-//                        }
-//                    }
-//
-//                    holder.favorite_image.setImageResource(R.drawable.favorite)
-//
-//                    Toast.makeText(activity,"더블 클릭",Toast.LENGTH_LONG).show()
-//                }
-//
-//                override fun onSingleClick(view: View?) {
-//
-//                }
-//
-//            })
-//        )
+
 //        if(item.heart == 0)
 //        holder.favorite_text.visibility = View.INVISIBLE
 //        else
