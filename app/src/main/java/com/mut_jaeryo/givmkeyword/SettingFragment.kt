@@ -93,7 +93,7 @@ class SettingFragment : Fragment() {
 
                         doc.get().addOnSuccessListener { document ->
                             if (document != null) {
-                                 AlertUtills.ExistSameNameAlert(context!!)
+                                 AlertUtills.TitleAlert(context!!,"이름 중복","동일한 이름의 사용자가 존재합니다.")
                                  dialogInterface.dismiss()
                             } else {
                                 val data = hashMapOf(

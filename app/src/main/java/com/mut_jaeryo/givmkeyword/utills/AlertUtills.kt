@@ -17,11 +17,11 @@ class AlertUtills {
                     .show()
         }
 
-        fun ExistSameNameAlert(context: Context)
+        fun TitleAlert(context: Context,title:String,content:String)
         {
             SweetAlertDialog(context)
-                    .setTitleText("이름 중복")
-                    .setContentText("동일한 이름의 사용자가 존재합니다!")
+                    .setTitleText(title)
+                    .setContentText(content)
                     .show()
         }
 

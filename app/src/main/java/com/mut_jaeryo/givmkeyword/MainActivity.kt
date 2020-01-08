@@ -19,14 +19,14 @@ import kotlin.collections.ArrayList
 
 class MainActivity : FragmentActivity() {
 
-    private lateinit var mPager:ViewPager2
+    private lateinit var mPager: ViewPager2
 
-
+    private lateinit var tabLayout: TabLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(!BasicDB.getInit(applicationContext)) //알람 설정
+        if (!BasicDB.getInit(applicationContext)) //알람 설정
         {
             SendAlert.setAlert(applicationContext, GregorianCalendar())
         }
@@ -36,17 +36,17 @@ class MainActivity : FragmentActivity() {
 
         mPager = findViewById(R.id.main_pager)
 
-       mPager.isUserInputEnabled = false
-        val arrayList:ArrayList<Fragment> = ArrayList()
+        mPager.isUserInputEnabled = false
+        val arrayList: ArrayList<Fragment> = ArrayList()
         arrayList.add(TodayGoalFragment())
         arrayList.add(StoryFragment())
         arrayList.add(SettingFragment())
 
-        val adapter:ScreenSlidePagerAdapter = ScreenSlidePagerAdapter(this,arrayList)
+        val adapter: ScreenSlidePagerAdapter = ScreenSlidePagerAdapter(this, arrayList)
 
         mPager.adapter = adapter
-        val tabLayout:TabLayout = findViewById(R.id.main_tabLayout)
-        tabLayout.addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener{
+        tabLayout = findViewById(R.id.main_tabLayout)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {
 
             }
@@ -54,8 +54,8 @@ class MainActivity : FragmentActivity() {
             override fun onTabUnselected(p0: TabLayout.Tab?) {
                 val position = p0!!.position
                 p0.text = ""
-                val icon:Int
-                when(position){
+                val icon: Int
+                when (position) {
                     0 -> icon = R.drawable.draw_utility
                     1 -> icon = R.drawable.story
                     else -> icon = R.drawable.settings
@@ -67,8 +67,8 @@ class MainActivity : FragmentActivity() {
                 val position = p0!!.position
                 mPager.currentItem = position
 
-                val icon:Int
-                when(position){
+                val icon: Int
+                when (position) {
                     0 -> {
                         icon = R.drawable.draw_utility_white
                         p0.text = "그림"
@@ -86,9 +86,12 @@ class MainActivity : FragmentActivity() {
             }
 
         })
-
     }
 
+    public fun goToEditName()
+    {
+        tabLayout.getTabAt(2)!!.select()
+    }
     override fun onBackPressed() {
 
         AlertDialog.Builder(this).setMessage("나가면 그림이 저장되지 않습니다. \n 나가시겠습니까?")

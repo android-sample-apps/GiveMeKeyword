@@ -92,10 +92,10 @@ class TodayGoalFragment : Fragment() {
 
             if (BasicDB.getName(context!!) == "이름 미정") {
 
-                AlertUtills.BasicAlert(context!!,"test")
+                (activity as MainActivity).goToEditName()
+                AlertUtills.BasicAlert(context!!,"이름을 등록해주세요!")
             } else { //go to upload Activity
                 ImageSave.drawingImage = drawView.bitmap
-
                 val intent = Intent(activity, UploadActivity::class.java)
                 startActivity(intent)
             }
