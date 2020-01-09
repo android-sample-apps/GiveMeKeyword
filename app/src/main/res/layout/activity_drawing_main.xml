@@ -33,8 +33,18 @@
                     android:layout_marginRight="10dp"
                     android:background="@null"
                     android:src="@drawable/more_btn">
-
                 </ImageButton>
+
+
+                <ImageButton
+                    android:id="@+id/drawing_main_favorite"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@id/drawing_main_more"
+                    android:background="@null"
+                    android:src="@drawable/favorite_none">
+                </ImageButton>
+
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -134,8 +144,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="좋아하는 사람"
+                android:id="@+id/drawing_slide_favorite_count"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:textColor="#000000"
                 android:drawableTop="@drawable/favorite">
             </TextView>
 

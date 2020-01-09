@@ -43,6 +43,9 @@ class DrawingMainActivity : AppCompatActivity() {
 
             builder.show()
         }
+
+        if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         drawing_main_name.text = item?.name ?: ""
 
@@ -65,9 +68,8 @@ class DrawingMainActivity : AppCompatActivity() {
                             }
                         }
 
-//                    holder.favorite_image.setImageResource(R.drawable.favorite)
-//
-//                    Toast.makeText(activity,"더블 클릭",Toast.LENGTH_LONG).show()
+                        drawing_main_favorite.setImageResource(R.drawable.favorite)
+
                     }
 
                     override fun onSingleClick(view: View?) {
@@ -77,6 +79,7 @@ class DrawingMainActivity : AppCompatActivity() {
                 }))
 
         drawing_main_content.text =  item?.content ?: ""
+        drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
