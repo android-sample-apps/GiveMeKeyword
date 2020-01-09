@@ -32,5 +32,20 @@ class AlertUtills {
                     .show()
         }
 
+
+        fun ErrorAlert(context:Context,content:String)
+        {
+            SweetAlertDialog(context,SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText(content)
+                    .show()
+        }
+
+        fun SuccessAlert(context:Context,content:String)
+        {
+            SweetAlertDialog(context,SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText(content)
+                    .show()
+        }
+
     }
 }

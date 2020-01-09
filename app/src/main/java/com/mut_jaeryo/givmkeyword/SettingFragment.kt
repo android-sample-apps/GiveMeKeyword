@@ -49,7 +49,7 @@ class SettingFragment : Fragment() {
         setting_profile_name.text = BasicDB.getName(context!!)
         setting_alert_sound_switch.isChecked = BasicDB.getSound(context!!)
 
-        setting_alert_vibration_switch.isChecked = BasicDB.getSound(context!!)
+        setting_alert_vibration_switch.isChecked = BasicDB.getVibradtion(context!!)
 
         val switchListner = CompoundButton.OnCheckedChangeListener { p0, p1 ->
             when (p0!!.id) {
@@ -93,7 +93,7 @@ class SettingFragment : Fragment() {
 
                         doc.get().addOnSuccessListener { document ->
                             if (document != null) {
-                                 AlertUtills.TitleAlert(context!!,"이름 중복","동일한 이름의 사용자가 존재합니다.")
+                                 AlertUtills.ErrorAlert(context!!,"동일한 이름의 사용자가 존재합니다.")
                                  dialogInterface.dismiss()
                             } else {
                                 val data = hashMapOf(
@@ -105,11 +105,11 @@ class SettingFragment : Fragment() {
                                             BasicDB.setName(context!!, name)
                                             setting_profile_name.text = name
 //                                            Toast.makeText(context, "이름이 변경되었습니다", Toast.LENGTH_LONG).show()
-                                            AlertUtills.BasicAlert(context!!,"이름이 변경되었습니다")
+                                            AlertUtills.SuccessAlert(context!!,"이름이 변경되었습니다")
                                         }
                                         .addOnCanceledListener {
 //                                            Toast.makeText(context, "잠시 후에 다시 시도해주세요", Toast.LENGTH_LONG).show()
-                                            AlertUtills.BasicAlert(context!!,"잠시 후에 다시 시도해주세요")
+                                            AlertUtills.ErrorAlert(context!!,"잠시 후에 다시 시도해주세요")
                                         }
                             }
                         }.addOnFailureListener { exception ->

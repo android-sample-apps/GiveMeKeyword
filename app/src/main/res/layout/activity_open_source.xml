@@ -212,6 +212,89 @@
                 android:id="@+id/open_source_readMoreText_tv2"
                 android:layout_marginLeft="30dp">
             </TextView>
+
+
+
+            <TextView
+                android:id="@+id/open_source_sweet_alert_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/open_source_readMoreText_tv2"
+                android:textSize="16sp"
+                android:layout_marginLeft="15dp"
+                android:text="sweet-alert-dialog"
+                android:textColor="#000000">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="https://github.com/pedant/sweet-alert-dialog"
+                android:id="@+id/open_source_sweet_alert_dialog_link"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@id/open_source_sweet_alert_dialog">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright umano"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@id/open_source_slide_up_link"
+                android:id="@+id/open_source_slide_up_tv"
+                ></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="The MIT License (MIT)"
+                android:layout_below="@id/open_source_sweet_alert_dialog_tv"
+                android:id="@+id/open_source_sweet_alert_dialog_tv2"
+                android:layout_marginLeft="30dp">
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/open_source_slide_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/open_source_sweet_alert_dialog_tv2"
+                android:textSize="16sp"
+                android:layout_marginLeft="15dp"
+                android:text="AndroidSlidingUpPanel"
+                android:textColor="#000000">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="https://github.com/umano/AndroidSlidingUpPanel"
+                android:id="@+id/open_source_slide_up_link"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@id/open_source_slide_up">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Copyright (c) 2014 Pedant(http://pedant.cn)"
+                android:layout_marginLeft="30dp"
+                android:layout_below="@id/open_source_sweet_alert_dialog_link"
+                android:id="@+id/open_source_sweet_alert_dialog_tv"
+                ></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apache License, Version 2.0"
+                android:layout_below="@id/open_source_slide_up_tv"
+                android:id="@+id/open_source_slide_up_tv2"
+                android:layout_marginLeft="30dp">
+            </TextView>
         </RelativeLayout>
 
     </ScrollView>

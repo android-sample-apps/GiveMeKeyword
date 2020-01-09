@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import java.io.ByteArrayOutputStream
@@ -24,7 +25,7 @@ class FirebaseDB{
         public fun saveDrawing(activity:Activity,keyword: String, image: Bitmap, name: String, content: String): Boolean {
 
             val db = FirebaseFirestore.getInstance().collection(keyword)
-            val doc = db.document() //고유 id를 자동으로 생성
+            var doc = db.document() //고유 id를 자동으로 생성
 
 
             val imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("images/" + doc.id + ".png")
@@ -38,10 +39,10 @@ class FirebaseDB{
 
             val uploadTask = imagesRef!!.putBytes(data_byte)
             uploadTask.addOnFailureListener {
-                Toast.makeText(activity, "서버에 저장이 실패했습니다 ㅠㅠ", Toast.LENGTH_LONG).show()
+                AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
                 Log.d("ImageUpload", "failed")
             }.addOnSuccessListener {
-                val data = hashMapOf(
+                var data = hashMapOf(
                         "name" to name,
                         "content" to content,
                         "heart" to 0,
@@ -54,13 +55,28 @@ class FirebaseDB{
 
                             DrawingDB.db.DrawingInsert(doc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
 
+                            doc = doc.collection("images").document(doc.id)
+                            data = hashMapOf(
+                                    "exist" to true
+                            )
 
-                            Toast.makeText(activity, "저장에 성공했습니다.", Toast.LENGTH_LONG).show()
+                            doc.set(data)
+                                    .addOnSuccessListener {
+                                        AlertUtills.SuccessAlert(activity.applicationContext,"저장에 성공했습니다")
+                                    }.addOnFailureListener {
+                                        AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
+                                    }
+
+
                         }
                         .addOnCanceledListener {
-                            Toast.makeText(activity, "서버에 저장이 실패했습니다 ㅠㅠ", Toast.LENGTH_LONG).show()
+                            AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
                             imagesRef.delete()
                             Log.d("Document", "failed")
+                        }
+                        .addOnFailureListener {
+                            AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
+                            imagesRef.delete()
                         }
             }
 
@@ -72,7 +88,7 @@ class FirebaseDB{
             val db = FirebaseFirestore.getInstance()
 
 
-            val sfDocRef = db.collection(item.keyword ?: "").document(item.id ?: "")
+            var sfDocRef = db.collection(item.keyword ?: "").document(item.id ?: "")
 
             db.runTransaction { transaction ->
                 val snapshot = transaction.get(sfDocRef)
@@ -80,8 +96,7 @@ class FirebaseDB{
                 // Note: this could be done without a transaction
                 //       by updating the population using FieldValue.increment()
                 var heartNum = snapshot.getLong("heart")!!.toInt()
-                if(item.isHeart){
-
+                if(!item.isHeart){
                     heartNum++
                 }
                 else {
@@ -96,8 +111,31 @@ class FirebaseDB{
                 DrawingDB.db.changeHeart(item.id ?: "",item.isHeart)
                 item.heart = if (item.isHeart) item.heart +1 else item.heart - 1
                 item.isHeart = !item.isHeart
+
+                val doc = sfDocRef.collection("hearts").document(BasicDB.getName(context)!!)
+
+                if(item.isHeart)
+                {
+
+                    val data = hashMapOf(
+                            "exist" to true
+                    )
+
+                    doc.set(data)
+                            .addOnSuccessListener {
+
+                            }.addOnFailureListener {
+                                AlertUtills.ErrorAlert(context,"현재 서버문제로 좋아요 기능이 실패했습니다.")
+                            }.addOnCanceledListener {
+                                AlertUtills.ErrorAlert(context,"현재 서버문제로 좋아요 기능이 실패했습니다.")
+                            }
+                }else
+                {
+                    doc.delete()
+                }
+
             }.addOnFailureListener {
-                        Toast.makeText(context,"현재 서버문제로 좋아요 기능을 사용할 수 없습니다.",Toast.LENGTH_SHORT).show()
+                AlertUtills.ErrorAlert(context,"현재 서버문제로 좋아요 기능을 사용할 수 없습니다.")
                     }
 
         }
@@ -113,14 +151,14 @@ class FirebaseDB{
                 // Note: this could be done without a transaction
                 //       by updating the population using FieldValue.increment()
                 val heartNum = snapshot.getLong("hate")!!.toInt() + 1
-
                 transaction.update(sfDocRef, "heart", heartNum)
 
                 // Success
                 null
             }.addOnSuccessListener {  }
                     .addOnFailureListener {
-                        Toast.makeText(context,"현재 서버문제로 신고 기능을 사용할 수 없습니다.",Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context,"현재 서버문제로 신고 기능을 사용할 수 없습니다.",Toast.LENGTH_SHORT).show()
+                        AlertUtills.ErrorAlert(context,"현재 서버문제로 신고 기능을 사용할 수 없습니다.")
                     }
 
         }
