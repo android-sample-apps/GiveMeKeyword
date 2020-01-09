@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#eeeeee"
     tools:context=".TodayGoalFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -462,7 +462,7 @@
             android:id="@+id/draw_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="7dp" />
+        />
     </RelativeLayout>
 
 

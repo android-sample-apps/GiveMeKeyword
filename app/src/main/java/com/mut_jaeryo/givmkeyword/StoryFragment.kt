@@ -36,6 +36,7 @@ class StoryFragment : Fragment() {
         super.onResume()
         TodayGoal = BasicDB.getKeyword(context!!) ?: ""
         //GoalTextView.text = TodayGoal
+        Keyword_array.clear()
         SettingRecycler()
     }
 
@@ -81,28 +82,31 @@ class StoryFragment : Fragment() {
     fun SettingRecycler(){
 
 
+        Keyword_array.add(drawingItem("","","test","",0,false))
 
-        val db = FirebaseFirestore.getInstance()
+        adater.notifyDataSetChanged()
 
-        db.collection(TodayGoal)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val name: String = document.getString("name") ?: "알수없음"
-                        val content: String = document.getString("content") ?: ""
-                        val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
-                        Keyword_array.add(drawingItem(document.id,TodayGoal,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
-                    }
-
-                    if(Keyword_array.size>0)
-                    adater.notifyDataSetChanged()
-                    else
-                        UploadedZero()
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("GetDrawing", "Error getting documents: ", exception)
-                    UploadedZero()
-                }
+//        val db = FirebaseFirestore.getInstance()
+//
+//        db.collection(TodayGoal)
+//                .get()
+//                .addOnSuccessListener { documents ->
+//                    for (document in documents) {
+//                        val name: String = document.getString("name") ?: "알수없음"
+//                        val content: String = document.getString("content") ?: ""
+//                        val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
+//                        Keyword_array.add(drawingItem(document.id,TodayGoal,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
+//                    }
+//
+//                    if(Keyword_array.size>0)
+//                    adater.notifyDataSetChanged()
+//                    else
+//                        UploadedZero()
+//                }
+//                .addOnFailureListener { exception ->
+//                    Log.w("GetDrawing", "Error getting documents: ", exception)
+//                    UploadedZero()
+//                }
     }
 
 

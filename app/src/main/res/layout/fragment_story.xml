@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     tools:context=".StoryFragment">
 
 
@@ -25,7 +26,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_below="@id/today_story_t1"
-        android:background="#eeeeee"
         android:id="@+id/story_recycler"
         android:layout_height="match_parent"
         >

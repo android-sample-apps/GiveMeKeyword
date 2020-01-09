@@ -44,7 +44,6 @@ class DrawingMainActivity : AppCompatActivity() {
             builder.show()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         drawing_main_name.text = item?.name ?: ""
 
         drawing_main_image.setOnClickListener(
