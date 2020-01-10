@@ -17,7 +17,7 @@
         android:gravity="center"
         android:text="그림"
         android:textColor="#000000"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"></TextView>
 
     <ImageButton
@@ -455,13 +455,14 @@
         android:layout_width="match_parent"
         android:layout_below="@id/today_goal_t1"
         android:layout_marginTop="10dp"
-        android:background="@color/colorNotAccent"
+        android:background="#eeeeee"
         android:layout_height="match_parent"
         >
         <com.mut_jaeryo.givmkeyword.view.InkView
             android:id="@+id/draw_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="7dp"
         />
     </RelativeLayout>
 

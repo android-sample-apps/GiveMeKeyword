@@ -8,8 +8,10 @@ import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,7 +31,7 @@ class StoryFragment : Fragment() {
 
     lateinit var TodayGoal:String
     lateinit var adater: DrawingAdapter
-
+    var newest = true
     lateinit var Keyword_array:ArrayList<drawingItem>
 
     override fun onResume() {
@@ -63,6 +65,41 @@ class StoryFragment : Fragment() {
         story_recycler.visibility = View.GONE
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
+        sort_newest.setOnTouchListener{ view: View, motionEvent: MotionEvent ->
+            when(motionEvent.action)
+            {
+                MotionEvent.ACTION_DOWN ->{
+                    if(!newest) {
+                        newest= true
+                        (view as Button).background= context!!.getDrawable(R.drawable.round_ripple)
+                        sort_hottest.setBackgroundResource(0)
+
+                    }
+                }
+
+            }
+            //true하면 터치가 막힌다.
+            false
+        }
+
+        sort_hottest.setOnTouchListener{ view: View, motionEvent: MotionEvent ->
+            when(motionEvent.action)
+            {
+                MotionEvent.ACTION_DOWN ->{
+                    if(newest) {
+                        newest = false
+                        (view as Button).background= context!!.getDrawable(R.drawable.round_ripple)
+                        sort_newest.setBackgroundResource(0)
+
+                    }
+                }
+            }
+            false
+        }
+
+
         Keyword_array = ArrayList()
         TodayGoal = BasicDB.getKeyword(context!!) ?: ""
         val spaceDecoration = RecyclerDecoration(40)
@@ -77,6 +114,7 @@ class StoryFragment : Fragment() {
 
         story_recycler.layoutManager = GridLayoutManager(context, spanCount)
         SettingRecycler()
+
     }
 
     fun SettingRecycler(){
