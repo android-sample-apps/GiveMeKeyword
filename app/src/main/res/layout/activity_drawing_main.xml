@@ -54,6 +54,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/drawing_main_appbar"
         app:umanoDragView="@id/dragview"
+        android:id="@+id/darwing_slide_up"
+        app:umanoScrollableView="@id/dragview"
         android:gravity="bottom"
         app:umanoPanelHeight="60dp"
         app:umanoShadowHeight="0dp"
@@ -151,6 +153,37 @@
                 android:drawableTop="@drawable/favorite">
             </TextView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/draw_slide_favorite_list"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/drawing_slide_refreshLayout"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+                android:id="@+id/progress_wheel"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:barWidth="1dp"
+                app:barColor="@color/colorPrimary"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="불러오는 중">
+            </TextView>
+
+        </LinearLayout>
     </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

@@ -8,17 +8,22 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClickListener
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import com.mut_jaeryo.givmkeyword.view.Items.favoriteitem
+import com.mut_jaeryo.givmkeyword.view.favoriteAdapter
 import kotlinx.android.synthetic.main.activity_drawing_main.*
 
 
 class DrawingMainActivity : AppCompatActivity() {
 
     var item: drawingItem? = null
+    lateinit var arraylist: ArrayList<favoriteitem>
+    lateinit var adapter: favoriteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +85,9 @@ class DrawingMainActivity : AppCompatActivity() {
 
         drawing_main_content.text =  item?.content ?: ""
         drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
+
+
+        draw_slide_favorite_list.layoutManager = LinearLayoutManager(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
