@@ -53,7 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/drawing_main_appbar"
-        app:umanoDragView="@id/dragview"
         android:id="@+id/darwing_slide_up"
         app:umanoScrollableView="@id/dragview"
         android:gravity="bottom"
@@ -133,7 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/drawing_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dragview"
@@ -156,6 +155,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_below="@id/drawing_slide_favorite_count"
             android:id="@+id/draw_slide_favorite_list"
             >
         </androidx.recyclerview.widget.RecyclerView>
@@ -164,7 +165,8 @@
             android:layout_width="wrap_content"
             android:id="@+id/drawing_slide_refreshLayout"
             android:orientation="horizontal"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/draw_slide_favorite_list"
             android:visibility="gone"
             android:layout_height="wrap_content">
 
@@ -184,6 +186,16 @@
             </TextView>
 
         </LinearLayout>
-    </LinearLayout>
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/drawing_friend_progress"
+            android:layout_width="30dp"
+            android:visibility="invisible"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            app:barWidth="1dp"
+            app:barColor="@color/colorPrimary"
+            />
+    </RelativeLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

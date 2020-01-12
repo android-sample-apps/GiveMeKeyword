@@ -92,7 +92,7 @@ class SettingFragment : Fragment() {
                         val doc = db.document(name) //고유 id를 자동으로 생성
 
                         doc.get().addOnSuccessListener { document ->
-                            if (document != null) {
+                            if (document.exists()) {
                                  AlertUtills.ErrorAlert(context!!,"동일한 이름의 사용자가 존재합니다.")
                                  dialogInterface.dismiss()
                             } else {

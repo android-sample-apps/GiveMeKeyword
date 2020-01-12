@@ -13,10 +13,13 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.DrawingMainActivity
 import com.mut_jaeryo.givmkeyword.R
+import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
@@ -82,16 +85,18 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
 
         //이미지 불러오기
 
-//        storageReference.downloadUrl.addOnCompleteListener { task: Task<Uri> ->
-//            if(task.isSuccessful){
-//                Glide.with(activity.applicationContext)
-//                        .load(task.result)
-//                        .into(holder.ImageContainer)
-//            }else
-//            {
-//                Toast.makeText(activity,"서버에서 이미지를 불러오기 실패했습니다",Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        storageReference.downloadUrl.addOnCompleteListener { task: Task<Uri> ->
+            if(task.isSuccessful){
+                Glide.with(activity.applicationContext)
+                        .load(task.result)
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
+                        .into(holder.ImageContainer)
+            }else
+            {
+                AlertUtills.ErrorAlert(activity.applicationContext,"서버에서 이미지를 불러오기 실패했습니다")
+               // Toast.makeText(activity,"서버에서 이미지를 불러오기 실패했습니다",Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
     }

@@ -28,7 +28,7 @@ class AlertUtills {
         fun BasicAlert(context: Context,content:String)
         {
             SweetAlertDialog(context)
-                    .setTitleText(content)
+                    .setContentText(content)
                     .show()
         }
 
@@ -36,14 +36,14 @@ class AlertUtills {
         fun ErrorAlert(context:Context,content:String)
         {
             SweetAlertDialog(context,SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText(content)
+                    .setContentText(content)
                     .show()
         }
 
         fun SuccessAlert(context:Context,content:String)
         {
             SweetAlertDialog(context,SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(content)
+                    .setContentText(content)
                     .show()
         }
 

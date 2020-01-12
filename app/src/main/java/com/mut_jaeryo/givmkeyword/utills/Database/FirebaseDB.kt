@@ -3,18 +3,16 @@ package com.mut_jaeryo.givmkeyword.utills.Database
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
-import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import java.io.ByteArrayOutputStream
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 //이미지 저장, 삭제 , 조회 구현
@@ -28,6 +26,12 @@ class FirebaseDB{
             var doc = db.document() //고유 id를 자동으로 생성
 
 
+            val pDialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
+            pDialog.progressHelper.barColor = Color.parseColor("##4285F4")
+            pDialog.titleText = "Uploading"
+            pDialog.setCancelable(false)
+            pDialog.show()
+
             val imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("images/" + doc.id + ".png")
 
 
@@ -39,8 +43,10 @@ class FirebaseDB{
 
             val uploadTask = imagesRef!!.putBytes(data_byte)
             uploadTask.addOnFailureListener {
+                pDialog.dismissWithAnimation()
                 AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
                 Log.d("ImageUpload", "failed")
+                activity.finish()
             }.addOnSuccessListener {
                 var data = hashMapOf(
                         "name" to name,
@@ -62,21 +68,28 @@ class FirebaseDB{
 
                             doc.set(data)
                                     .addOnSuccessListener {
+                                        pDialog.dismissWithAnimation()
                                         AlertUtills.SuccessAlert(activity.applicationContext,"저장에 성공했습니다")
+                                        activity.finish()
                                     }.addOnFailureListener {
                                         AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
+                                        activity.finish()
                                     }
 
 
                         }
                         .addOnCanceledListener {
+                            pDialog.dismissWithAnimation()
                             AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
                             imagesRef.delete()
+                            activity.finish()
                             Log.d("Document", "failed")
                         }
                         .addOnFailureListener {
+                            pDialog.dismissWithAnimation()
                             AlertUtills.ErrorAlert(activity.applicationContext,"현재 서버문제로 저장에 실패했습니다.")
                             imagesRef.delete()
+                            activity.finish()
                         }
             }
 

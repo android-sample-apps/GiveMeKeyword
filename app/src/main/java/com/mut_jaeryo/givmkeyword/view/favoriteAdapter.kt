@@ -1,8 +1,10 @@
 package com.mut_jaeryo.givmkeyword.view
 
 import android.app.Activity
+import android.content.Intent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.mut_jaeryo.givmkeyword.DrawingMainActivity
 import com.mut_jaeryo.givmkeyword.R
 
 import com.mut_jaeryo.givmkeyword.view.Items.favoriteitem
@@ -26,12 +28,6 @@ class favoriteAdapter(var arrayList: ArrayList<favoriteitem>, val activity : Act
 
 
         holder.name.text =  item.name
-
-//        holder.ImageContainer.setOnClickListener{
-//            val intent = Intent(activity,DrawingMainActivity::class.java)
-//            intent.putExtra("data",item)
-//            activity.startActivity(intent)
-//        }
 
     }
 }

@@ -4,26 +4,36 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClickListener
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.Items.favoriteitem
 import com.mut_jaeryo.givmkeyword.view.favoriteAdapter
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.activity_drawing_main.*
 
 
 class DrawingMainActivity : AppCompatActivity() {
 
     var item: drawingItem? = null
-    lateinit var arraylist: ArrayList<favoriteitem>
+    var arraylist: ArrayList<favoriteitem>? = null
+    lateinit var query : Query
+    var canScroll = true
     lateinit var adapter: favoriteAdapter
+    val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +97,99 @@ class DrawingMainActivity : AppCompatActivity() {
         drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
 
 
+
         draw_slide_favorite_list.layoutManager = LinearLayoutManager(this)
+
+        darwing_slide_up.addPanelSlideListener(object: SlidingUpPanelLayout.PanelSlideListener{
+            override fun onPanelSlide(panel: View?, slideOffset: Float) {
+
+            }
+
+            override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+                when(newState)
+                {
+                    SlidingUpPanelLayout.PanelState.EXPANDED ->{
+                        if(arraylist==null) {
+                            drawing_friend_progress.visibility = View.VISIBLE
+                            drawing_friend_progress.spin()
+
+                            arraylist = ArrayList()
+                            adapter = favoriteAdapter(arraylist!!, this@DrawingMainActivity)
+                            draw_slide_favorite_list.adapter = adapter
+
+                            //돌고있는중
+                            query = db.collection(item!!.keyword!!).document(item!!.id!!).collection("hearts")
+                                    .limit(25)
+
+                            loadFavorite(false)
+                        }
+                    }
+                }
+            }
+        })
+
+        draw_slide_favorite_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (!draw_slide_favorite_list.canScrollVertically(-1)) {
+                    Log.i("list", "Top of list")
+                } else if (!draw_slide_favorite_list.canScrollVertically(1)) {
+                    Log.i("list", "End of list")
+                    if(canScroll)
+                    {
+                        drawing_slide_refreshLayout.visibility = View.VISIBLE
+                        progress_wheel.spin()
+                        loadFavorite(true)
+                    }
+                } else {
+                    Log.i("list", "idle")
+                }
+            }
+        })
+    }
+
+    private fun loadFavorite(recyclerRefresh : Boolean){
+        query.get()
+                .addOnSuccessListener { querySnapshot ->
+
+                    if(!recyclerRefresh)
+                    {
+                        Handler().postDelayed({
+                            drawing_friend_progress.stopSpinning()
+                        },1500)
+                    }
+                    else
+                        EndRefresh()
+                    try {
+                        val lastVisible = querySnapshot.documents[querySnapshot.size() - 1]
+                        query = db.collection(item!!.keyword!!).document(item!!.id!!).collection("hearts")
+                                .startAfter(lastVisible)
+                                .limit(25)
+
+                        for (document in querySnapshot) {
+                            val name: String = document.id
+                            arraylist!!.add(favoriteitem(name))
+                        }
+
+                        canScroll = !(arraylist!!.size < 25)
+                        adapter.notifyDataSetChanged()
+                    }catch (e : ArrayIndexOutOfBoundsException)
+                    {
+                        canScroll = false
+                    }
+                }.addOnFailureListener {
+                    drawing_friend_progress.stopSpinning()
+                    AlertUtills.ErrorAlert(applicationContext, "불러오기 실패했습니다 ㅠㅠ")
+                    darwing_slide_up.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                }
+    }
+
+    private fun EndRefresh()
+    {
+        Handler().postDelayed({
+            progress_wheel.stopSpinning()
+            drawing_slide_refreshLayout.visibility = View.GONE
+        },1500)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
