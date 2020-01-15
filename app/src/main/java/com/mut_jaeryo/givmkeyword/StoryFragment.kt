@@ -50,6 +50,13 @@ class StoryFragment : Fragment() {
         val keyword = BasicDB.getKeyword(context!!) ?: ""
         if(TodayGoal != keyword) {
             TodayGoal = keyword
+
+            newest_more = true
+            hottest_more = true
+            newest = true
+            newest_last = null
+            hottest_array=null
+            hottest_last = null
             //GoalTextView.text = TodayGoal
             drawing_story_progress.visibility = View.VISIBLE
             drawing_story_progress.spin()
