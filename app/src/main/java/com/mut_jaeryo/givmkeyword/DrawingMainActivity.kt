@@ -148,6 +148,7 @@ class DrawingMainActivity : AppCompatActivity() {
     }
 
     private fun loadFavorite(recyclerRefresh : Boolean){
+        var moreCheck = 0
         query.get()
                 .addOnSuccessListener { querySnapshot ->
 
@@ -168,9 +169,10 @@ class DrawingMainActivity : AppCompatActivity() {
                         for (document in querySnapshot) {
                             val name: String = document.id
                             arraylist!!.add(favoriteitem(name))
+                            moreCheck++
                         }
 
-                        canScroll = !(arraylist!!.size < 25)
+                        canScroll = !(moreCheck < 25)
                         adapter.notifyDataSetChanged()
                     }catch (e : ArrayIndexOutOfBoundsException)
                     {

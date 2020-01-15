@@ -47,6 +47,11 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         return drawingHolder(view)
     }
 
+
+    fun changeArray(array:ArrayList<drawingItem>)
+    {
+        arrayList = array
+    }
     override fun getItemCount(): Int  = arrayList.size
 
     override fun onBindViewHolder(holder: drawingHolder, position: Int) {
@@ -88,6 +93,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         storageReference.downloadUrl.addOnCompleteListener { task: Task<Uri> ->
             if(task.isSuccessful){
                 Glide.with(activity.applicationContext)
+                        .asBitmap()
                         .load(task.result)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
                         .into(holder.ImageContainer)

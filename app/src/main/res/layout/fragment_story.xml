@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#eeeeee"
     tools:context=".StoryFragment">
 
@@ -73,4 +74,14 @@
         android:textColor="#000000"
         >
     </TextView>
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/drawing_story_progress"
+        android:layout_width="30dp"
+        android:visibility="invisible"
+        android:layout_height="30dp"
+        android:layout_centerInParent="true"
+        app:barWidth="1.5dp"
+        app:barColor="@color/colorPrimary"
+        />
 </RelativeLayout>

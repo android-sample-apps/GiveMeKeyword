@@ -193,7 +193,7 @@
             android:visibility="invisible"
             android:layout_height="30dp"
             android:layout_centerInParent="true"
-            app:barWidth="1dp"
+            app:barWidth="1.5dp"
             app:barColor="@color/colorPrimary"
             />
     </RelativeLayout>

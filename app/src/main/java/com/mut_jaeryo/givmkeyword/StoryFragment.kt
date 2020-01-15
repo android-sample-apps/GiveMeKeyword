@@ -15,12 +15,15 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import kotlinx.android.synthetic.main.activity_drawing_main.*
 import kotlinx.android.synthetic.main.fragment_story.*
 
 /**
@@ -33,6 +36,14 @@ class StoryFragment : Fragment() {
     lateinit var adater: DrawingAdapter
     var newest = true
     lateinit var Keyword_array:ArrayList<drawingItem>
+    var hottest_array:ArrayList<drawingItem>? = null
+
+    var hottest_more = true
+    var hottest_last : DocumentSnapshot? = null
+    var newest_more = true
+    var newest_last : DocumentSnapshot? = null
+
+
 
     override fun onResume() {
         super.onResume()
@@ -64,6 +75,7 @@ class StoryFragment : Fragment() {
         notice.visibility= View.VISIBLE
         story_recycler.visibility = View.GONE
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
@@ -72,7 +84,7 @@ class StoryFragment : Fragment() {
             {
                 MotionEvent.ACTION_DOWN ->{
                     if(!newest) {
-                        newest= true
+
                         (view as Button).background= context!!.getDrawable(R.drawable.round_ripple)
                         sort_hottest.setBackgroundResource(0)
 
@@ -84,21 +96,52 @@ class StoryFragment : Fragment() {
             false
         }
 
+        sort_newest.setOnClickListener {
+            if(!newest) //최신식으로 바꾸기
+            {
+                story_recycler.visibility = View.INVISIBLE
+                drawing_story_progress.spin()
+
+                adater.changeArray(Keyword_array)
+                story_recycler.visibility = View.VISIBLE
+                adater.notifyDataSetChanged()
+                drawing_story_progress.stopSpinning()
+                newest= true
+
+            }
+        }
         sort_hottest.setOnTouchListener{ view: View, motionEvent: MotionEvent ->
             when(motionEvent.action)
             {
                 MotionEvent.ACTION_DOWN ->{
                     if(newest) {
-                        newest = false
                         (view as Button).background= context!!.getDrawable(R.drawable.round_ripple)
                         sort_newest.setBackgroundResource(0)
-
                     }
                 }
             }
             false
         }
 
+        sort_hottest.setOnClickListener {
+            if(newest) //좋아요순으로 바꾸기
+            {
+                story_recycler.visibility = View.INVISIBLE
+                drawing_story_progress.spin()
+                newest = false
+                if(hottest_array == null)
+                {
+                    hottest_array = ArrayList()
+                    adater.changeArray(hottest_array!!)
+                    SettingRecycler()
+                }else {
+                    adater.changeArray(hottest_array!!)
+                    story_recycler.visibility = View.VISIBLE
+                    adater.notifyDataSetChanged()
+                    drawing_story_progress.stopSpinning()
+                }
+            }
+        }
 
         Keyword_array = ArrayList()
         TodayGoal = BasicDB.getKeyword(context!!) ?: ""
@@ -114,27 +157,67 @@ class StoryFragment : Fragment() {
 
         story_recycler.layoutManager = GridLayoutManager(context, spanCount)
 
+        story_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (!draw_slide_favorite_list.canScrollVertically(-1)) {
+                    Log.i("list", "Top of list")
+                } else if (!draw_slide_favorite_list.canScrollVertically(1)) {
+                    Log.i("list", "End of list")
+                    if((newest&&newest_more)||(!newest&&hottest_more))
+                    {
+                        drawing_story_progress.spin()
+                        SettingRecycler()
+                    }
+                } else {
+                    Log.i("list", "idle")
+                }
+            }
+        })
 
     }
 
     fun SettingRecycler(){
 
-        adater.notifyDataSetChanged()
-
         val db = FirebaseFirestore.getInstance()
+        var more_check = 0
+        var array:ArrayList<drawingItem> = Keyword_array
+        var last = newest_last
+        val query = db.collection(TodayGoal).limit(25)
 
-        db.collection(TodayGoal)
-                .get()
+         if(!newest){
+             query.orderBy("heart")
+             array = hottest_array!!
+             last = hottest_last
+         }
+        if(last != null)
+            query.startAfter(last)
+
+                query.get()
                 .addOnSuccessListener { documents ->
+
+                    if(documents.size()>0)
+                    last = documents.documents[documents.size()-1]
+
                     for (document in documents) {
+                        more_check++
                         val name: String = document.getString("name") ?: "알수없음"
                         val content: String = document.getString("content") ?: ""
                         val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
-                        Keyword_array.add(drawingItem(document.id,TodayGoal,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
+                        array.add(drawingItem(document.id,TodayGoal,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
                     }
 
-                    if(Keyword_array.size>0)
-                    adater.notifyDataSetChanged()
+                    if(more_check<25){
+                        if(newest) newest_more = false
+                        else hottest_more = false
+                    }
+
+                    if(array.size>0) {
+                        if(story_recycler.visibility == View.INVISIBLE)
+                            story_recycler.visibility = View.VISIBLE
+                        if(drawing_story_progress.isSpinning)
+                        drawing_story_progress.stopSpinning()
+                        adater.notifyDataSetChanged()
+                    }
                     else
                         UploadedZero()
                 }
@@ -143,6 +226,7 @@ class StoryFragment : Fragment() {
                     UploadedZero()
                 }
     }
+
 
 
 }
