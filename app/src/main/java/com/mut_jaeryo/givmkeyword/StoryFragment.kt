@@ -47,10 +47,15 @@ class StoryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        TodayGoal = BasicDB.getKeyword(context!!) ?: ""
-        //GoalTextView.text = TodayGoal
-        Keyword_array.clear()
-        SettingRecycler()
+        val keyword = BasicDB.getKeyword(context!!) ?: ""
+        if(TodayGoal != keyword) {
+            TodayGoal = keyword
+            //GoalTextView.text = TodayGoal
+            drawing_story_progress.visibility = View.VISIBLE
+            drawing_story_progress.spin()
+            Keyword_array.clear()
+            SettingRecycler()
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +84,39 @@ class StoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
+
+        Keyword_array = ArrayList()
+        TodayGoal = BasicDB.getKeyword(context!!) ?: ""
+        val spaceDecoration = RecyclerDecoration(40)
+
+        adater = DrawingAdapter(Keyword_array,activity!!)
+        story_recycler.addItemDecoration(spaceDecoration)
+        story_recycler.adapter =adater
+        var spanCount = 2
+        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            spanCount = 3
+        }
+
+        story_recycler.layoutManager = GridLayoutManager(context, spanCount)
+
+        story_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (!story_recycler.canScrollVertically(-1)) {
+                    Log.i("list", "Top of list")
+                } else if (!story_recycler.canScrollVertically(1)) {
+                    Log.i("list", "End of list")
+                    if((newest&&newest_more)||(!newest&&hottest_more))
+                    {
+                        drawing_story_progress.visibility = View.VISIBLE
+                        drawing_story_progress.spin()
+                        SettingRecycler()
+                    }
+                } else {
+                    Log.i("list", "idle")
+                }
+            }
+        })
+
         sort_newest.setOnTouchListener{ view: View, motionEvent: MotionEvent ->
             when(motionEvent.action)
             {
@@ -99,6 +137,7 @@ class StoryFragment : Fragment() {
         sort_newest.setOnClickListener {
             if(!newest) //최신식으로 바꾸기
             {
+                drawing_story_progress.visibility = View.VISIBLE
                 story_recycler.visibility = View.INVISIBLE
                 drawing_story_progress.spin()
 
@@ -126,6 +165,7 @@ class StoryFragment : Fragment() {
         sort_hottest.setOnClickListener {
             if(newest) //좋아요순으로 바꾸기
             {
+                drawing_story_progress.visibility = View.VISIBLE
                 story_recycler.visibility = View.INVISIBLE
                 drawing_story_progress.spin()
                 newest = false
@@ -142,38 +182,6 @@ class StoryFragment : Fragment() {
                 }
             }
         }
-
-        Keyword_array = ArrayList()
-        TodayGoal = BasicDB.getKeyword(context!!) ?: ""
-        val spaceDecoration = RecyclerDecoration(40)
-
-        adater = DrawingAdapter(Keyword_array,activity!!)
-        story_recycler.addItemDecoration(spaceDecoration)
-        story_recycler.adapter =adater
-        var spanCount = 2
-        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            spanCount = 3
-        }
-
-        story_recycler.layoutManager = GridLayoutManager(context, spanCount)
-
-        story_recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (!draw_slide_favorite_list.canScrollVertically(-1)) {
-                    Log.i("list", "Top of list")
-                } else if (!draw_slide_favorite_list.canScrollVertically(1)) {
-                    Log.i("list", "End of list")
-                    if((newest&&newest_more)||(!newest&&hottest_more))
-                    {
-                        drawing_story_progress.spin()
-                        SettingRecycler()
-                    }
-                } else {
-                    Log.i("list", "idle")
-                }
-            }
-        })
-
     }
 
     fun SettingRecycler(){
@@ -214,8 +222,10 @@ class StoryFragment : Fragment() {
                     if(array.size>0) {
                         if(story_recycler.visibility == View.INVISIBLE)
                             story_recycler.visibility = View.VISIBLE
-                        if(drawing_story_progress.isSpinning)
-                        drawing_story_progress.stopSpinning()
+                        if(drawing_story_progress.isSpinning) {
+                            drawing_story_progress.stopSpinning()
+                            drawing_story_progress.visibility = View.INVISIBLE
+                        }
                         adater.notifyDataSetChanged()
                     }
                     else
