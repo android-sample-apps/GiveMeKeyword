@@ -22,6 +22,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
+import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClickListener
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
@@ -45,14 +46,14 @@ class DrawingMainActivity : AppCompatActivity() {
 
         if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
         drawing_main_name.text = item?.name ?: ""
-        val storageReference = FirebaseStorage.getInstance().reference.child("images/${item!!.id}.png")
-        Glide.with(applicationContext)
-                .load(storageReference)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                )
-                .into(drawing_main_image)
+//        val storageReference = FirebaseStorage.getInstance().reference.child("images/${item!!.id}.png")
+////        Glide.with(applicationContext)
+//                .load(storageReference)
+//                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
+//                        .skipMemoryCache(true)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                )
+//                .into(drawing_main_image)
 
         drawing_main_image.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {
@@ -162,7 +163,7 @@ class DrawingMainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         item = intent.getParcelableExtra("data")
-
+        drawing_main_image.setImageBitmap(ImageSave.drawingImage)
     }
 
     private fun loadFavorite(recyclerRefresh : Boolean){

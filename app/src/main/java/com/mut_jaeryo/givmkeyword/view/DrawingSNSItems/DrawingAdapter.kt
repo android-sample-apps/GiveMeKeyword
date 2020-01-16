@@ -11,6 +11,7 @@ import android.view.View
 
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.bumptech.glide.Glide
@@ -23,6 +24,7 @@ import com.mut_jaeryo.givmkeyword.DrawingMainActivity
 import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
+import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
 
@@ -65,10 +67,18 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         val id = arrayList[position].id
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.png")
 
+
         holder.ImageContainer.setOnClickListener{
 
             val options = ActivityOptions
                     .makeSceneTransitionAnimation(activity,holder.ImageContainer,"draw")
+            if(ImageSave.drawingImage !=null)
+            {
+                ImageSave.drawingImage!!.recycle()
+            }
+
+            ImageSave.drawingImage = holder.ImageContainer.drawable.toBitmap()
+
             val intent = Intent(activity,DrawingMainActivity::class.java)
             intent.putExtra("data",item)
             activity.startActivity(intent,options.toBundle())
