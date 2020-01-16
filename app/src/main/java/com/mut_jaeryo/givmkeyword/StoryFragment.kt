@@ -124,6 +124,10 @@ class StoryFragment : Fragment() {
             }
         })
 
+        drawing_story_progress.visibility = View.VISIBLE
+        drawing_story_progress.spin()
+        SettingRecycler()
+
         sort_newest.setOnTouchListener{ view: View, motionEvent: MotionEvent ->
             when(motionEvent.action)
             {

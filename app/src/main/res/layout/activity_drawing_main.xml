@@ -72,9 +72,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:transitionName="draw"
             android:adjustViewBounds="true"
             android:background="@drawable/shape_sqare"
-            android:src="@mipmap/ic_launcher"
             app:layout_constraintTop_toTopOf="parent"></ImageView>
 
         <ImageView

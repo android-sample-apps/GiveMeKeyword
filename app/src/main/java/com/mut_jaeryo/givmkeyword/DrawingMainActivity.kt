@@ -13,8 +13,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
@@ -35,34 +40,19 @@ class DrawingMainActivity : AppCompatActivity() {
     lateinit var adapter: favoriteAdapter
     val db = FirebaseFirestore.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_drawing_main)
 
-        setSupportActionBar(drawing_main_toolbar)
-
-        item = intent.getParcelableExtra("data")
-
-        drawing_main_toolbar.findViewById<ImageButton>(R.id.drawing_main_more).setOnClickListener {
-
-            val builder = AlertDialog.Builder(this)
-                    .setItems(arrayOf("신고..")) { _, position ->
-                        item.let {
-                            when (position) {
-                                0 -> {
-                                    FirebaseDB.addHate(it!!, applicationContext)
-                                }
-                            }
-                        }
-                    }.create()
-
-            builder.show()
-        }
+    override fun onEnterAnimationComplete() {
 
         if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         drawing_main_name.text = item?.name ?: ""
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/${item!!.id}.png")
+        Glide.with(applicationContext)
+                .load(storageReference)
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
+                .into(drawing_main_image)
 
         drawing_main_image.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {
@@ -147,6 +137,34 @@ class DrawingMainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_drawing_main)
+
+        setSupportActionBar(drawing_main_toolbar)
+
+
+        drawing_main_toolbar.findViewById<ImageButton>(R.id.drawing_main_more).setOnClickListener {
+
+            val builder = AlertDialog.Builder(this)
+                    .setItems(arrayOf("신고..")) { _, position ->
+                        item.let {
+                            when (position) {
+                                0 -> {
+                                    FirebaseDB.addHate(it!!, applicationContext)
+                                }
+                            }
+                        }
+                    }.create()
+
+            builder.show()
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        item = intent.getParcelableExtra("data")
+
+    }
+
     private fun loadFavorite(recyclerRefresh : Boolean){
         var moreCheck = 0
         query.get()
@@ -194,10 +212,14 @@ class DrawingMainActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        finishAfterTransition()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                finishAfterTransition()
                 return true
             }
 

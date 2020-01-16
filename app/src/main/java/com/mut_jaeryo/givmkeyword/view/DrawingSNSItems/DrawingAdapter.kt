@@ -1,6 +1,7 @@
 package com.mut_jaeryo.givmkeyword.view.DrawingSNSItems
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -65,9 +66,12 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.png")
 
         holder.ImageContainer.setOnClickListener{
+
+            val options = ActivityOptions
+                    .makeSceneTransitionAnimation(activity,holder.ImageContainer,"draw")
             val intent = Intent(activity,DrawingMainActivity::class.java)
             intent.putExtra("data",item)
-            activity.startActivity(intent)
+            activity.startActivity(intent,options.toBundle())
         }
 
         Glide.with(activity.applicationContext)
