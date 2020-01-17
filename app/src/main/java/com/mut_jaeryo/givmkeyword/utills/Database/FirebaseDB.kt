@@ -22,8 +22,8 @@ class FirebaseDB{
     companion object {
         public fun saveDrawing(activity:Activity,keyword: String, image: Bitmap, name: String, content: String): Boolean {
 
-            val db = FirebaseFirestore.getInstance().collection(keyword)
-            var doc = db.document() //고유 id를 자동으로 생성
+            val db = FirebaseFirestore.getInstance()
+            var DrawDoc = db.collection(keyword).document() //고유 id를 자동으로 생성
 
 
             val pDialog = SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE)
@@ -32,7 +32,7 @@ class FirebaseDB{
             pDialog.setCancelable(false)
             pDialog.show()
 
-            val imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("images/" + doc.id + ".png")
+            val imagesRef: StorageReference? = FirebaseStorage.getInstance().reference.child("images/" + DrawDoc.id + ".png")
 
 
             val baos = ByteArrayOutputStream()
@@ -56,17 +56,17 @@ class FirebaseDB{
                 )
                val now = GregorianCalendar()
 
-                doc.set(data)
+                DrawDoc.set(data)
                         .addOnSuccessListener {
 
-                            DrawingDB.db.DrawingInsert(doc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
+                            DrawingDB.db.DrawingInsert(DrawDoc.id,content,"${now[Calendar.YEAR]}-${now[Calendar.MONTH]+1}-${now[Calendar.DAY_OF_MONTH]}")
 
-                            doc = doc.collection("images").document(doc.id)
+                            val UserDoc = db.collection("users").document(BasicDB.getName(activity.applicationContext)!!).collection("images").document(DrawDoc.id)
                             data = hashMapOf(
                                     "exist" to true
                             )
 
-                            doc.set(data)
+                            UserDoc.set(data)
                                     .addOnSuccessListener {
                                         pDialog.dismissWithAnimation()
                                         AlertUtills.SuccessAlert(activity.applicationContext,"저장에 성공했습니다")
