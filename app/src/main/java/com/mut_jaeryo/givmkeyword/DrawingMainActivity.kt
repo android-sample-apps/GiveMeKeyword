@@ -44,15 +44,15 @@ class DrawingMainActivity : AppCompatActivity() {
 
     override fun onEnterAnimationComplete() {
 
-        if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
         drawing_main_name.text = item?.name ?: ""
+
 
 
         drawing_main_image.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {
                     override fun onDoubleClick(view: View?) {
                         //      clickListener.onHeartClick(view!!,position)
-                        item?.let { FirebaseDB.changeHeart(it, applicationContext) }
+                         FirebaseDB.changeHeart(item!!,applicationContext)
 
                         val drawable: Drawable = drawing_main_like_imageView.drawable
                         drawing_main_like_imageView.alpha = 0.7f
@@ -138,6 +138,12 @@ class DrawingMainActivity : AppCompatActivity() {
         setSupportActionBar(drawing_main_toolbar)
 
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        item = intent.getParcelableExtra("data")
+
+        drawing_main_image.setImageBitmap(ImageSave.drawingImage)
+        if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
         drawing_main_toolbar.findViewById<ImageButton>(R.id.drawing_main_more).setOnClickListener {
 
             val builder = AlertDialog.Builder(this)
@@ -153,10 +159,6 @@ class DrawingMainActivity : AppCompatActivity() {
 
             builder.show()
         }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        item = intent.getParcelableExtra("data")
-        drawing_main_image.setImageBitmap(ImageSave.drawingImage)
     }
 
     private fun loadFavorite(recyclerRefresh : Boolean){

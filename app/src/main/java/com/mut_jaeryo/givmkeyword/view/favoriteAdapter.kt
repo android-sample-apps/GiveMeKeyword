@@ -14,7 +14,7 @@ class favoriteAdapter(var arrayList: ArrayList<favoriteitem>, val activity : Act
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): favoriteHolder {
-        val view  = activity.layoutInflater.inflate(R.layout.drawing_list_layout, parent,false)
+        val view  = activity.layoutInflater.inflate(R.layout.favorite_person_list, parent,false)
         return favoriteHolder(view)
     }
 
