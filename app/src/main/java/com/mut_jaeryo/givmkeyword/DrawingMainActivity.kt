@@ -46,14 +46,7 @@ class DrawingMainActivity : AppCompatActivity() {
 
         if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
         drawing_main_name.text = item?.name ?: ""
-//        val storageReference = FirebaseStorage.getInstance().reference.child("images/${item!!.id}.png")
-////        Glide.with(applicationContext)
-//                .load(storageReference)
-//                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
-//                        .skipMemoryCache(true)
-//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                )
-//                .into(drawing_main_image)
+
 
         drawing_main_image.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {

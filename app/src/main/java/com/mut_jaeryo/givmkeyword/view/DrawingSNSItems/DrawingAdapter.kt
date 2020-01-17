@@ -72,10 +72,11 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
 
             val options = ActivityOptions
                     .makeSceneTransitionAnimation(activity,holder.ImageContainer,"draw")
-            if(ImageSave.drawingImage !=null)
-            {
-                ImageSave.drawingImage!!.recycle()
-            }
+
+//            if(ImageSave.drawingImage !=null) //사용중인
+//            {
+//                ImageSave.drawingImage!!.recycle()
+//            }
 
             ImageSave.drawingImage = holder.ImageContainer.drawable.toBitmap()
 
