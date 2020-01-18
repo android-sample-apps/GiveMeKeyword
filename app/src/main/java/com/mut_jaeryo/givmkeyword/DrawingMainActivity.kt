@@ -45,8 +45,11 @@ class DrawingMainActivity : AppCompatActivity() {
         drawing_main_image.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {
                     override fun onDoubleClick(view: View?) {
-                        //      clickListener.onHeartClick(view!!,position)
+
+                        // 좋아요 상태가 아니라면 변경
+                        if(!item!!.isHeart)
                          FirebaseDB.changeHeart(item!!,applicationContext)
+
 
                         val drawable: Drawable = drawing_main_like_imageView.drawable
                         drawing_main_like_imageView.alpha = 0.7f
@@ -137,7 +140,18 @@ class DrawingMainActivity : AppCompatActivity() {
         item = SaveUtils.selectedItem
 
         drawing_main_image.setImageBitmap(SaveUtils.drawingImage)
-        Log.d("test","변경"+item!!.isHeart)
+
+        drawing_main_favorite.setOnClickListener {
+            if(item!!.isHeart) //좋아요 안한 상태
+            {
+                drawing_main_favorite.setImageResource(R.drawable.favorite)
+            }else //좋아요 되어있는 상태
+            {
+                drawing_main_favorite.setImageResource(R.drawable.favorite_none)
+            }
+            FirebaseDB.changeHeart(item!!,applicationContext)
+        }
+
         if(item!!.isHeart)  drawing_main_favorite.setImageResource(R.drawable.favorite)
         drawing_main_toolbar.findViewById<ImageButton>(R.id.drawing_main_more).setOnClickListener {
 
@@ -205,6 +219,10 @@ class DrawingMainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+
+        if(darwing_slide_up.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
+            darwing_slide_up.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        else
         finishAfterTransition()
     }
 

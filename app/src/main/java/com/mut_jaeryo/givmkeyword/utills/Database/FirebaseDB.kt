@@ -126,7 +126,7 @@ class FirebaseDB{
 
                 item.isHeart = !item.isHeart
 
-                Log.d("test","변경"+item.isHeart)
+
                 val doc = sfDocRef.collection("hearts").document(BasicDB.getName(context)!!)
 
                 if(item.isHeart)
