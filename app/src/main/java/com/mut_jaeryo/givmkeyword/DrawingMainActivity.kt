@@ -142,7 +142,7 @@ class DrawingMainActivity : AppCompatActivity() {
         drawing_main_image.setImageBitmap(SaveUtils.drawingImage)
 
         drawing_main_favorite.setOnClickListener {
-            if(item!!.isHeart) //좋아요 안한 상태
+            if(!item!!.isHeart) //좋아요 안한 상태
             {
                 drawing_main_favorite.setImageResource(R.drawable.favorite)
             }else //좋아요 되어있는 상태
