@@ -122,9 +122,11 @@ class FirebaseDB{
                 null
             }.addOnSuccessListener {
                 DrawingDB.db.changeHeart(item.id ?: "",item.isHeart)
-                item.heart = if (item.isHeart) item.heart +1 else item.heart - 1
+                item.heart = if (!item.isHeart) item.heart +1 else item.heart - 1
+
                 item.isHeart = !item.isHeart
 
+                Log.d("test","변경"+item.isHeart)
                 val doc = sfDocRef.collection("hearts").document(BasicDB.getName(context)!!)
 
                 if(item.isHeart)

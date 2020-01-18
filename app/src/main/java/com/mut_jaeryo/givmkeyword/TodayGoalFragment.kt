@@ -1,8 +1,6 @@
 package com.mut_jaeryo.givmkeyword
 
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -10,7 +8,6 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -18,10 +15,9 @@ import androidx.core.view.setPadding
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
+import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
-import kotlinx.android.synthetic.main.fragment_today__goal.*
 
 /**
  * A simple [Fragment] subclass.
@@ -95,7 +91,7 @@ class TodayGoalFragment : Fragment() {
                 (activity as MainActivity).goToEditName()
                 AlertUtills.BasicAlert(context!!,"이름을 등록해주세요!")
             } else { //go to upload Activity
-                ImageSave.drawingImage = drawView.bitmap
+                SaveUtils.drawingImage = drawView.bitmap
                 val intent = Intent(activity, UploadActivity::class.java)
                 startActivity(intent)
             }

@@ -1,18 +1,16 @@
 package com.mut_jaeryo.givmkeyword
 
-import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
-import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
+import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
 import kotlinx.android.synthetic.main.activity_upload.*
 
 class UploadActivity : AppCompatActivity() {
 
-    val Image = ImageSave.drawingImage
+    val Image = SaveUtils.drawingImage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +22,7 @@ class UploadActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         upload_name.text = BasicDB.getName(applicationContext)
-        ImageSave.drawingImage = null
+        SaveUtils.drawingImage = null
         if(Image != null)
         upload_image.setImageBitmap(Image)
 

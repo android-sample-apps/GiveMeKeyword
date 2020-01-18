@@ -13,16 +13,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
-import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
+import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClickListener
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
@@ -40,7 +35,6 @@ class DrawingMainActivity : AppCompatActivity() {
     var canScroll = true
     lateinit var adapter: favoriteAdapter
     val db = FirebaseFirestore.getInstance()
-
 
     override fun onEnterAnimationComplete() {
 
@@ -140,10 +134,11 @@ class DrawingMainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        item = intent.getParcelableExtra("data")
+        item = SaveUtils.selectedItem
 
-        drawing_main_image.setImageBitmap(ImageSave.drawingImage)
-        if(item?.isHeart == true)  drawing_main_favorite.setImageResource(R.drawable.favorite)
+        drawing_main_image.setImageBitmap(SaveUtils.drawingImage)
+        Log.d("test","변경"+item!!.isHeart)
+        if(item!!.isHeart)  drawing_main_favorite.setImageResource(R.drawable.favorite)
         drawing_main_toolbar.findViewById<ImageButton>(R.id.drawing_main_more).setOnClickListener {
 
             val builder = AlertDialog.Builder(this)
@@ -211,6 +206,14 @@ class DrawingMainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         finishAfterTransition()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+//        val intent = Intent()
+//        intent.putExtra("data",item)
+//        setResult(1,intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

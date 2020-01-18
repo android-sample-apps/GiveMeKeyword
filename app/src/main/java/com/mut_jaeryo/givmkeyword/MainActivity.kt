@@ -3,7 +3,6 @@ package com.mut_jaeryo.givmkeyword
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,7 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
-import com.mut_jaeryo.givmkeyword.utills.Database.ImageSave
+import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
 import java.util.*
 import kotlin.collections.ArrayList
@@ -104,7 +103,7 @@ class MainActivity : FragmentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        ImageSave.drawingImage = null
+        SaveUtils.drawingImage = null
         DrawingDB.db.close()
     }
 
