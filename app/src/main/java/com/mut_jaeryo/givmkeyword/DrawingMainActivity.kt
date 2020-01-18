@@ -187,6 +187,7 @@ class DrawingMainActivity : AppCompatActivity() {
                         }
 
                         canScroll = !(moreCheck < 25)
+                        draw_slide_favorite_list.visibility = View.VISIBLE
                         adapter.notifyDataSetChanged()
                     }catch (e : ArrayIndexOutOfBoundsException)
                     {

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
@@ -201,18 +202,21 @@ class StoryFragment : Fragment() {
         var more_check = 0
         var array:ArrayList<drawingItem> = Keyword_array
         var last = newest_last
-        val query = db.collection(TodayGoal).limit(25)
-
+        val collectionRef = db.collection(TodayGoal)
+        var query : Query = collectionRef.limit(25)
          if(!newest){
-             query.orderBy("heart")
+             Log.d("test","hottest")
+             query = collectionRef.orderBy("heart", Query.Direction.DESCENDING).limit(25)
              array = hottest_array!!
              last = hottest_last
          }
+
         if(last != null)
-            query.startAfter(last)
+            query = query.startAfter(last)
 
                 query.get()
                 .addOnSuccessListener { documents ->
+
 
                     if(documents.size()>0)
                     last = documents.documents[documents.size()-1]
@@ -223,6 +227,7 @@ class StoryFragment : Fragment() {
                         val content: String = document.getString("content") ?: ""
                         val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
                         array.add(drawingItem(document.id,TodayGoal,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
+                        Log.d("test",""+heartNum)
                     }
 
                     if(more_check<25){
