@@ -81,8 +81,11 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
                 .load(storageReference)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
                         .skipMemoryCache(true)
+                        .placeholder(R.drawable.shape_sqare_size)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                 )
+                .override(300,500)
+                .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.ImageContainer)
 
