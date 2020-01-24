@@ -13,8 +13,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
@@ -39,9 +49,6 @@ class DrawingMainActivity : AppCompatActivity() {
     override fun onEnterAnimationComplete() {
 
         drawing_main_name.text = item?.name ?: ""
-
-
-
         drawing_main_image.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {
                     override fun onDoubleClick(view: View?) {
@@ -132,6 +139,7 @@ class DrawingMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawing_main)
 
+        supportPostponeEnterTransition()
         setSupportActionBar(drawing_main_toolbar)
 
 
@@ -140,6 +148,31 @@ class DrawingMainActivity : AppCompatActivity() {
         item = SaveUtils.selectedItem
 
         drawing_main_image.setImageBitmap(SaveUtils.drawingImage)
+
+        val storageReference = FirebaseStorage.getInstance().reference.child("images/${item!!.id}.png")
+        Glide.with(this)
+                .load(storageReference)
+                .addListener(object : RequestListener<Drawable>{
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        supportStartPostponedEnterTransition()
+                        return false
+                    }
+
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                       supportStartPostponedEnterTransition()
+                        return false
+                    }
+                })
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
+                        .skipMemoryCache(true)
+                        .placeholder(drawing_main_image.drawable)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                )
+                .into(drawing_main_image)
+
+
+
+
 
         drawing_main_favorite.setOnClickListener {
             if(!item!!.isHeart) //좋아요 안한 상태
@@ -223,7 +256,7 @@ class DrawingMainActivity : AppCompatActivity() {
         if(darwing_slide_up.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
             darwing_slide_up.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         else
-        finishAfterTransition()
+        finish()
     }
 
     override fun onDestroy() {

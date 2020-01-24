@@ -85,7 +85,6 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                 )
                 .override(300,500)
-                .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.ImageContainer)
 
