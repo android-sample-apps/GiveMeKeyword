@@ -8,6 +8,7 @@ import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
 import com.mut_jaeryo.givmkeyword.utills.services.ShowNotify
 import java.util.*
+import kotlin.math.acos
 
 class AlertReceiver : BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
@@ -22,6 +23,7 @@ class AlertReceiver : BroadcastReceiver() {
 
         val month = now[Calendar.MONTH]+1
 
+        BasicDB.setWork(p0,0)
         //키워드 변경
         if(BasicDB.getInit(p0)) {
             val keyword = Keyword.getKeyword(p0)
