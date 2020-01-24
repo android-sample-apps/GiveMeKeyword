@@ -2,6 +2,7 @@ package com.mut_jaeryo.givmkeyword
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -10,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
+import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
 import java.util.*
@@ -20,7 +22,12 @@ class MainActivity : FragmentActivity() {
 
     private lateinit var mPager: ViewPager2
 
+    companion object{
+      const val MyRequestCode  = 100
+    }
     private lateinit var tabLayout: TabLayout
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -91,6 +98,12 @@ class MainActivity : FragmentActivity() {
     {
         tabLayout.getTabAt(2)!!.select()
     }
+
+    public fun goToUpload()
+    {
+        val intent = Intent(this, UploadActivity::class.java)
+        startActivityForResult(intent, MyRequestCode)
+    }
     override fun onBackPressed() {
 
         AlertDialog.Builder(this).setMessage("나가면 그림이 저장되지 않습니다. \n 나가시겠습니까?")
@@ -105,6 +118,15 @@ class MainActivity : FragmentActivity() {
         super.onDestroy()
         SaveUtils.drawingImage = null
         DrawingDB.db.close()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode ==  MyRequestCode && resultCode == UploadActivity.uploadCode)
+        {
+            FirebaseDB.saveDrawing(this,BasicDB.getKeyword(applicationContext)!!,SaveUtils.drawingImage!!,BasicDB.getName(applicationContext)!!,data!!.getStringExtra("content")?:"")
+        }
     }
 
     private inner class ScreenSlidePagerAdapter(fa:FragmentActivity,val array:ArrayList<Fragment>) :FragmentStateAdapter(fa){

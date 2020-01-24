@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:icon">
+
         <activity android:name=".DrawingMainActivity"></activity>
         <activity android:name=".UploadActivity" />
         <activity android:name=".OpenSourceActivity" />

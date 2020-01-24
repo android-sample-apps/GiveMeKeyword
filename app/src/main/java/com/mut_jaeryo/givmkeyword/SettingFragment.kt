@@ -35,6 +35,8 @@ class SettingFragment : Fragment() {
 
         barSet = DrawingDB.db.getHistory()
         barChart.animate(barSet)
+
+        profile_today_t1.text = "${BasicDB.getWork(activity!!)}"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -36,7 +36,7 @@ class ShowNotify : Service() {
         val builder = NotificationCompat.Builder(this, MyApp.CANNEL_ID)
                 .setContentTitle("키워드")
                 .setContentText(context)
-                .setSmallIcon(R.drawable.circle_blue)
+                .setSmallIcon(R.drawable.alert_icon)
                 .setContentIntent(pendingIntent)
 
         (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(33, builder.build())

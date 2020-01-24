@@ -14,7 +14,7 @@ class BasicDB {
         val PREF_NAME = "name"
         val PREF_DATE = "Date"
         val PREF_INIT = "init"
-
+        val PREF_TODAY_WORK = "today_work"
         val PREF_SOUND = "sound"
         val PREF_VIB = "vibradtion"
 
@@ -33,6 +33,10 @@ class BasicDB {
         {
             return getSharedPreferences(ctx).getBoolean(PREF_SOUND,true)
         }
+        fun getWork(ctx : Context): Int
+        {
+            return getSharedPreferences(ctx).getInt(PREF_TODAY_WORK,0)
+        }
 
         fun getVibradtion(ctx: Context): Boolean
         {
@@ -43,6 +47,12 @@ class BasicDB {
         {
             val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
             editor.putBoolean(PREF_SOUND,isSound)
+            editor.apply()
+        }
+        fun setWork(ctx: Context,work : Int)
+        {
+            val editor:SharedPreferences.Editor = getSharedPreferences(ctx).edit()
+            editor.putInt(PREF_TODAY_WORK,work)
             editor.apply()
         }
 

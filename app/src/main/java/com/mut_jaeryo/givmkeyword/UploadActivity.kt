@@ -1,5 +1,6 @@
 package com.mut_jaeryo.givmkeyword
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -12,6 +13,10 @@ class UploadActivity : AppCompatActivity() {
 
     val Image = SaveUtils.drawingImage
 
+    companion object{
+        val uploadCode = 300
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,13 +27,17 @@ class UploadActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         upload_name.text = BasicDB.getName(applicationContext)
-        SaveUtils.drawingImage = null
+
         if(Image != null)
         upload_image.setImageBitmap(Image)
 
         upload_success.setOnClickListener {
 
-            FirebaseDB.saveDrawing(this,BasicDB.getKeyword(applicationContext)!!,Image!!,BasicDB.getName(applicationContext)!!,upload_content_edit.text.toString())
+            //FirebaseDB.saveDrawing(this,BasicDB.getKeyword(applicationContext)!!,Image!!,BasicDB.getName(applicationContext)!!,upload_content_edit.text.toString())
+            val intent = Intent()
+            intent.putExtra("content",upload_content_edit.text.toString())
+            setResult(uploadCode,intent)
+            finish()
         }
     }
 

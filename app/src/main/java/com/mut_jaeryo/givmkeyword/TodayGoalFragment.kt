@@ -92,8 +92,10 @@ class TodayGoalFragment : Fragment() {
                 AlertUtills.BasicAlert(context!!,"이름을 등록해주세요!")
             } else { //go to upload Activity
                 SaveUtils.drawingImage = drawView.bitmap
-                val intent = Intent(activity, UploadActivity::class.java)
-                startActivity(intent)
+
+                (activity as MainActivity).goToUpload()
+//                val intent = Intent(activity, UploadActivity::class.java)
+//                startActivityForResult(intent,)
             }
         }
 

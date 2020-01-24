@@ -241,6 +241,8 @@ class StoryFragment : Fragment() {
                             drawing_story_progress.stopSpinning()
                             drawing_story_progress.visibility = View.INVISIBLE
                         }
+                        if(story_notice.visibility == View.VISIBLE)
+                         story_notice.visibility = View.GONE
                         adater.notifyDataSetChanged()
                     } else {
                         UploadedZero()
