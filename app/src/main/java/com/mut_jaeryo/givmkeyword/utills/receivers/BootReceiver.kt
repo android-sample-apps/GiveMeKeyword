@@ -3,6 +3,7 @@ package com.mut_jaeryo.givmkeyword.utills.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
 import java.util.*
@@ -10,13 +11,16 @@ import java.util.*
 class BootReceiver : BroadcastReceiver() {
 
     override fun onReceive(p0: Context?, p1: Intent?) {
+        Log.d("boot","receiver")
       if(p1!!.action.equals(Intent.ACTION_BOOT_COMPLETED))
       {
+          Log.d("boot","is boot")
           val gregorianCalendar: GregorianCalendar = GregorianCalendar()
 
 
           val date = BasicDB.getDate(p0!!)!!.split("-")
 
+          Log.d("boot","date: "+ date)
           val year :Int= date[0].toInt()
           val month :Int= date[1].toInt()
           val day = date[2].toInt()

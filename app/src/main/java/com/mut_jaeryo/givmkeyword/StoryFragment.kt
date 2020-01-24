@@ -218,38 +218,45 @@ class StoryFragment : Fragment() {
                 .addOnSuccessListener { documents ->
 
 
-                    if(documents.size()>0)
-                    last = documents.documents[documents.size()-1]
+                    if (documents.size() > 0)
+                        last = documents.documents[documents.size() - 1]
 
                     for (document in documents) {
                         more_check++
                         val name: String = document.getString("name") ?: "알수없음"
                         val content: String = document.getString("content") ?: ""
                         val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
-                        array.add(drawingItem(document.id,TodayGoal,name, content,heartNum,DrawingDB.db.getMyHeart(document.id)))
-                        Log.d("test",""+heartNum)
+                        array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
                     }
 
-                    if(more_check<25){
-                        if(newest) newest_more = false
+                    if (more_check < 25) {
+                        if (newest) newest_more = false
                         else hottest_more = false
                     }
 
-                    if(array.size>0) {
-                        if(story_recycler.visibility == View.INVISIBLE)
+                    if (array.size > 0) {
+                        if (story_recycler.visibility == View.INVISIBLE)
                             story_recycler.visibility = View.VISIBLE
-                        if(drawing_story_progress.isSpinning) {
+                        if (drawing_story_progress.isSpinning) {
                             drawing_story_progress.stopSpinning()
                             drawing_story_progress.visibility = View.INVISIBLE
                         }
                         adater.notifyDataSetChanged()
-                    }
-                    else
+                    } else {
                         UploadedZero()
+                        if (drawing_story_progress.isSpinning) {
+                            drawing_story_progress.stopSpinning()
+                            drawing_story_progress.visibility = View.INVISIBLE
+                        }
+                    }
                 }
                 .addOnFailureListener { exception ->
                     Log.w("GetDrawing", "Error getting documents: ", exception)
                     UploadedZero()
+                    if (drawing_story_progress.isSpinning) {
+                        drawing_story_progress.stopSpinning()
+                        drawing_story_progress.visibility = View.INVISIBLE
+                    }
                 }
     }
 
