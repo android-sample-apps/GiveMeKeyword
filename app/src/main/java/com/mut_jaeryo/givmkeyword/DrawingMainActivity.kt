@@ -152,6 +152,7 @@ class DrawingMainActivity : AppCompatActivity() {
         val storageReference = FirebaseStorage.getInstance().reference.child("images/${item!!.id}.png")
         Glide.with(this)
                 .load(storageReference)
+                .centerCrop()
                 .addListener(object : RequestListener<Drawable>{
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                         supportStartPostponedEnterTransition()

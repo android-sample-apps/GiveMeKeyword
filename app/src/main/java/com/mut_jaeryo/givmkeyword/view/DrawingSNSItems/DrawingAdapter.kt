@@ -64,6 +64,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
             val options = ActivityOptions
                     .makeSceneTransitionAnimation(activity,holder.ImageContainer,"draw")
 
+
 //            if(ImageSave.drawingImage !=null) //사용중인
 //            {
 //                ImageSave.drawingImage!!.recycle()
@@ -71,22 +72,34 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>,val activity : Activi
 
             SaveUtils.drawingImage = holder.ImageContainer.drawable.toBitmap()
 
+
             val intent = Intent(activity,DrawingMainActivity::class.java)
 //            intent.putExtra("data",item)
             SaveUtils.selectedItem = item
             activity.startActivity(intent,options.toBundle())
         }
 
+//        Glide.with(activity.applicationContext)
+//                .load(storageReference)
+//                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
+//                        .skipMemoryCache(true)
+//                        .placeholder(R.drawable.shape_sqare_size)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                )
+//                .override(300,500)
+//                .transition(DrawableTransitionOptions.withCrossFade())
+//                .into(holder.ImageContainer)
+
+
         Glide.with(activity.applicationContext)
                 .load(storageReference)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
-                        .skipMemoryCache(true)
                         .placeholder(R.drawable.shape_sqare_size)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
                 )
                 .override(300,500)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.ImageContainer)
+
 
     }
 }

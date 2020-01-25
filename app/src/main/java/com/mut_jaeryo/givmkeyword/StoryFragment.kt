@@ -39,6 +39,8 @@ class StoryFragment : Fragment() {
     lateinit var Keyword_array:ArrayList<drawingItem>
     var hottest_array:ArrayList<drawingItem>? = null
 
+    var isPaging = false
+    var uploadWork : Int = 0
     var hottest_more = true
     var hottest_last : DocumentSnapshot? = null
     var newest_more = true
@@ -48,8 +50,9 @@ class StoryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         val keyword = BasicDB.getKeyword(context!!) ?: ""
-        if(TodayGoal != keyword) {
+        if(TodayGoal != keyword || uploadWork < BasicDB.getWork(context!!)) {
             TodayGoal = keyword
 
             newest_more = true
@@ -113,11 +116,12 @@ class StoryFragment : Fragment() {
                     Log.i("list", "Top of list")
                 } else if (!story_recycler.canScrollVertically(1)) {
                     Log.i("list", "End of list")
-                    if((newest&&newest_more)||(!newest&&hottest_more))
+                    if((newest&&newest_more)&&!isPaging||(!newest&&hottest_more)&&!isPaging)
                     {
                         drawing_story_progress.visibility = View.VISIBLE
                         drawing_story_progress.spin()
                         SettingRecycler()
+                        isPaging = true
                     }
                 } else {
                     Log.i("list", "idle")
@@ -127,7 +131,7 @@ class StoryFragment : Fragment() {
 
         drawing_story_progress.visibility = View.VISIBLE
         drawing_story_progress.spin()
-        SettingRecycler()
+
 
         sort_newest.setOnTouchListener{ view: View, motionEvent: MotionEvent ->
             when(motionEvent.action)
@@ -210,6 +214,7 @@ class StoryFragment : Fragment() {
              array = hottest_array!!
              last = hottest_last
          }
+        Log.d("page",last.toString())
 
         if(last != null)
             query = query.startAfter(last)
@@ -218,8 +223,17 @@ class StoryFragment : Fragment() {
                 .addOnSuccessListener { documents ->
 
 
-                    if (documents.size() > 0)
-                        last = documents.documents[documents.size() - 1]
+                    Log.d("page","size: ${documents.size()}")
+                    if (documents.size() > 0){
+                        Log.d("page","last exist")
+                        if(newest)
+                        newest_last = documents.documents[documents.size() - 1]
+                        else
+                            hottest_last = documents.documents[documents.size() - 1]
+                        Log.d("page","${documents.documents[documents.size() - 1]}")
+                    }
+
+
 
                     for (document in documents) {
                         more_check++
@@ -228,7 +242,7 @@ class StoryFragment : Fragment() {
                         val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
                         array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
                     }
-
+                   
                     if (more_check < 25) {
                         if (newest) newest_more = false
                         else hottest_more = false
@@ -251,6 +265,7 @@ class StoryFragment : Fragment() {
                             drawing_story_progress.visibility = View.INVISIBLE
                         }
                     }
+                    isPaging = false
                 }
                 .addOnFailureListener { exception ->
                     Log.w("GetDrawing", "Error getting documents: ", exception)
@@ -259,6 +274,7 @@ class StoryFragment : Fragment() {
                         drawing_story_progress.stopSpinning()
                         drawing_story_progress.visibility = View.INVISIBLE
                     }
+                    isPaging = false
                 }
     }
 
