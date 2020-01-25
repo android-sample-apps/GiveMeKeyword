@@ -75,7 +75,7 @@
             android:id="@+id/today_goal_layout_t1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
             android:text="오늘의 주제"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
@@ -83,23 +83,26 @@
 
         </TextView>
 
-        <ImageButton
+        <Button
             android:id="@+id/today_goal_refresh"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitXY"
-            android:src="@drawable/goal_refresh">
+            android:text="새로운 주제"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:padding="10dp"
+            android:background="@drawable/shape_sqare_blue"
+            >
 
-        </ImageButton>
+        </Button>
 
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/today_goal_layout_t1"
+            android:layout_below="@id/today_goal_refresh"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:animateLayoutChanges="true">

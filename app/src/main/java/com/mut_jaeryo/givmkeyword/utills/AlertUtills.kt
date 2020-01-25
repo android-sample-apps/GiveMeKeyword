@@ -7,12 +7,13 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 class AlertUtills {
     companion object{
 
-        fun WaringDeleteAlert(context: Context,listener : SweetAlertDialog.OnSweetClickListener)
+        fun RewardAlert(context: Context,listener : SweetAlertDialog.OnSweetClickListener)
         {
             SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("주의")
-                    .setContentText("삭제하면 되돌릴 수 없습니다.")
-                    .setConfirmText("삭제했습니다!")
+                    .setTitleText("광고")
+                    .setContentText("광고를 보고 새로운 주제를 받으시겠습니까?")
+                    .setConfirmText("광고 보기")
+                    .setCancelText("취소")
                     .setConfirmClickListener(listener)
                     .show()
         }

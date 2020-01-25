@@ -12,6 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.setPadding
+import cn.pedant.SweetAlert.SweetAlertDialog
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdCallback
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
@@ -36,6 +42,8 @@ class TodayGoalFragment : Fragment() {
     private var drawUtility :Boolean = false
     private var commentShow :Boolean = true
     private var mode = brush
+
+    lateinit var rewardedAd:RewardedAd
     private lateinit var commentLayout : RelativeLayout
     private lateinit var paintLayout : RelativeLayout
     private lateinit var goalTextView: TextView
@@ -72,6 +80,8 @@ class TodayGoalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        rewardedAd = loadAd()
 
 
         commentLayout = view.findViewById(R.id.today_goal_layout)
@@ -151,19 +161,72 @@ class TodayGoalFragment : Fragment() {
         }else
         goalTextView.text = BasicDB.getKeyword(context!!)
 
-        commentLayout.findViewById<ImageButton>(R.id.today_goal_refresh).setOnClickListener{
-            goalTextView.text = ""
-            goalTextView.visibility = View.GONE
+        commentLayout.findViewById<Button>(R.id.today_goal_refresh).setOnClickListener{
 
-            Handler().postDelayed({
-                goalTextView.visibility=View.VISIBLE
-                val keyword = Keyword.getKeyword(context!!)
-                BasicDB.setKeyword(context!!,keyword)
-                goalTextView.text = keyword
-            },1000)
+            AlertUtills.RewardAlert(context!!,object : SweetAlertDialog.OnSweetClickListener{
+                override fun onClick(sweetAlertDialog: SweetAlertDialog?) {
+                    sweetAlertDialog!!.dismiss()
+                    if(rewardedAd.isLoaded)
+                    {
+                        val callback: RewardedAdCallback =  object : RewardedAdCallback(){
+                            override fun onUserEarnedReward(p0: RewardItem) { //보상완료
+                                goalTextView.text = ""
+                                goalTextView.visibility = View.GONE
+
+                                Handler().postDelayed({
+                                    goalTextView.visibility=View.VISIBLE
+                                    val keyword = Keyword.getKeyword(context!!)
+                                    BasicDB.setKeyword(context!!,keyword)
+                                    goalTextView.text = keyword
+                                },1000)
+                            }
+
+                            override fun onRewardedAdFailedToShow(p0: Int) {
+                                super.onRewardedAdFailedToShow(p0)
+                            }
+
+                            override fun onRewardedAdClosed() {
+                                super.onRewardedAdClosed()
+
+                                rewardedAd = loadAd()
+                            }
+
+                            override fun onRewardedAdOpened() {
+                                super.onRewardedAdOpened()
+                            }
+                        }
+
+                        rewardedAd.show(activity,callback)
+                    }
+                }
+
+            })
+
+
         }
     }
 
+    private fun loadAd():RewardedAd{
+
+
+        ////////////////////////////////////////////////////광고 로드
+
+        var reward = RewardedAd(context,getString(R.string.ad_reward_test_id))
+
+        val adLoadCallback:RewardedAdLoadCallback = object : RewardedAdLoadCallback(){
+            override fun onRewardedAdFailedToLoad(p0: Int) { //실패할 경우
+                super.onRewardedAdFailedToLoad(p0)
+            }
+
+            override fun onRewardedAdLoaded() {
+                super.onRewardedAdLoaded()
+            }
+        }
+
+        reward.loadAd(AdRequest.Builder().build(),adLoadCallback)
+        //////////////////////////////////////////////
+        return reward
+    }
 
 
     private fun PaintLayoutInit(){
