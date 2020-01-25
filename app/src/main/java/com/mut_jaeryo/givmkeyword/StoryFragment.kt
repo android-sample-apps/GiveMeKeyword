@@ -242,7 +242,7 @@ class StoryFragment : Fragment() {
                         val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
                         array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
                     }
-                   
+
                     if (more_check < 25) {
                         if (newest) newest_more = false
                         else hottest_more = false
