@@ -87,7 +87,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginRight="20dp"
-                        app:chart_axis="x"
+                        app:chart_axis="xy"
                         app:chart_barsColor="@color/colorPrimary"
                         app:chart_barsRadius="4dp"
                         app:chart_spacing="15dp"

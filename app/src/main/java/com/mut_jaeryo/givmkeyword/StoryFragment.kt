@@ -55,6 +55,7 @@ class StoryFragment : Fragment() {
         if(TodayGoal != keyword || uploadWork < BasicDB.getWork(context!!)) {
             TodayGoal = keyword
 
+            uploadWork = BasicDB.getWork(context!!)
             newest_more = true
             hottest_more = true
             newest = true
@@ -198,6 +199,8 @@ class StoryFragment : Fragment() {
                 }
             }
         }
+
+        SettingRecycler()
     }
 
     fun SettingRecycler(){

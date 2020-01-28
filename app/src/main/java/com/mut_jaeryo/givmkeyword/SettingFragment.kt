@@ -17,6 +17,7 @@ import com.mut_jaeryo.givmkeyword.utills.AlertUtills
 import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import kotlinx.android.synthetic.main.fragment_setting.*
+import kotlin.math.roundToInt
 
 
 /**
@@ -44,6 +45,7 @@ class SettingFragment : Fragment() {
 
         barChart.animation.duration = animationDuration
 
+        barChart.labelsFormatter = { "${it.roundToInt()}"}
 
         if (BasicDB.getName(context!!) != "이름 미정")
             setting_profile_name_edit.visibility = View.GONE
