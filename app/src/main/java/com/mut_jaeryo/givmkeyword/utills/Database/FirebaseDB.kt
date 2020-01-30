@@ -63,7 +63,7 @@ class FirebaseDB{
 
                             val UserDoc = db.collection("users").document(BasicDB.getName(activity.applicationContext)!!).collection("images").document(DrawDoc.id)
                             data = hashMapOf(
-                                    "exist" to true
+                                    "keyword" to keyword
                             )
 
                             UserDoc.set(data)

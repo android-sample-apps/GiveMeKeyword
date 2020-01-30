@@ -47,8 +47,18 @@
             android:layout_marginLeft="10dp"
             android:background="@null"
             android:layout_height="35dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/sort_hottest"
             android:text="인기"></Button>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:layout_height="35dp"
+            android:id="@+id/sort_myArt"
+            android:text="내 그림"></Button>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
