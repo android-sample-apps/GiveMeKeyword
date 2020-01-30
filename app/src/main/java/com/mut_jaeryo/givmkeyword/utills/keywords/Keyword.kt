@@ -11,16 +11,29 @@ class Keyword {
 
         fun getKeyword(context:Context):String
         {
-
             val keywordClass = Keyword()
 
-            var verb = keywordClass.getVerb(context)
-            return "${keywordClass.getNounPlace(context)}에서 $verb"
+            return when((Math.random()*2).toInt()) {
+                0 ->{
+                    val verb = keywordClass.getVerb(context)
+                    "${keywordClass.getNounPlace(context)}에서 $verb"
+                }
+                else ->{
+                    keywordClass.getQuestion(context)
+                }
+            }
         }
 
     }
 
-    fun getNounPlace(context: Context):String{
+    private fun getQuestion(context: Context):String{
+        val questionArray = context.resources.getStringArray(R.array.question_array)
+
+        val index:Int = (Math.random()*questionArray.size).toInt()
+        return questionArray[index]
+    }
+
+    private fun getNounPlace(context: Context):String{
 
         val nounPlaceArray = context.resources.getStringArray(R.array.nounOfPlace_array)
 
@@ -28,7 +41,7 @@ class Keyword {
         return nounPlaceArray[index]
     }
 
-    fun getVerb(context : Context):String{
+    private fun getVerb(context : Context):String{
         val verbArray = context.resources.getStringArray(R.array.nounOfVerb_array)
 
         val index:Int= (Math.random()*verbArray.size).toInt()
