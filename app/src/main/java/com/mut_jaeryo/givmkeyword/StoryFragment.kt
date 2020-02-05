@@ -45,11 +45,12 @@ class StoryFragment : Fragment() {
     var newest = true
     var mode: StoryMode = StoryMode.NEW
 
-    lateinit var Keyword_array: ArrayList<drawingItem>
+    var Keyword_array: ArrayList<drawingItem>? = null
     var hottest_array: ArrayList<drawingItem>? = null
     var myArt_array: ArrayList<drawingItem>? = null
 
     var isPaging = false
+
     var uploadWork: Int = 0
     var hottest_more = true
     var hottest_last: DocumentSnapshot? = null
@@ -68,6 +69,8 @@ class StoryFragment : Fragment() {
             uploadWork = BasicDB.getWork(context!!)
             newest_more = true
             hottest_more = true
+            myArt_more = true
+            myArt_last = null
             newest = true
             newest_last = null
             hottest_array = null
@@ -75,7 +78,25 @@ class StoryFragment : Fragment() {
             //GoalTextView.text = TodayGoal
             drawing_story_progress.visibility = View.VISIBLE
             drawing_story_progress.spin()
-            Keyword_array.clear()
+            Keyword_array = null
+            hottest_array = null
+            myArt_array = null
+
+            when(mode)
+            {
+                StoryMode.NEW ->{
+                    Keyword_array = ArrayList()
+                }
+
+                StoryMode.HOT ->{
+                    hottest_array = ArrayList()
+                }
+
+                StoryMode.MY ->{
+                    myArt_array = ArrayList()
+                }
+            }
+
             SettingRecycler()
         }
     }
@@ -111,7 +132,8 @@ class StoryFragment : Fragment() {
         TodayGoal = BasicDB.getKeyword(context!!) ?: ""
         val spaceDecoration = RecyclerDecoration(40)
 
-        adater = DrawingAdapter(Keyword_array, activity!!)
+        uploadWork = BasicDB.getWork(context!!) ?: 0
+        adater = DrawingAdapter(Keyword_array!!, activity!!)
         story_recycler.addItemDecoration(spaceDecoration)
         story_recycler.adapter = adater
         var spanCount = 2
@@ -141,9 +163,6 @@ class StoryFragment : Fragment() {
             }
         })
 
-        drawing_story_progress.visibility = View.VISIBLE
-        drawing_story_progress.spin()
-
 
         sort_newest.setOnTouchListener { view: View, motionEvent: MotionEvent ->
             when (motionEvent.action) {
@@ -170,12 +189,14 @@ class StoryFragment : Fragment() {
                 story_recycler.visibility = View.INVISIBLE
                 drawing_story_progress.spin()
 
-                if(Keyword_array.size ==0) {
+                if(Keyword_array!!.size ==0) {
                     drawing_story_progress.stopSpinning()
                     UploadedZero()
                 }
                 else {
-                    adater.changeArray(Keyword_array)
+                    if(story_notice.visibility == View.VISIBLE)
+                        story_notice.visibility = View.GONE
+                    adater.changeArray(Keyword_array!!)
                     story_recycler.visibility = View.VISIBLE
                     adater.notifyDataSetChanged()
                     drawing_story_progress.stopSpinning()
@@ -209,7 +230,7 @@ class StoryFragment : Fragment() {
                 // NEW mode로 변경
                 //callOnClick onClickListener만 호출 , performClick 사용자의 실제 클릭효과까지 호출
                 sort_newest.callOnClick()
-            } else if (mode != StoryMode.MY) //좋아요순으로 바꾸기
+            } else if (mode != StoryMode.MY)
             {
                 drawing_story_progress.visibility = View.VISIBLE
                 story_recycler.visibility = View.INVISIBLE
@@ -217,6 +238,8 @@ class StoryFragment : Fragment() {
 
                 mode = StoryMode.MY
                 if (myArt_array == null) {
+                    if(story_notice.visibility == View.VISIBLE)
+                        story_notice.visibility = View.GONE
                     myArt_array = ArrayList()
                     adater.changeArray(myArt_array!!)
                     SettingRecycler()
@@ -226,6 +249,8 @@ class StoryFragment : Fragment() {
                         UploadedZero()
                     }
                     else {
+                        if(story_notice.visibility == View.VISIBLE)
+                            story_notice.visibility = View.GONE
                         adater.changeArray(myArt_array!!)
                         story_recycler.visibility = View.VISIBLE
                         adater.notifyDataSetChanged()
@@ -258,6 +283,8 @@ class StoryFragment : Fragment() {
                 drawing_story_progress.spin()
                 mode = StoryMode.HOT
                 if (hottest_array == null) {
+                    if(story_notice.visibility == View.VISIBLE)
+                        story_notice.visibility = View.GONE
                     hottest_array = ArrayList()
                     adater.changeArray(hottest_array!!)
                     SettingRecycler()
@@ -267,6 +294,8 @@ class StoryFragment : Fragment() {
                         UploadedZero()
                     }
                     else {
+                        if(story_notice.visibility == View.VISIBLE)
+                            story_notice.visibility = View.GONE
                         adater.changeArray(hottest_array!!)
                         story_recycler.visibility = View.VISIBLE
                         adater.notifyDataSetChanged()
@@ -276,15 +305,16 @@ class StoryFragment : Fragment() {
             }
         }
 
-        SettingRecycler()
+       SettingRecycler()
     }
 
     fun SettingRecycler() {
 
+        Log.d("test","불러오기")
         val db = FirebaseFirestore.getInstance()
         var more_check = 0
 
-        var array: ArrayList<drawingItem> = Keyword_array
+        var array: ArrayList<drawingItem> = Keyword_array!!
         var last = newest_last
         val collectionRef = db.collection(TodayGoal)
         var query: Query = collectionRef.limit(25)
@@ -297,6 +327,7 @@ class StoryFragment : Fragment() {
             }
 
             StoryMode.MY -> {
+                Log.d("test","내 그림")
                 query = db.collection("users").document(BasicDB.getName(context!!)!!).collection("images").limit(25)
                 array = myArt_array!!
                 last = myArt_last
@@ -325,6 +356,7 @@ class StoryFragment : Fragment() {
                             val content: String = document.getString("content") ?: ""
                             val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
                             array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
+
                         }
 
                         if (more_check < 25) {
@@ -333,7 +365,8 @@ class StoryFragment : Fragment() {
                         }
 
                         if (array.size > 0) {
-                            if (story_recycler.visibility == View.INVISIBLE)
+
+                            if (story_recycler.visibility == View.INVISIBLE||story_recycler.visibility == View.GONE)
                                 story_recycler.visibility = View.VISIBLE
                             if (drawing_story_progress.isSpinning) {
                                 drawing_story_progress.stopSpinning()
@@ -341,7 +374,9 @@ class StoryFragment : Fragment() {
                             }
                             if (story_notice.visibility == View.VISIBLE)
                                 story_notice.visibility = View.GONE
+                            Log.d("test",array.toString())
                             adater.notifyDataSetChanged()
+
                         } else {
                             UploadedZero()
                             if (drawing_story_progress.isSpinning) {
@@ -354,40 +389,55 @@ class StoryFragment : Fragment() {
                         //페이징
                         if (documents.size() > 0)
                             myArt_last = documents.documents[documents.size() - 1]
-
-                        for (document in documents) {
-                            more_check++
-                            val id = document.id
-                            val keyword = document.getString("keyword") ?: ""
-                            db.collection(keyword).document(id).get().addOnSuccessListener {
-
-                                val name: String = it.getString("name") ?: "알수없음"
-                                val content: String = it.getString("content") ?: ""
-                                val heartNum: Int = it.getLong("heart")?.toInt() ?: 0
-                                array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
-                            }
-                        }
-
-                        if (more_check < 25) {
-                            myArt_more = false
-                        }
-                        if (array.size > 0) {
-                            if (story_recycler.visibility == View.INVISIBLE)
-                                story_recycler.visibility = View.VISIBLE
-                            if (drawing_story_progress.isSpinning) {
-                                drawing_story_progress.stopSpinning()
-                                drawing_story_progress.visibility = View.INVISIBLE
-                            }
-                            if (story_notice.visibility == View.VISIBLE)
-                                story_notice.visibility = View.GONE
-                            adater.notifyDataSetChanged()
-                        } else {
+                        else
+                        {
                             UploadedZero()
                             if (drawing_story_progress.isSpinning) {
                                 drawing_story_progress.stopSpinning()
                                 drawing_story_progress.visibility = View.INVISIBLE
                             }
                         }
+                        for (document in documents) {
+                            more_check++
+                            Log.d("test",document.toString())
+                            val id = document.id
+                            val keyword = document.getString("keyword") ?: ""
+                            db.collection(keyword).document(id).get().addOnSuccessListener {
+                                Log.d("test",it.toString())
+                                val name: String = it.getString("name") ?: "알수없음"
+                                val content: String = it.getString("content") ?: ""
+                                val heartNum: Int = it.getLong("heart")?.toInt() ?: 0
+                                array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(id)))
+
+                                if (story_recycler.visibility == View.INVISIBLE)
+                                    story_recycler.visibility = View.VISIBLE
+                                if (drawing_story_progress.isSpinning) {
+                                    drawing_story_progress.stopSpinning()
+                                    drawing_story_progress.visibility = View.INVISIBLE
+                                }
+                                if (story_notice.visibility == View.VISIBLE)
+                                    story_notice.visibility = View.GONE
+                                adater.notifyDataSetChanged()
+
+                            }.addOnFailureListener {
+                                UploadedZero()
+                                if (drawing_story_progress.isSpinning) {
+                                    drawing_story_progress.stopSpinning()
+                                    drawing_story_progress.visibility = View.INVISIBLE
+                                }
+                            }.addOnCanceledListener {
+                                UploadedZero()
+                                if (drawing_story_progress.isSpinning) {
+                                    drawing_story_progress.stopSpinning()
+                                    drawing_story_progress.visibility = View.INVISIBLE
+                                }
+                            }
+                        }
+
+                        if (more_check < 25) {
+                            myArt_more = false
+                        }
+
                         isPaging = false
                     }
                 }
