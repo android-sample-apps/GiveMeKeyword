@@ -6,7 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mut_jaeryo.givmkeyword.R
-import kotlinx.android.synthetic.main.drawing_main_layout.view.*
+
 
 class drawingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

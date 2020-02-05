@@ -25,7 +25,6 @@ import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
-import kotlinx.android.synthetic.main.activity_drawing_main.*
 import kotlinx.android.synthetic.main.fragment_story.*
 
 /**

@@ -111,6 +111,7 @@
                 android:id="@+id/today_goal_realGoal_img"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:rotation="180"
                 android:layout_alignTop="@id/today_goal_realGoal"
                 android:layout_centerVertical="true"
                 android:src="@drawable/format_left"></ImageView>
@@ -137,7 +138,7 @@
                 android:layout_alignTop="@id/today_goal_realGoal"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/today_goal_realGoal"
-                android:src="@drawable/format_right">
+                android:src="@drawable/format_left">
 
             </ImageView>
         </RelativeLayout>
