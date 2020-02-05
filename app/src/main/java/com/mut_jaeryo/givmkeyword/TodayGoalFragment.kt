@@ -88,7 +88,7 @@ class TodayGoalFragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.today_goal_send).setOnClickListener {
 
-            ImageSave.drawingImage = drawView.bitmap
+           ImageSave.drawingImage = drawView.bitmap
 
             val intent = Intent(activity,UploadActivity::class.java)
             startActivity(intent)

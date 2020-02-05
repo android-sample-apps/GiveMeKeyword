@@ -624,6 +624,25 @@ public class InkView extends View {
         return bitmap;
     }
 
+    public Bitmap getSaveBitmap(int backgroundColor) {
+
+        // create new bitmap
+        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas bitmapCanvas = new Canvas(bitmap);
+
+        // draw background if not transparent
+        if (backgroundColor != 0) {
+            bitmapCanvas.drawColor(backgroundColor);
+        }
+
+        // draw bitmap
+        bitmapCanvas.drawBitmap(this.saveHistory, 0, 0, null);
+
+        return bitmap;
+    }
+
+
+
     /**
      * Draws a bitmap to the view, with its top left corner at (x,y)
      *
@@ -876,10 +895,13 @@ public class InkView extends View {
             UndonePath.add(Path.remove(Path.size() - 1));
 
             if(bitmap!=null)bitmap.recycle();
-            //bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-            bitmap = Bitmap.createBitmap(saveHistory);
+            bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+//            bitmap = Bitmap.createBitmap(saveHistory);
+
             canvas =  new Canvas(bitmap);
             canvas.drawColor(Color.WHITE);
+            canvas.drawBitmap(saveHistory, 0, 0, null);
+
             drawPath();
             invalidate();
         }
@@ -899,10 +921,11 @@ public class InkView extends View {
             Path.add(UndonePath.remove(UndonePath.size()-1));
 
             if(bitmap!=null)bitmap.recycle();
-            //bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
-            bitmap = Bitmap.createBitmap(saveHistory);
-            canvas =  new Canvas(bitmap);
+            bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        //    bitmap = Bitmap.createBitmap(saveHistory);
+            canvas =  new Canvas();
             canvas.drawColor(Color.WHITE);
+            canvas.drawBitmap(saveHistory, 0, 0, null);
             drawPath();
             invalidate();
 
