@@ -86,7 +86,7 @@ class DrawingMainActivity : AppCompatActivity() {
         drawing_main_content.text = item?.content ?: ""
         drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
 
-        
+
 
         draw_slide_favorite_list.layoutManager = LinearLayoutManager(this)
 

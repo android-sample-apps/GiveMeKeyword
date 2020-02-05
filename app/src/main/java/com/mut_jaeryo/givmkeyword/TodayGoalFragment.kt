@@ -24,6 +24,7 @@ import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
+import kotlinx.android.synthetic.main.fragment_today__goal.*
 
 /**
  * A simple [Fragment] subclass.
@@ -89,6 +90,20 @@ class TodayGoalFragment : Fragment() {
         goalTextView = commentLayout.findViewById(R.id.today_goal_realGoal)
         commentBtn = view.findViewById(R.id.today_goal_show)
         drawBtn = view.findViewById(R.id.today_goal_draw_utility)
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            today_goal_draw_color_scrollview.setOnScrollChangeListener { p0, p1, p2, p3, p4 ->
+
+                if(!today_goal_draw_color_scrollview.canScrollHorizontally(1))
+                {
+                    today_goal_draw_color_more.visibility = View.INVISIBLE
+                }else
+                {
+                    today_goal_draw_color_more.visibility = View.VISIBLE
+                }
+            }
+        }
 
 
         ContentLayoutInit()
