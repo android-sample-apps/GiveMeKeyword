@@ -326,7 +326,7 @@ class TodayGoalFragment : Fragment() {
                 mode = brush
                 drawView.setColor(brushColor)
                 it.setImageResource(R.drawable.brush_selected)
-                paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
+           //     paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
             }
         }
 
@@ -371,11 +371,12 @@ class TodayGoalFragment : Fragment() {
                         paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_eraser).setImageResource(R.drawable.eraser)
                     }
                 }
-                mode = zoom;
+                mode = zoom
             }else
             {
                 it.setImageResource(R.drawable.zoom)
                 mode = brush
+                drawView.setZoomMode(false)
                 drawView.setColor(brushColor)
                 paintLayout.findViewById<ImageButton>(R.id.today_goal_draw_brush).setImageResource(R.drawable.brush_selected)
             }
