@@ -406,7 +406,7 @@ class StoryFragment : Fragment() {
                                 val name: String = it.getString("name") ?: "알수없음"
                                 val content: String = it.getString("content") ?: ""
                                 val heartNum: Int = it.getLong("heart")?.toInt() ?: 0
-                                array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(id)))
+                                array.add(drawingItem(document.id, keyword, name, content, heartNum, DrawingDB.db.getMyHeart(id)))
 
                                 if (story_recycler.visibility == View.INVISIBLE)
                                     story_recycler.visibility = View.VISIBLE

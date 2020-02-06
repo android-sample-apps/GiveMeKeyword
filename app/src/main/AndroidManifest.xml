@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_app_id"/>
+            android:value="@string/app_id"/>
 
         <activity android:name=".DrawingMainActivity"></activity>
         <activity android:name=".UploadActivity" />

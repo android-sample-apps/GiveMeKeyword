@@ -22,16 +22,16 @@ class BootReceiver : BroadcastReceiver() {
 
           Log.d("boot","date: "+ date)
           val year :Int= date[0].toInt()
-          val month :Int= date[1].toInt()
+          val month :Int= date[1].toInt() - 1
           val day = date[2].toInt()
           gregorianCalendar.set(Calendar.YEAR,year)
-          gregorianCalendar.set(Calendar.MONTH,month-1)
+          gregorianCalendar.set(Calendar.MONTH,month)
           gregorianCalendar.set(Calendar.DAY_OF_MONTH,day)
           gregorianCalendar.set(Calendar.HOUR_OF_DAY,8)
           gregorianCalendar.set(Calendar.MINUTE,0)
           gregorianCalendar.set(Calendar.SECOND,0)
 
-          SendAlert.setAlert(p0!!,gregorianCalendar)
+          SendAlert.setAlert(p0,gregorianCalendar)
 
       }
     }
