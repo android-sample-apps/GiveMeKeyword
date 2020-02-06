@@ -111,6 +111,7 @@ class TodayGoalFragment : Fragment() {
 
         view.findViewById<ImageButton>(R.id.today_goal_send).setOnClickListener {
 
+
             if (BasicDB.getName(context!!) == "이름 미정") {
 
                 (activity as MainActivity).goToEditName()
