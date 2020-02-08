@@ -21,7 +21,7 @@ class SendAlert {
                     context,
                     777,
                     intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT
+                    PendingIntent.FLAG_UPDATE_CURRENT
             )
 
             val manager:AlarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -30,6 +30,7 @@ class SendAlert {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.timeInMillis, pending)
             } else {
+
                 manager[AlarmManager.RTC_WAKEUP, time.timeInMillis] = pending
             }
         }

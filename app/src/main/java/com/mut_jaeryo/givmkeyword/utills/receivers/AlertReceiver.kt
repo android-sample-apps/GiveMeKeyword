@@ -16,11 +16,10 @@ class AlertReceiver : BroadcastReceiver() {
 
         val now = GregorianCalendar()
         now.add(Calendar.DAY_OF_MONTH, 1)
-
+//         now.add(Calendar.SECOND,30)
         now.set(Calendar.HOUR_OF_DAY,8)
 //        now[Calendar.HOUR_OF_DAY] = 8
         now.set(Calendar.SECOND,0)
-//        now[Calendar.SECOND] = 0
         now.set(Calendar.MINUTE,0)
 //        now[Calendar.MINUTE] = 0
         SendAlert.setAlert(p0!!, now) //1일 뒤에 다시 설정
@@ -28,6 +27,7 @@ class AlertReceiver : BroadcastReceiver() {
         val month = now[Calendar.MONTH]+1
 
         BasicDB.setWork(p0,0)
+
         //키워드 변경
         if(BasicDB.getInit(p0)) {
             val keyword = Keyword.getKeyword(p0)

@@ -227,7 +227,7 @@ class TodayGoalFragment : Fragment() {
 
         ////////////////////////////////////////////////////광고 로드
 
-        var reward = RewardedAd(context,getString(R.string.ad_reward_test_id))
+        var reward = RewardedAd(context,getString(R.string.ad_reward_id))
 
         val adLoadCallback:RewardedAdLoadCallback = object : RewardedAdLoadCallback(){
             override fun onRewardedAdFailedToLoad(p0: Int) { //실패할 경우

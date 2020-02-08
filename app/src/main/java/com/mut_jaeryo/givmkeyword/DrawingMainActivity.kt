@@ -47,6 +47,7 @@ class DrawingMainActivity : AppCompatActivity() {
     var canScroll = true
     lateinit var adapter: favoriteAdapter
     val db = FirebaseFirestore.getInstance()
+    var myitem: favoriteitem? = null
 
     override fun onEnterAnimationComplete() {
 
@@ -98,7 +99,7 @@ class DrawingMainActivity : AppCompatActivity() {
             override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
                 when (newState) {
                     SlidingUpPanelLayout.PanelState.EXPANDED -> {
-                        if (arraylist == null) {
+                        if (arraylist!!.size == 0) {
                             drawing_friend_progress.visibility = View.VISIBLE
                             drawing_friend_progress.spin()
 
@@ -111,6 +112,10 @@ class DrawingMainActivity : AppCompatActivity() {
                                     .limit(25)
 
                             loadFavorite(false)
+                        }else
+                        {
+                            adapter.notifyDataSetChanged()
+
                         }
                     }
                 }
@@ -138,7 +143,7 @@ class DrawingMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drawing_main)
-
+        arraylist = ArrayList()
         supportPostponeEnterTransition()
         setSupportActionBar(drawing_main_toolbar)
 
@@ -191,9 +196,19 @@ class DrawingMainActivity : AppCompatActivity() {
             if (!item!!.isHeart) //좋아요 안한 상태
             {
                 drawing_main_favorite.setImageResource(R.drawable.favorite)
+                item!!.heart++
+                drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
+                myitem = favoriteitem(BasicDB.getName(applicationContext))
+                arraylist!!.add(myitem!!)
             } else //좋아요 되어있는 상태
             {
+                item!!.heart--
                 drawing_main_favorite.setImageResource(R.drawable.favorite_none)
+                drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
+                myitem.let {
+                    arraylist!!.remove(it)
+                }
+
             }
             FirebaseDB.changeHeart(item!!, applicationContext)
         }

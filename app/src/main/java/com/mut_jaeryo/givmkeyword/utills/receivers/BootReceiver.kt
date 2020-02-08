@@ -20,7 +20,8 @@ class BootReceiver : BroadcastReceiver() {
 
           val date = BasicDB.getDate(p0!!)!!.split("-")
 
-          Log.d("boot","date: "+ date)
+
+
           val year :Int= date[0].toInt()
           val month :Int= date[1].toInt() - 1
           val day = date[2].toInt()
