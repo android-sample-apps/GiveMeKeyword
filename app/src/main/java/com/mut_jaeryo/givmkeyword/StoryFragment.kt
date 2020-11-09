@@ -226,9 +226,11 @@ class StoryFragment : Fragment() {
                 (activity as MainActivity).goToEditName()
                 AlertUtills.BasicAlert(context!!, "이름을 등록해주세요!")
 
+                mode = StoryMode.MY
+                story_notice.visibility = View.GONE
                 // NEW mode로 변경
                 //callOnClick onClickListener만 호출 , performClick 사용자의 실제 클릭효과까지 호출
-                sort_newest.callOnClick()
+               // sort_newest.callOnClick()
             } else if (mode != StoryMode.MY)
             {
                 drawing_story_progress.visibility = View.VISIBLE
