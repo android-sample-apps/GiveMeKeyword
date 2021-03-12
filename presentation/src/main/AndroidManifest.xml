@@ -23,7 +23,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
 
-        <activity android:name=".DrawingMainActivity"></activity>
+        <activity android:name=".DrawingMainActivity"/>
         <activity android:name=".UploadActivity" />
         <activity android:name=".OpenSourceActivity" />
         <activity android:name=".MainActivity">
@@ -35,10 +35,10 @@
         </activity>
 
         <receiver
-            android:name=".utills.receivers.AlertReceiver"
+            android:name=".utils.receivers.AlertReceiver"
             android:enabled="true" />
         <receiver
-            android:name=".utills.receivers.BootReceiver"
+            android:name=".utils.receivers.BootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".utills.services.ShowNotify"
+            android:name=".utils.services.ShowNotify"
             android:enabled="true" />
     </application>
 

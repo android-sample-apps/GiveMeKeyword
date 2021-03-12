@@ -4,9 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
-import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
+import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utils.Database.SaveUtils
 import kotlinx.android.synthetic.main.activity_upload.*
 
 class UploadActivity : AppCompatActivity() {
@@ -41,16 +40,13 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            finish()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 }

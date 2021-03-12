@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.utills
+package com.mut_jaeryo.givmkeyword.utils
 
 class DrawingUtils {
     companion object {

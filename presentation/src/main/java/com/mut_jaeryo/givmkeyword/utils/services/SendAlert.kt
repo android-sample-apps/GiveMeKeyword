@@ -1,11 +1,11 @@
-package com.mut_jaeryo.givmkeyword.utills.services
+package com.mut_jaeryo.givmkeyword.utils.services
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.mut_jaeryo.givmkeyword.utills.receivers.AlertReceiver
+import com.mut_jaeryo.givmkeyword.utils.receivers.AlertReceiver
 
 import java.util.*
 

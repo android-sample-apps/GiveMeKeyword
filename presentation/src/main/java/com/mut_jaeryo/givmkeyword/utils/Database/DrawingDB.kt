@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.utills.Database
+package com.mut_jaeryo.givmkeyword.utils.Database
 
 import android.content.Context
 import android.database.Cursor
@@ -6,10 +6,8 @@ import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.mut_jaeryo.givmkeyword.utills.DrawingUtils
-import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import com.mut_jaeryo.givmkeyword.utils.DrawingUtils
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
 class DrawingDB() {

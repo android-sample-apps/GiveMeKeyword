@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.mut_jaeryo.givmkeyword.utills.AlertUtills
-import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
+import com.mut_jaeryo.givmkeyword.utils.AlertUtills
+import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utils.Database.DrawingDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem

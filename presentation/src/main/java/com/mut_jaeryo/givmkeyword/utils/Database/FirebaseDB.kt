@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.utills.Database
+package com.mut_jaeryo.givmkeyword.utils.Database
 
 import android.app.Activity
 import android.content.Context
@@ -9,7 +9,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.mut_jaeryo.givmkeyword.utills.AlertUtills
+import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import java.io.ByteArrayOutputStream
 import java.util.*

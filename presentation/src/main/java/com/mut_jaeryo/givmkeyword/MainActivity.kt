@@ -10,11 +10,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayout
-import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utills.Database.DrawingDB
-import com.mut_jaeryo.givmkeyword.utills.Database.FirebaseDB
-import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
-import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
+import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utils.Database.DrawingDB
+import com.mut_jaeryo.givmkeyword.utils.Database.FirebaseDB
+import com.mut_jaeryo.givmkeyword.utils.Database.SaveUtils
+import com.mut_jaeryo.givmkeyword.utils.services.SendAlert
 import java.util.*
 import kotlin.collections.ArrayList
 

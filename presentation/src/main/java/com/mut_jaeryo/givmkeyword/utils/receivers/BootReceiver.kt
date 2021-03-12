@@ -1,11 +1,11 @@
-package com.mut_jaeryo.givmkeyword.utills.receivers
+package com.mut_jaeryo.givmkeyword.utils.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utills.services.SendAlert
+import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utils.services.SendAlert
 import java.util.*
 
 class BootReceiver : BroadcastReceiver() {

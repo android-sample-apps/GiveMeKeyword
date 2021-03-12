@@ -1,7 +1,6 @@
 package com.mut_jaeryo.givmkeyword
 
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -18,11 +17,11 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.mut_jaeryo.givmkeyword.utills.AlertUtills
+import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 
-import com.mut_jaeryo.givmkeyword.utills.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utills.Database.SaveUtils
-import com.mut_jaeryo.givmkeyword.utills.keywords.Keyword
+import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
+import com.mut_jaeryo.givmkeyword.utils.Database.SaveUtils
+import com.mut_jaeryo.givmkeyword.utils.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
 import kotlinx.android.synthetic.main.fragment_today__goal.*
 
@@ -222,7 +221,7 @@ class TodayGoalFragment : Fragment() {
 
         ////////////////////////////////////////////////////광고 로드
 
-        var reward = RewardedAd(context, getString(R.string.ad_reward_id))
+        var reward = RewardedAd(context, getString(R.string.ad_reward_test_id))
 
         val adLoadCallback: RewardedAdLoadCallback = object : RewardedAdLoadCallback() {
             override fun onRewardedAdFailedToLoad(p0: Int) { //실패할 경우

@@ -6,42 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <com.google.android.material.tabs.TabLayout
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/main_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorGravity="top"
+        android:layout_above="@id/main_tabLayout"
+        android:layout_alignParentTop="true">
+
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/main_tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true"
         android:animationCache="true"
-        app:tabTextColor="#ffffff"
+        android:background="@color/colorPrimary"
         app:tabIndicatorFullWidth="false"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/main_tabLayout">
+        app:tabIndicatorGravity="top"
+        app:tabTextColor="#ffffff">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/draw_utility_white"
-            android:text="그림"></com.google.android.material.tabs.TabItem>
+            android:text="그림" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/story"></com.google.android.material.tabs.TabItem>
+            android:icon="@drawable/story" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/settings"></com.google.android.material.tabs.TabItem>
+            android:icon="@drawable/settings" />
     </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_pager"
-        android:layout_above="@id/main_tabLayout"
-        android:layout_alignParentTop="true">
-
-    </androidx.viewpager2.widget.ViewPager2>
 </RelativeLayout>
