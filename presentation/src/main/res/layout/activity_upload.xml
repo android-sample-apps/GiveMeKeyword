@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UploadActivity">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/upload_appbar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/upload_toolbar"
+            android:background="#ffffff">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="업로드"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000000"></TextView>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="완료"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:background="@null"
+                    android:id="@+id/upload_success"
+                    android:layout_alignParentRight="true"></Button>
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/upload_appbar"
+        android:background="@drawable/round_storke_layout"
+        android:layout_margin="15dp"
+        android:id="@+id/upload_image"></ImageView>
+
+    <TextView
+        android:id="@+id/upload_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/upload_image"
+        android:layout_toRightOf="@id/upload_image"
+        android:text="작가 이름"
+        android:textColor="@color/colorPrimary"></TextView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="알 수 없음"
+        android:textColor="#000000"
+        android:layout_marginTop="10dp"
+        android:id="@+id/upload_name"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_toRightOf="@id/upload_image"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/upload_name_tv"></TextView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/upload_v1"
+        android:layout_below="@id/upload_image"
+        android:background="#eeeeee"></View>
+
+
+    <TextView
+        android:id="@+id/upload_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_image"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="하고 싶은 말"
+        android:textColor="@color/colorAccent"></TextView>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/upload_content_tv"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="10dp"
+        android:background="@null"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:hint="ex) 키워드 평가.."
+        android:scrollbars="vertical"
+        android:textColor="#000000"
+        android:maxLines="30"
+        android:gravity="top"
+        android:id="@+id/upload_content_edit"></EditText>
+
+
+</RelativeLayout>
