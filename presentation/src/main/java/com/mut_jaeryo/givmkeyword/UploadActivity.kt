@@ -32,7 +32,6 @@ class UploadActivity : AppCompatActivity() {
 
         upload_success.setOnClickListener {
 
-            //FirebaseDB.saveDrawing(this,BasicDB.getKeyword(applicationContext)!!,Image!!,BasicDB.getName(applicationContext)!!,upload_content_edit.text.toString())
             val intent = Intent()
             intent.putExtra("content", upload_content_edit.text.toString())
             setResult(uploadCode, intent)
