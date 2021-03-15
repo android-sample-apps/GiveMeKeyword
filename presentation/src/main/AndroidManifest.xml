@@ -24,8 +24,8 @@
             android:value="@string/app_id" />
 
         <activity android:name=".DrawingMainActivity"/>
-        <activity android:name=".UploadActivity" />
-        <activity android:name=".OpenSourceActivity" />
+        <activity android:name=".ui.upload.UploadActivity" />
+        <activity android:name=".ui.OpenSourceActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

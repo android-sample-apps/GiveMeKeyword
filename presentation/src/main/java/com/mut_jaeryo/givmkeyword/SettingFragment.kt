@@ -13,11 +13,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mut_jaeryo.givmkeyword.ui.OpenSourceActivity
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utils.Database.DrawingDB
 import kotlinx.android.synthetic.main.fragment_setting.*
-import kotlin.math.roundToInt
 
 
 /**

@@ -1,8 +1,9 @@
-package com.mut_jaeryo.givmkeyword
+package com.mut_jaeryo.givmkeyword.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import com.mut_jaeryo.givmkeyword.R
 
 import kotlinx.android.synthetic.main.activity_open_source.*
 
