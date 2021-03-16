@@ -32,7 +32,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:background="@null"
-                    android:src="@drawable/more_btn"></ImageButton>
+                    android:src="@drawable/ic_menu_dot"></ImageButton>
 
 
                 <ImageButton
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/shape_sqare"
+                    android:background="@drawable/bg_shape_square"
                     android:clickable="true"
                     android:elevation="4dp"
                     android:visibility="gone"
@@ -99,7 +99,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/today_goal_layout_t1"
+                        android:id="@+id/keyword_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
@@ -114,25 +114,25 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/today_goal_layout_t1"
+                        android:layout_below="@id/keyword_title"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
                         android:animateLayoutChanges="true">
 
                         <ImageView
-                            android:id="@+id/today_goal_realGoal_img"
+                            android:id="@+id/keyword_left_format"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_alignTop="@id/today_goal_realGoal"
+                            android:layout_alignTop="@id/drawing_keyword"
                             android:layout_centerVertical="true"
                             android:rotation="180"
-                            android:src="@drawable/format_left"></ImageView>
+                            android:src="@drawable/ic_format_left"></ImageView>
 
                         <TextView
-                            android:id="@+id/today_goal_realGoal"
+                            android:id="@+id/drawing_keyword"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/today_goal_realGoal_img"
+                            android:layout_toRightOf="@id/keyword_left_format"
                             android:gravity="center"
                             android:maxWidth="240dp"
                             android:maxHeight="500dp"
@@ -147,10 +147,10 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:layout_alignTop="@id/today_goal_realGoal"
+                            android:layout_alignTop="@id/drawing_keyword"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/today_goal_realGoal"
-                            android:src="@drawable/format_left">
+                            android:layout_toRightOf="@id/drawing_keyword"
+                            android:src="@drawable/ic_format_left">
 
                         </ImageView>
                     </RelativeLayout>
@@ -163,7 +163,7 @@
                     android:layout_margin="10dp"
                     android:transitionName="draw"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/shape_sqare"
+                    android:background="@drawable/bg_shape_square"
                     app:layout_constraintTop_toTopOf="parent"></ImageView>
 
                 <ImageView
@@ -203,7 +203,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     app:civ_circle_background_color="@color/colorNotAccent"
-                    android:src="@drawable/person"
+                    android:src="@drawable/ic_person"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/drawing_main_content" />
 
@@ -247,7 +247,7 @@
                 android:visibility="invisible"
                 android:layout_marginTop="15dp"
                 android:padding="5dp"
-                android:background="@drawable/shape_sqare"
+                android:background="@drawable/bg_shape_square"
                 android:layout_below="@id/drawing_slide_favorite_count"
                 android:id="@+id/draw_slide_favorite_list"></androidx.recyclerview.widget.RecyclerView>
 

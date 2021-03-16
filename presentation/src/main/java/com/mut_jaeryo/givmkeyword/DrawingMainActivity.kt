@@ -26,8 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
-import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utils.Database.FirebaseDB
+import com.mut_jaeryo.givmkeyword.utils.database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClickListener
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
@@ -151,7 +150,7 @@ class DrawingMainActivity : AppCompatActivity() {
 
         drawing_main_image.setImageBitmap(SaveUtils.drawingImage)
 
-        today_goal_realGoal.text = item!!.keyword
+        util_realGoal.text = item!!.keyword
 
         drawing_main_keyword.setOnTouchListener { view, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
@@ -195,7 +194,7 @@ class DrawingMainActivity : AppCompatActivity() {
                 drawing_main_favorite.setImageResource(R.drawable.favorite)
                 item!!.heart++
                 drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
-                myitem = favoriteitem(BasicDB.getName(applicationContext))
+                myitem = favoriteitem(Preference.getName(applicationContext))
                 arraylist!!.add(myitem!!)
             } else //좋아요 되어있는 상태
             {

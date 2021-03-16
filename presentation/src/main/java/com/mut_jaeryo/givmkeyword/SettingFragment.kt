@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mut_jaeryo.givmkeyword.ui.OpenSourceActivity
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
-import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utils.Database.DrawingDB
+import com.mut_jaeryo.givmkeyword.utils.database.DrawingDB
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 
@@ -37,7 +36,7 @@ class SettingFragment : Fragment() {
         barSet = DrawingDB.db.getHistory()
         barChart.animate(barSet)
 
-        profile_today_count.text = "${BasicDB.getWork(activity!!)}"
+        profile_today_count.text = "${Preference.getWork(activity!!)}"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,19 +46,19 @@ class SettingFragment : Fragment() {
 
         barChart.labelsFormatter = { "${it.roundToInt()}" }
 
-        if (BasicDB.getName(context!!) != "이름 미정")
+        if (Preference.getName(context!!) != "이름 미정")
             setting_profile_name_edit.visibility = View.GONE
 
-        setting_profile_name.text = BasicDB.getName(context!!)
-        setting_alert_sound_switch.isChecked = BasicDB.getSound(context!!)
+        setting_profile_name.text = Preference.getName(context!!)
+        setting_alert_sound_switch.isChecked = Preference.getSound(context!!)
 
-        setting_alert_vibration_switch.isChecked = BasicDB.getVibradtion(context!!)
+        setting_alert_vibration_switch.isChecked = Preference.getVibradtion(context!!)
 
         val switchListner = CompoundButton.OnCheckedChangeListener { p0, p1 ->
             when (p0!!.id) {
-                R.id.setting_alert_sound_switch -> BasicDB.setSound(context!!, p1)
+                R.id.setting_alert_sound_switch -> Preference.setSound(context!!, p1)
 
-                else -> BasicDB.setVibradtion(context!!, p1)
+                else -> Preference.setVibradtion(context!!, p1)
             }
         }
 
@@ -75,7 +74,7 @@ class SettingFragment : Fragment() {
             showNameEditDialog()
         }
 
-        setting_profile_name.text = BasicDB.getName(context!!)
+        setting_profile_name.text = Preference.getName(context!!)
     }
 
     private fun showNameEditDialog() {
@@ -106,7 +105,7 @@ class SettingFragment : Fragment() {
                                 )
                                 doc.set(data)
                                         .addOnSuccessListener {
-                                            BasicDB.setName(context!!, name)
+                                            Preference.setName(context!!, name)
                                             setting_profile_name.text = name
 //                                            Toast.makeText(context, "이름이 변경되었습니다", Toast.LENGTH_LONG).show()
                                             AlertUtills.SuccessAlert(context!!, "이름이 변경되었습니다")

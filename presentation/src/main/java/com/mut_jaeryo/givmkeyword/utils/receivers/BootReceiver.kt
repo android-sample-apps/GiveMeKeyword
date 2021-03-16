@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utils.services.SendAlert
 import java.util.*
 
@@ -17,7 +16,7 @@ class BootReceiver : BroadcastReceiver() {
             val gregorianCalendar: GregorianCalendar = GregorianCalendar()
 
 
-            val date = BasicDB.getDate(p0!!)!!.split("-")
+            val date = Preference.getDate(p0!!)!!.split("-")
 
 
             val year: Int = date[0].toInt()

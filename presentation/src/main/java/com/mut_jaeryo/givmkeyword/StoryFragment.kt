@@ -21,8 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.mut_jaeryo.givmkeyword.ui.main.MainActivity
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
-import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utils.Database.DrawingDB
+import com.mut_jaeryo.givmkeyword.utils.database.DrawingDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
@@ -62,11 +61,11 @@ class StoryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val keyword = BasicDB.getKeyword(context!!) ?: ""
-        if (TodayGoal != keyword || uploadWork < BasicDB.getWork(context!!)) {
+        val keyword = Preference.getKeyword(context!!) ?: ""
+        if (TodayGoal != keyword || uploadWork < Preference.getWork(context!!)) {
             TodayGoal = keyword
 
-            uploadWork = BasicDB.getWork(context!!)
+            uploadWork = Preference.getWork(context!!)
             newest_more = true
             hottest_more = true
             myArt_more = true
@@ -128,10 +127,10 @@ class StoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         Keyword_array = ArrayList()
-        TodayGoal = BasicDB.getKeyword(context!!) ?: ""
+        TodayGoal = Preference.getKeyword(context!!) ?: ""
         val spaceDecoration = RecyclerDecoration(40)
 
-        uploadWork = BasicDB.getWork(context!!) ?: 0
+        uploadWork = Preference.getWork(context!!) ?: 0
         adater = DrawingAdapter(Keyword_array!!, activity!!)
         story_recycler.addItemDecoration(spaceDecoration)
         story_recycler.adapter = adater
@@ -220,7 +219,7 @@ class StoryFragment : Fragment() {
         }
 
         sort_myArt.setOnClickListener {
-            if (BasicDB.getName(context!!) == "이름 미정") {
+            if (Preference.getName(context!!) == "이름 미정") {
 
                 (activity as MainActivity).goToEditName()
                 AlertUtills.BasicAlert(context!!, "이름을 등록해주세요!")
@@ -325,7 +324,7 @@ class StoryFragment : Fragment() {
 
             StoryMode.MY -> {
                 Log.d("test", "내 그림")
-                query = db.collection("users").document(BasicDB.getName(context!!)!!).collection("images").limit(25)
+                query = db.collection("users").document(Preference.getName(context!!)!!).collection("images").limit(25)
                 array = myArt_array!!
                 last = myArt_last
             }

@@ -12,10 +12,9 @@ import com.google.android.gms.ads.MobileAds
 import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.SettingFragment
 import com.mut_jaeryo.givmkeyword.StoryFragment
-import com.mut_jaeryo.givmkeyword.TodayGoalFragment
+import com.mut_jaeryo.givmkeyword.ui.drawing.DrawingFragment
 import com.mut_jaeryo.givmkeyword.databinding.ActivityMainBinding
 import com.mut_jaeryo.givmkeyword.ui.upload.UploadActivity
-import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
 import com.mut_jaeryo.givmkeyword.utils.services.SendAlert
 import com.tistory.blackjinbase.base.BaseActivity
 import com.tistory.blackjinbase.ext.toast
@@ -32,7 +31,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!BasicDB.getInit(applicationContext)) {
+        if (!Preference.getInit(applicationContext)) {
             SendAlert.setAlert(applicationContext, GregorianCalendar())
         }
         initMobileAds()
@@ -46,7 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun initViewPager() {
         val fragmentList = arrayListOf(
-                TodayGoalFragment(), StoryFragment(), SettingFragment()
+                DrawingFragment(), StoryFragment(), SettingFragment()
         )
         val pagerAdapter = ScreenSlidePagerAdapter(this, fragmentList)
         binding.mainPager.apply {

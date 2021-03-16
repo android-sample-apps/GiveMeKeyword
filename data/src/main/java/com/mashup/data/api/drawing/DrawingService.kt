@@ -1,4 +1,4 @@
-package com.mashup.data.api
+package com.mashup.data.api.drawing
 
 import com.mashup.data.dto.DrawingModel
 

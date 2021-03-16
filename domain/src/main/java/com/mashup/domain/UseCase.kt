@@ -4,7 +4,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import com.mashup.domain.common.Result
 
-abstract class UseCase<P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
+abstract class UseCase<P, R>(
+        private val coroutineDispatcher: CoroutineDispatcher) {
 
     protected abstract suspend fun execute(parameter: P) : R
 

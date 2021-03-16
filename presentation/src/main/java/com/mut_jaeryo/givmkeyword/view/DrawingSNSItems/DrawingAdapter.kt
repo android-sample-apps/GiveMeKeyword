@@ -91,7 +91,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
         Glide.with(activity.applicationContext)
                 .load(storageReference)
                 .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
-                        .placeholder(R.drawable.shape_sqare_size)
+                        .placeholder(R.drawable.bg_shape_square_size)
                 )
                 .override(300, 500)
                 .transition(DrawableTransitionOptions.withCrossFade())

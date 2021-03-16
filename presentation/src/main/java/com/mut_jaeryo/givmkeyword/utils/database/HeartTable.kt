@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.utils.Database
+package com.mut_jaeryo.givmkeyword.utils.database
 
 class HeartTable {
 

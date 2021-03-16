@@ -1,18 +1,9 @@
-package com.mut_jaeryo.givmkeyword.utils.Database
+package com.mut_jaeryo.givmkeyword.utils.database
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.util.Log
-import cn.pedant.SweetAlert.SweetAlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
-import java.io.ByteArrayOutputStream
-import java.util.*
 
 
 //이미지 저장, 삭제 , 조회 구현
@@ -50,7 +41,7 @@ class FirebaseDB {
                 item.isHeart = !item.isHeart
 
 
-                val doc = sfDocRef.collection("hearts").document(BasicDB.getName(context)!!)
+                val doc = sfDocRef.collection("hearts").document(Preference.getName(context)!!)
 
                 if (item.isHeart) {
 

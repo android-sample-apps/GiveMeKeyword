@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
 
 
 class MyApp : Application() {
@@ -24,10 +23,10 @@ class MyApp : Application() {
                     "getKeyword_Service",
                     NotificationManager.IMPORTANCE_DEFAULT
             )
-            if (!BasicDB.getSound(applicationContext)) {
+            if (!Preference.getSound(applicationContext)) {
                 serviceChannel.setSound(null, null)
             }
-            if (BasicDB.getVibradtion(applicationContext)) {
+            if (Preference.getVibradtion(applicationContext)) {
                 serviceChannel.vibrationPattern = longArrayOf(0, 500)
             }
             val manager = getSystemService(NotificationManager::class.java)
