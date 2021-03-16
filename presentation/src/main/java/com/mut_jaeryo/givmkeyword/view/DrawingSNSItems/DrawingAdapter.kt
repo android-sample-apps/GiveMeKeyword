@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.DrawingMainActivity
 import com.mut_jaeryo.givmkeyword.R
-import com.mut_jaeryo.givmkeyword.utils.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
 

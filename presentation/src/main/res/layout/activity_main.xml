@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/main_pager"
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/main_tabLayout"
-        android:layout_alignParentTop="true">
+        android:layout_height="match_parent"
+        tools:context=".ui.main.MainActivity">
 
-    </androidx.viewpager2.widget.ViewPager2>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/main_pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/main_bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/main_tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:animateLayoutChanges="true"
-        android:animationCache="true"
-        android:background="@color/colorPrimary"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorGravity="top"
-        app:tabTextColor="#ffffff">
+        </androidx.viewpager2.widget.ViewPager2>
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bottom_navigation"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:icon="@drawable/draw_utility_white"
-            android:text="그림" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/story" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/settings" />
-    </com.google.android.material.tabs.TabLayout>
-</RelativeLayout>
+            android:background="@color/colorAccent"
+            app:labelVisibilityMode="selected"
+            app:itemIconTint="@drawable/selector_main_tab_icon_color"
+            app:itemTextColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_navigation" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

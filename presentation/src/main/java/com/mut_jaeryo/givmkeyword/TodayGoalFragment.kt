@@ -17,10 +17,10 @@ import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.mut_jaeryo.givmkeyword.ui.main.MainActivity
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 
 import com.mut_jaeryo.givmkeyword.utils.Database.BasicDB
-import com.mut_jaeryo.givmkeyword.utils.Database.SaveUtils
 import com.mut_jaeryo.givmkeyword.utils.keywords.Keyword
 import com.mut_jaeryo.givmkeyword.view.InkView
 import kotlinx.android.synthetic.main.fragment_today__goal.*

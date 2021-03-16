@@ -9,7 +9,9 @@ import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.databinding.ActivityUploadBinding
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.tistory.blackjinbase.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upload) {
 
     override var logTag: String = "UploadActivity"
@@ -29,7 +31,6 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
         uploadViewModel.isUploadSuccess.observe(this) {
             if (it) {
                 AlertUtills.SuccessAlert(this, "저장에 성공했습니다")
-                setResult(RESULT_OK)
                 finish()
             }
         }

@@ -5,19 +5,23 @@ import com.mashup.domain.common.Result
 import com.mashup.domain.entities.Drawing
 import com.mashup.domain.usecase.UploadUseCase
 import com.mut_jaeryo.givmkeyword.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UploadViewModel(
+@HiltViewModel
+class UploadViewModel @Inject constructor(
         private val uploadUseCase: UploadUseCase,
-        savedStateHandle: SavedStateHandle
+        private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
+    //TODO: userName과 keyword를 가져오는 UseCase 생성
     private val _userName = savedStateHandle.getLiveData<String>("userName")
     val userName: LiveData<String> = _userName
     private val _drawingImageUrl = savedStateHandle.getLiveData<String>("imageUrl")
     val drawingImageUrl: LiveData<String> = _drawingImageUrl
     private val drawingKeyword = savedStateHandle.getLiveData<String>("keyword")
 
-    val drawingContent: LiveData<String> = MutableLiveData<String>()
+    val drawingContent = MutableLiveData<String>()
     private val _isUploading = SingleLiveEvent<Boolean>()
     val isUploading: SingleLiveEvent<Boolean> = _isUploading
     private val _isUploadSuccess = SingleLiveEvent<Boolean>()

@@ -9,7 +9,7 @@ import android.media.RingtoneManager
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.mut_jaeryo.givmkeyword.application.MyApp
-import com.mut_jaeryo.givmkeyword.MainActivity
+import com.mut_jaeryo.givmkeyword.ui.main.MainActivity
 import com.mut_jaeryo.givmkeyword.R
 
 class ShowNotify : Service() {
