@@ -1,8 +1,7 @@
-package com.mut_jaeryo.givmkeyword
+package com.mut_jaeryo.givmkeyword.ui.detail
 
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -10,6 +9,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,41 +25,42 @@ import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import com.mut_jaeryo.givmkeyword.R
+import com.mut_jaeryo.givmkeyword.databinding.ActivityDetailBinding
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.mut_jaeryo.givmkeyword.utils.database.FirebaseDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClick
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DoubleClickListener
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.Items.favoriteitem
-import com.mut_jaeryo.givmkeyword.view.favoriteAdapter
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import kotlinx.android.synthetic.main.activity_drawing_main.*
+import com.tistory.blackjinbase.base.BaseActivity
 
+class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
 
-class DrawingMainActivity : AppCompatActivity() {
+    override var logTag: String = "DrawingMainActivity"
+
+    private val detailViewModel: DetailViewModel by viewModels()
 
     var item: drawingItem? = null
     var arraylist: ArrayList<favoriteitem>? = null
     lateinit var query: Query
     var canScroll = true
-    lateinit var adapter: favoriteAdapter
+    lateinit var adapter: FavoriteAdapter
     val db = FirebaseFirestore.getInstance()
     var myitem: favoriteitem? = null
 
     override fun onEnterAnimationComplete() {
-
-        drawing_main_name.text = item?.name ?: ""
-        drawing_main_image.setOnClickListener(
+        binding.drawingMainName.text = item?.name ?: ""
+        binding.drawingMainImage.setOnClickListener(
                 DoubleClick(object : DoubleClickListener {
                     override fun onDoubleClick(view: View?) {
-
                         // 좋아요 상태가 아니라면 변경
                         if (!item!!.isHeart)
                             FirebaseDB.changeHeart(item!!, applicationContext)
 
-
-                        val drawable: Drawable = drawing_main_like_imageView.drawable
-                        drawing_main_like_imageView.alpha = 0.7f
+                        val drawable: Drawable = binding.drawingMainLikeImageView.drawable
+                        binding.drawingMainLikeImageView.alpha = 0.7f
 
                         when (drawable) {
                             is AnimatedVectorDrawable -> {
@@ -70,25 +71,21 @@ class DrawingMainActivity : AppCompatActivity() {
                                 drawable.start()
                             }
                         }
-
-                        drawing_main_favorite.setImageResource(R.drawable.favorite)
-
+                        binding.drawingMainFavorite.setImageResource(R.drawable.favorite)
                     }
 
                     override fun onSingleClick(view: View?) {
 
                     }
-
                 }))
 
-        drawing_main_content.text = item?.content ?: ""
-        drawing_slide_favorite_count.text = "좋아하는 사람 (${item!!.heart})"
+        binding.drawingMainContent.text = item?.content ?: ""
+        binding.drawingSlideFavoriteCount.text = "좋아하는 사람 (${item!!.heart})"
 
 
+        binding.drawSlideFavoriteList.layoutManager = LinearLayoutManager(this)
 
-        draw_slide_favorite_list.layoutManager = LinearLayoutManager(this)
-
-        darwing_slide_up.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
+        binding.darwingSlideUp.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
             override fun onPanelSlide(panel: View?, slideOffset: Float) {
 
             }
@@ -97,12 +94,12 @@ class DrawingMainActivity : AppCompatActivity() {
                 when (newState) {
                     SlidingUpPanelLayout.PanelState.EXPANDED -> {
                         if (arraylist!!.size == 0) {
-                            drawing_friend_progress.visibility = View.VISIBLE
-                            drawing_friend_progress.spin()
+                            binding.drawingFriendProgress.visibility = View.VISIBLE
+                            binding.drawingFriendProgress.spin()
 
                             arraylist = ArrayList()
-                            adapter = favoriteAdapter(arraylist!!, this@DrawingMainActivity)
-                            draw_slide_favorite_list.adapter = adapter
+                            adapter = FavoriteAdapter(arraylist!!, this@DetailActivity)
+                            binding.drawSlideFavoriteList.adapter = adapter
 
                             //돌고있는중
                             query = db.collection(item!!.keyword!!).document(item!!.id!!).collection("hearts")
@@ -118,15 +115,13 @@ class DrawingMainActivity : AppCompatActivity() {
             }
         })
 
-        draw_slide_favorite_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.drawSlideFavoriteList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (!draw_slide_favorite_list.canScrollVertically(-1)) {
-                    Log.i("list", "Top of list")
-                } else if (!draw_slide_favorite_list.canScrollVertically(1)) {
-                    Log.i("list", "End of list")
+                if (!binding.drawSlideFavoriteList.canScrollVertically(-1)) {
+                } else if (!binding.drawSlideFavoriteList.canScrollVertically(1)) {
                     if (canScroll) {
-                        drawing_slide_refreshLayout.visibility = View.VISIBLE
-                        progress_wheel.spin()
+                        binding.drawingSlideRefreshLayout.visibility = View.VISIBLE
+                        binding.progressWheel.spin()
                         loadFavorite(true)
                     }
                 } else {
@@ -138,10 +133,10 @@ class DrawingMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_drawing_main)
+        setContentView(R.layout.activity_detail)
         arraylist = ArrayList()
         supportPostponeEnterTransition()
-        setSupportActionBar(drawing_main_toolbar)
+        setSupportActionBar(binding.drawingMainToolbar)
 
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -234,10 +229,10 @@ class DrawingMainActivity : AppCompatActivity() {
 
                     if (!recyclerRefresh) {
                         Handler().postDelayed({
-                            drawing_friend_progress.stopSpinning()
+                            binding.drawingFriendProgress.stopSpinning()
                         }, 1500)
                     } else
-                        EndRefresh()
+                     //   endRefresh()
                     try {
                         val lastVisible = querySnapshot.documents[querySnapshot.size() - 1]
                         query = db.collection(item!!.keyword!!).document(item!!.id!!).collection("hearts")
@@ -250,53 +245,40 @@ class DrawingMainActivity : AppCompatActivity() {
                             moreCheck++
                         }
 
-                        canScroll = !(moreCheck < 25)
-                        draw_slide_favorite_list.visibility = View.VISIBLE
+                        canScroll = moreCheck >= 25
+                        binding.drawSlideFavoriteList.visibility = View.VISIBLE
                         adapter.notifyDataSetChanged()
                     } catch (e: ArrayIndexOutOfBoundsException) {
                         canScroll = false
                     }
                 }.addOnFailureListener {
-                    drawing_friend_progress.stopSpinning()
+                    binding.drawingFriendProgress.stopSpinning()
                     AlertUtills.ErrorAlert(applicationContext, "불러오기 실패했습니다 ㅠㅠ")
-                    darwing_slide_up.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                    binding.darwingSlideUp.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
                 }
     }
 
-    private fun EndRefresh() {
-        Handler().postDelayed({
-            progress_wheel.stopSpinning()
-            drawing_slide_refreshLayout.visibility = View.GONE
-        }, 1500)
-
-    }
+//    private fun endRefresh() {
+//        Handle.postDelayed({
+//            progress_wheel.stopSpinning()
+//            drawing_slide_refreshLayout.visibility = View.GONE
+//        }, 1500)
+//    }
 
     override fun onBackPressed() {
-
-        if (darwing_slide_up.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
-            darwing_slide_up.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        if (binding.darwingSlideUp.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
+            binding.darwingSlideUp.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         else
             finish()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-//        val intent = Intent()
-//        intent.putExtra("data",item)
-//        setResult(1,intent)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finishAfterTransition()
-                return true
-            }
-
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> {
+            finishAfterTransition()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 }

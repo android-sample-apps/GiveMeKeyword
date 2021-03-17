@@ -23,9 +23,9 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
 
-        <activity android:name=".DrawingMainActivity"/>
+        <activity android:name=".ui.detail.DetailActivity"/>
         <activity android:name=".ui.upload.UploadActivity" />
-        <activity android:name=".ui.OpenSourceActivity" />
+        <activity android:name=".ui.opensource.OpenSourceActivity" />
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,10 +35,10 @@
         </activity>
 
         <receiver
-            android:name=".utils.receivers.AlertReceiver"
+            android:name="com.mut_jaeryo.givmkeyword.receivers.AlertReceiver"
             android:enabled="true" />
         <receiver
-            android:name=".utils.receivers.BootReceiver"
+            android:name="com.mut_jaeryo.givmkeyword.receivers.BootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

@@ -3,7 +3,7 @@ package com.mashup.data.db
 import android.content.Context
 import com.mashup.data.R
 
-object KeywordModel {
+object KeywordDataBase {
     fun getKeyword(context: Context) = when ((Math.random() * 2).toInt()) {
         0 -> {
             val verb = getVerb(context)

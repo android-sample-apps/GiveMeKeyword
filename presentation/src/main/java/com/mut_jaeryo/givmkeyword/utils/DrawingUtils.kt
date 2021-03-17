@@ -3,7 +3,6 @@ package com.mut_jaeryo.givmkeyword.utils
 class DrawingUtils {
     companion object {
         fun getDayOfWeek(position: Int): String = when (position) {
-
             1 -> "일"
 
             2 -> "월"

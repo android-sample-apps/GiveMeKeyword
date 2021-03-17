@@ -10,21 +10,25 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)
 abstract class DrawingModule {
 
+    @Singleton
     @Binds
     abstract fun bindDrawingService(
             firebaseDrawingServiceImpl: FirebaseDrawingServiceImpl
     ): DrawingService
 
+    @Singleton
     @Binds
     abstract fun bindDrawingDataSource(
             remoteDrawingDataSourceImpl: RemoteDrawingDataSourceImpl
     ): DrawingDataSource
 
+    @Singleton
     @Binds
     abstract fun bindDrawingRepository(
             drawingRepositoryImpl: DrawingRepositoryImpl

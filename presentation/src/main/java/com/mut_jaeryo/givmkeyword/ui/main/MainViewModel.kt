@@ -10,4 +10,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(): ViewModel() {
     private val _imageUrl = MutableLiveData<String>()
     val imageUrl: LiveData<String> = _imageUrl
+
+    fun setImageUrl(url: String) {
+        _imageUrl.value = url
+    }
 }

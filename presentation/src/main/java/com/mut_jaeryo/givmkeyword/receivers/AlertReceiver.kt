@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.utils.receivers
+package com.mut_jaeryo.givmkeyword.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -10,8 +10,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.gms.ads.MobileAds
 import com.mut_jaeryo.givmkeyword.R
-import com.mut_jaeryo.givmkeyword.SettingFragment
-import com.mut_jaeryo.givmkeyword.StoryFragment
+import com.mut_jaeryo.givmkeyword.ui.setting.SettingFragment
+import com.mut_jaeryo.givmkeyword.ui.story.StoryFragment
 import com.mut_jaeryo.givmkeyword.ui.drawing.DrawingFragment
 import com.mut_jaeryo.givmkeyword.databinding.ActivityMainBinding
 import com.mut_jaeryo.givmkeyword.ui.upload.UploadActivity
@@ -30,10 +30,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (!Preference.getInit(applicationContext)) {
-            SendAlert.setAlert(applicationContext, GregorianCalendar())
-        }
+//
+//        if (!Preference.getInit(applicationContext)) {
+//            SendAlert.setAlert(applicationContext, GregorianCalendar())
+//        }
         initMobileAds()
         initViewPager()
         initTabLayout()

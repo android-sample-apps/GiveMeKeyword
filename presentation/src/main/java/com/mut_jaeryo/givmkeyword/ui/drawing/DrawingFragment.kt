@@ -1,9 +1,11 @@
 package com.mut_jaeryo.givmkeyword.ui.drawing
 
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
@@ -19,6 +21,12 @@ import com.mut_jaeryo.givmkeyword.ui.main.MainViewModel
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import kotlin.math.log
+
 
 @AndroidEntryPoint
 class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_drawing) {
@@ -70,20 +78,9 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     private fun initAppBarButton() {
         with(binding) {
             drawingUploadBtn.setOnClickListener {
-                //TODO: 그림 업로드
-
-                //if (BasicDB.getName(context!!) == "이름 미정") {
-//
-//                (activity as MainActivity).goToEditName()
-//                AlertUtills.BasicAlert(context!!, "이름을 등록해주세요!")
-//            } else { //go to upload Activity
-//                SaveUtils.drawingImage = drawView.bitmap
-//
-//                (activity as MainActivity).goToUpload()
-////                val intent = Intent(activity, UploadActivity::class.java)
-////                startActivityForResult(intent,)
-//            }
-//        }
+                saveBitmapToJpeg(binding.drawingView.bitmap)?.let {
+                    mainViewModel.setImageUrl(it.path)
+                }
             }
             drawingDrawUtilityBtn.setOnClickListener {
                 it.isSelected = !it.isSelected
@@ -117,13 +114,6 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     }
 
     private fun initKeywordLayout() {
-//        if (!BasicDB.getInit(context!!)) {
-//            val keyword = Keyword.getKeyword(context!!)
-//            BasicDB.setKeyword(context!!, keyword)
-//            goalTextView.text = keyword
-//            BasicDB.setInit(context!!, true)
-//        } else
-//            goalTextView.text = BasicDB.getKeyword(context!!)
         with(binding) {
             keywordRefresh.setOnClickListener {
                 AlertUtills.RewardAlert(requireContext()) { sweetAlertDialog ->
@@ -238,6 +228,31 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
         rewardedAd?.show(requireActivity()) {
             drawingViewModel.requestNewKeyword()
             loadAd()
+        }
+    }
+
+    private fun saveBitmapToJpeg(bitmap: Bitmap) : File? {
+        //내부저장소 캐시 경로를 받아옵니다.
+        val storage: File = requireContext().cacheDir
+        //저장할 파일 이름
+        val fileName = "cacheImage.jpg"
+        //storage 에 파일 인스턴스를 생성합니다.
+        val tempFile = File(storage, fileName)
+        try {
+            // 자동으로 빈 파일을 생성합니다.
+            tempFile.createNewFile()
+            // 파일을 쓸 수 있는 스트림을 준비합니다.
+            val out = FileOutputStream(tempFile)
+            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+
+            // 스트림 사용후 닫아줍니다.
+            out.close()
+            return tempFile
+        } catch (e: FileNotFoundException) {
+            return null
+        } catch (e: IOException) {
+            return null
         }
     }
 

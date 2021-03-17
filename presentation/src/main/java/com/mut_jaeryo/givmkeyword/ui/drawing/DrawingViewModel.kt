@@ -12,8 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DrawingViewModel @Inject constructor(
         private val getKeywordUseCase: GetKeywordUseCase,
-        private val requestNewKeywordUseCase: RequestNewKeywordUseCase,
-        private val savedStateHandle: SavedStateHandle
+        private val requestNewKeywordUseCase: RequestNewKeywordUseCase
 ): ViewModel() {
     private val _selectedDrawingMode = MutableLiveData(DrawingMode.BRUSH)
     val selectedDrawingMode: LiveData<DrawingMode> = _selectedDrawingMode

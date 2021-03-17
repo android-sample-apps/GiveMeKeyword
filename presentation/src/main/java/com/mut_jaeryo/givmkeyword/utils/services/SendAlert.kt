@@ -5,7 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.mut_jaeryo.givmkeyword.utils.receivers.AlertReceiver
+import com.mut_jaeryo.givmkeyword.receivers.AlertReceiver
 
 import java.util.*
 

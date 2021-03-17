@@ -5,6 +5,6 @@ import android.graphics.Bitmap
 data class DrawingModel(
         val keyword: String,
         val userName: String,
-        val drawing: Bitmap,
+        val drawing: String,
         val content: String,
         )

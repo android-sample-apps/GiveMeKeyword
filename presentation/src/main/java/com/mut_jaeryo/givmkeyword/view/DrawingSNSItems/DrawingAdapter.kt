@@ -12,7 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.storage.FirebaseStorage
-import com.mut_jaeryo.givmkeyword.DrawingMainActivity
+import com.mut_jaeryo.givmkeyword.ui.detail.DetailActivity
 import com.mut_jaeryo.givmkeyword.R
 import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
@@ -70,7 +70,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
             SaveUtils.drawingImage = holder.ImageContainer.drawable.toBitmap()
 
 
-            val intent = Intent(activity, DrawingMainActivity::class.java)
+            val intent = Intent(activity, DetailActivity::class.java)
 //            intent.putExtra("data",item)
             SaveUtils.selectedItem = item
             activity.startActivity(intent, options.toBundle())

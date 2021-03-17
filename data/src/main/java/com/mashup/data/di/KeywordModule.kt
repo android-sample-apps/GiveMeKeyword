@@ -1,31 +1,27 @@
 package com.mashup.data.di
 
-import com.mashup.data.api.keyword.KeywordService
-import com.mashup.data.api.keyword.LocalKeywordServiceImpl
-import com.mashup.data.source.drawing.remote.RemoteDrawingDataSourceImpl
 import com.mashup.data.source.keyword.KeywordDataSource
 import com.mashup.data.source.keyword.KeywordRepositoryImpl
+import com.mashup.data.source.keyword.local.LocalKeywordDataSource
 import com.mashup.domain.repositories.KeywordRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)
 abstract class KeywordModule {
 
     @Binds
-    abstract fun bindKeywordService(
-            localKeywordServiceImpl: LocalKeywordServiceImpl
-    ): KeywordService
-
-    @Binds
+    @Singleton
     abstract fun bindKeywordDataSource(
-            remoteKeywordDataSourceImpl: RemoteDrawingDataSourceImpl
+            localKeywordDataSource: LocalKeywordDataSource
     ): KeywordDataSource
 
     @Binds
+    @Singleton
     abstract fun bindKeywordRepository(
             keywordRepositoryImpl: KeywordRepositoryImpl
     ): KeywordRepository

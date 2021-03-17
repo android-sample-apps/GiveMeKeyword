@@ -1,32 +1,33 @@
-package com.mut_jaeryo.givmkeyword.ui
+package com.mut_jaeryo.givmkeyword.ui.opensource
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import com.mut_jaeryo.givmkeyword.R
+import com.mut_jaeryo.givmkeyword.databinding.ActivityOpenSourceBinding
+import com.tistory.blackjinbase.base.BaseActivity
 
-import kotlinx.android.synthetic.main.activity_open_source.*
+class OpenSourceActivity :
+        BaseActivity<ActivityOpenSourceBinding>(R.layout.activity_open_source) {
 
-class OpenSourceActivity : AppCompatActivity() {
-
+    override var logTag: String = "OpenSourceActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_open_source)
 
-        setSupportActionBar(open_source_toolbar)
+        setSupportActionBar(binding.openSourceToolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
-                return true
+                true
             }
 
             else -> {
-                return super.onOptionsItemSelected(item)
+                super.onOptionsItemSelected(item)
             }
         }
     }
