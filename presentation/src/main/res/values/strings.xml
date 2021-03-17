@@ -14,4 +14,6 @@
     <string name="setting_dialog_title">이름 변경</string>
     <string name="setting_develop_contract">개발자 연락처</string>
     <string name="setting_develop_mail">jaeryo2357@gmail.com</string>
+<!--    자세한 그림 보기 화면-->
+    <string name="detail_favorite_count">좋아하는 사람 (%1$d)</string>
 </resources>

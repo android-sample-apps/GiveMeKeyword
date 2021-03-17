@@ -14,11 +14,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.mut_jaeryo.givmkeyword.ui.detail.DetailActivity
 import com.mut_jaeryo.givmkeyword.R
-import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import com.mut_jaeryo.givmkeyword.entities.DrawingItem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.drawingHolder
 
 
-class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activity) : RecyclerView.Adapter<drawingHolder>() {
+class DrawingAdapter(var arrayList: ArrayList<DrawingItem>, val activity: Activity) : RecyclerView.Adapter<drawingHolder>() {
 
 
     /*
@@ -26,13 +26,13 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
         {
             fun onHeartClick(view: View,position: Int)
         }
-    
+
         lateinit var clickListener : ClickEvent
-    
+
         fun setClickEvent(listener:ClickEvent){
             clickListener = listener
         }
-    
+
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): drawingHolder {
         val view = activity.layoutInflater.inflate(R.layout.drawing_list_layout, parent, false)
@@ -40,7 +40,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
     }
 
 
-    fun changeArray(array: ArrayList<drawingItem>) {
+    fun changeArray(array: ArrayList<DrawingItem>) {
         arrayList = array
     }
 
@@ -50,7 +50,7 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
 
         //Image 적용
 
-        val item: drawingItem = arrayList[position]
+        val item: DrawingItem = arrayList[position]
 
         val id = arrayList[position].id
         val storageReference = FirebaseStorage.getInstance().reference.child("images/$id.png")
@@ -76,17 +76,6 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
             activity.startActivity(intent, options.toBundle())
         }
 
-//        Glide.with(activity.applicationContext)
-//                .load(storageReference)
-//                .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
-//                        .skipMemoryCache(true)
-//                        .placeholder(R.drawable.shape_sqare_size)
-//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                )
-//                .override(300,500)
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .into(holder.ImageContainer)
-
 
         Glide.with(activity.applicationContext)
                 .load(storageReference)
@@ -96,7 +85,5 @@ class DrawingAdapter(var arrayList: ArrayList<drawingItem>, val activity: Activi
                 .override(300, 500)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.ImageContainer)
-
-
     }
 }

@@ -3,7 +3,7 @@ package com.mut_jaeryo.givmkeyword.utils.database
 import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mut_jaeryo.givmkeyword.utils.AlertUtills
-import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import com.mut_jaeryo.givmkeyword.entities.DrawingItem
 
 
 //이미지 저장, 삭제 , 조회 구현
@@ -12,7 +12,7 @@ class FirebaseDB {
 
     companion object {
 
-        fun changeHeart(item: drawingItem, context: Context) {
+        fun changeHeart(item: DrawingItem, context: Context) {
             val db = FirebaseFirestore.getInstance()
 
 
@@ -67,7 +67,7 @@ class FirebaseDB {
 
         }
 
-        fun addHate(item: drawingItem, context: Context) {
+        fun addHate(item: DrawingItem, context: Context) {
             val db = FirebaseFirestore.getInstance()
 
 

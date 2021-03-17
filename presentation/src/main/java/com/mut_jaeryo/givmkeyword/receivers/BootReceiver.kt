@@ -9,14 +9,12 @@ import java.util.*
 
 class BootReceiver : BroadcastReceiver() {
 
-    override fun onReceive(p0: Context?, p1: Intent?) {
-        Log.d("boot", "receiver")
-        if (p1!!.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-            Log.d("boot", "is boot")
-            val gregorianCalendar: GregorianCalendar = GregorianCalendar()
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if (intent!!.action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            val gregorianCalendar = GregorianCalendar()
 
 
-            val date = Preference.getDate(p0!!)!!.split("-")
+            val date = Preference.getDate(context!!)!!.split("-")
 
 
             val year: Int = date[0].toInt()
@@ -29,7 +27,7 @@ class BootReceiver : BroadcastReceiver() {
             gregorianCalendar.set(Calendar.MINUTE, 0)
             gregorianCalendar.set(Calendar.SECOND, 0)
 
-            SendAlert.setAlert(p0, gregorianCalendar)
+            SendAlert.setAlert(context, gregorianCalendar)
 
         }
     }

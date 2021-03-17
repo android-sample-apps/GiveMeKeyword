@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.mut_jaeryo.givmkeyword.entities.DrawingItem"/>
+        <import type="com.mut_jaeryo.givmkeyword.ui.detail.DetailViewModel"/>
+        <variable
+            name="viewModel"
+            type="DetailViewModel" />
     </data>
 
     <RelativeLayout
@@ -28,37 +32,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-
                     <ImageButton
                         android:id="@+id/drawing_main_more"
                         android:layout_width="30dp"
                         android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
                         android:background="@null"
-                        android:src="@drawable/ic_menu_dot"></ImageButton>
-
+                        android:src="@drawable/ic_menu_dot"/>
 
                     <ImageButton
                         android:id="@+id/drawing_main_favorite"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_toLeftOf="@id/drawing_main_more"
+                        android:layout_toStartOf="@id/drawing_main_more"
                         android:background="@null"
-                        android:src="@drawable/favorite_none"></ImageButton>
+                        favoriteIsHeart="@{viewModel.drawingItem.heart}"/>
 
-                    <Button
-                        android:id="@+id/drawing_main_keyword"
-                        android:layout_width="70dp"
+                    <ImageButton
+                        android:id="@+id/detail_keyword_btn"
+                        android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:background="@drawable/round_ripple"
-                        android:padding="10dp"
-                        android:text="주제"
-                        android:layout_toLeftOf="@id/drawing_main_favorite"
-                        android:textColor="#000000"
-                        android:textStyle="bold">
-
-                    </Button>
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_keyword"
+                        android:tint="@drawable/selector_draw_icon_select"
+                        android:layout_toStartOf="@id/drawing_main_favorite"
+                        tools:ignore="ContentDescription" />
 
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -68,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/drawing_main_appbar"
-            android:id="@+id/darwing_slide_up"
+            android:id="@+id/drawing_slide_up"
             app:umanoScrollableView="@id/draw_slide_favorite_list"
             android:gravity="bottom"
             app:umanoPanelHeight="60dp"
@@ -81,7 +80,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="#eeeeee"
                     tools:context=".ui.detail.DetailActivity">
 
@@ -93,7 +92,7 @@
                         android:background="@drawable/bg_shape_square"
                         android:clickable="true"
                         android:elevation="4dp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:focusable="true"
                         android:orientation="vertical"
                         android:paddingTop="10dp"
@@ -130,7 +129,7 @@
                                 android:layout_alignTop="@id/drawing_keyword"
                                 android:layout_centerVertical="true"
                                 android:rotation="180"
-                                android:src="@drawable/ic_format_left"></ImageView>
+                                android:src="@drawable/ic_format_left"/>
 
                             <TextView
                                 android:id="@+id/drawing_keyword"
@@ -141,7 +140,7 @@
                                 android:maxWidth="240dp"
                                 android:maxHeight="500dp"
                                 android:scrollbars="vertical"
-                                android:text="가로등 밑에서 비를 맞고 있는 사람"
+                                android:text="@{viewModel.drawingItem.keyword}"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:textStyle="bold">
@@ -166,9 +165,11 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:transitionName="draw"
+                        firebaseImage="@{viewModel.drawingItem.id}"
                         android:adjustViewBounds="true"
                         android:background="@drawable/bg_shape_square"
-                        app:layout_constraintTop_toTopOf="parent"></ImageView>
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <ImageView
                         android:id="@+id/drawing_main_like_imageView"
@@ -176,10 +177,10 @@
                         android:layout_height="120dp"
                         android:alpha="0"
                         android:src="@drawable/avd_instargram_like"
-                        app:layout_constraintBottom_toBottomOf="@+id/drawing_main_image"
-                        app:layout_constraintEnd_toEndOf="@+id/drawing_main_image"
-                        app:layout_constraintStart_toStartOf="@+id/drawing_main_image"
-                        app:layout_constraintTop_toTopOf="@+id/drawing_main_image" />
+                        app:layout_constraintBottom_toBottomOf="@id/drawing_main_image"
+                        app:layout_constraintEnd_toEndOf="@id/drawing_main_image"
+                        app:layout_constraintStart_toStartOf="@id/drawing_main_image"
+                        app:layout_constraintTop_toTopOf="@id/drawing_main_image" />
 
 
                     <com.borjabravo.readmoretextview.ReadMoreTextView
@@ -191,17 +192,18 @@
                         android:textColor="#000000"
                         android:layout_marginRight="20dp"
                         android:textStyle="bold"
+                        android:text="@{viewModel.drawingItem.content}"
                         app:colorClickableText="@color/colorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/drawing_main_image"
+                        app:layout_constraintTop_toBottomOf="@id/drawing_main_image"
                         app:showTrimExpandedText="false"
                         app:trimLength="100"
                         tools:text="Title" />
 
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/darwing_main_profile_image"
+                        android:id="@+id/drawing_main_profile_image"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="20dp"
@@ -219,10 +221,10 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginLeft="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="작가 이름"
+                        android:text="@{viewModel.drawingItem.name}"
                         android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="@+id/darwing_main_profile_image"
-                        app:layout_constraintStart_toEndOf="@+id/darwing_main_profile_image" />
+                        app:layout_constraintBottom_toBottomOf="@+id/drawing_main_profile_image"
+                        app:layout_constraintStart_toEndOf="@+id/drawing_main_profile_image" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
 
@@ -238,12 +240,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:text="좋아하는 사람"
+                    favoriteCount="@{viewModel.drawingItem.heartCount}"
                     android:id="@+id/drawing_slide_favorite_count"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:textColor="#000000"
-                    android:drawableTop="@drawable/favorite"></TextView>
+                    android:drawableTop="@drawable/favorite"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -251,9 +253,10 @@
                     android:visibility="invisible"
                     android:layout_marginTop="15dp"
                     android:padding="5dp"
+                    favoriteList="@{viewModel.favoriteItemList}"
                     android:background="@drawable/bg_shape_square"
                     android:layout_below="@id/drawing_slide_favorite_count"
-                    android:id="@+id/draw_slide_favorite_list"></androidx.recyclerview.widget.RecyclerView>
+                    android:id="@+id/draw_slide_favorite_list"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -275,8 +278,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="불러오는 중"></TextView>
-
+                        android:text="불러오는 중"/>
                 </LinearLayout>
 
                 <com.pnikosis.materialishprogress.ProgressWheel

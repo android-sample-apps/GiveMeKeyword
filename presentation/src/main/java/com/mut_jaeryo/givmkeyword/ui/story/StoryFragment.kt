@@ -25,7 +25,7 @@ import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.mut_jaeryo.givmkeyword.utils.database.DrawingDB
 import com.mut_jaeryo.givmkeyword.view.DrawingSNSItems.DrawingAdapter
 import com.mut_jaeryo.givmkeyword.view.Items.RecyclerDecoration
-import com.mut_jaeryo.givmkeyword.view.Items.drawingItem
+import com.mut_jaeryo.givmkeyword.entities.DrawingItem
 import kotlinx.android.synthetic.main.fragment_story.*
 
 /**
@@ -45,9 +45,9 @@ class StoryFragment : Fragment() {
     var newest = true
     var mode: StoryMode = StoryMode.NEW
 
-    var Keyword_array: ArrayList<drawingItem>? = null
-    var hottest_array: ArrayList<drawingItem>? = null
-    var myArt_array: ArrayList<drawingItem>? = null
+    var keyword_array: ArrayList<DrawingItem>? = null
+    var hottest_array: ArrayList<DrawingItem>? = null
+    var myArt_array: ArrayList<DrawingItem>? = null
 
     var isPaging = false
 
@@ -78,13 +78,13 @@ class StoryFragment : Fragment() {
             //GoalTextView.text = TodayGoal
             drawing_story_progress.visibility = View.VISIBLE
             drawing_story_progress.spin()
-            Keyword_array = null
+            keyword_array = null
             hottest_array = null
             myArt_array = null
 
             when (mode) {
                 StoryMode.NEW -> {
-                    Keyword_array = ArrayList()
+                    keyword_array = ArrayList()
                 }
 
                 StoryMode.HOT -> {
@@ -127,12 +127,12 @@ class StoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        Keyword_array = ArrayList()
+        keyword_array = ArrayList()
         TodayGoal = Preference.getKeyword(context!!) ?: ""
         val spaceDecoration = RecyclerDecoration(40)
 
         uploadWork = Preference.getWork(context!!) ?: 0
-        adater = DrawingAdapter(Keyword_array!!, activity!!)
+        adater = DrawingAdapter(keyword_array!!, activity!!)
         story_recycler.addItemDecoration(spaceDecoration)
         story_recycler.adapter = adater
         var spanCount = 2
@@ -188,13 +188,13 @@ class StoryFragment : Fragment() {
                 story_recycler.visibility = View.INVISIBLE
                 drawing_story_progress.spin()
 
-                if (Keyword_array!!.size == 0) {
+                if (keyword_array!!.size == 0) {
                     drawing_story_progress.stopSpinning()
                     UploadedZero()
                 } else {
                     if (story_notice.visibility == View.VISIBLE)
                         story_notice.visibility = View.GONE
-                    adater.changeArray(Keyword_array!!)
+                    adater.changeArray(keyword_array!!)
                     story_recycler.visibility = View.VISIBLE
                     adater.notifyDataSetChanged()
                     drawing_story_progress.stopSpinning()
@@ -311,7 +311,7 @@ class StoryFragment : Fragment() {
         val db = FirebaseFirestore.getInstance()
         var more_check = 0
 
-        var array: ArrayList<drawingItem> = Keyword_array!!
+        var array: ArrayList<DrawingItem> = keyword_array!!
         var last = newest_last
         val collectionRef = db.collection(TodayGoal)
         var query: Query = collectionRef.limit(25)
@@ -352,7 +352,7 @@ class StoryFragment : Fragment() {
                             val name: String = document.getString("name") ?: "알수없음"
                             val content: String = document.getString("content") ?: ""
                             val heartNum: Int = document.getLong("heart")?.toInt() ?: 0
-                            array.add(drawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
+                            array.add(DrawingItem(document.id, TodayGoal, name, content, heartNum, DrawingDB.db.getMyHeart(document.id)))
 
                         }
 
@@ -403,7 +403,7 @@ class StoryFragment : Fragment() {
                                 val name: String = it.getString("name") ?: "알수없음"
                                 val content: String = it.getString("content") ?: ""
                                 val heartNum: Int = it.getLong("heart")?.toInt() ?: 0
-                                array.add(drawingItem(document.id, keyword, name, content, heartNum, DrawingDB.db.getMyHeart(id)))
+                                array.add(DrawingItem(document.id, keyword, name, content, heartNum, DrawingDB.db.getMyHeart(id)))
 
                                 if (story_recycler.visibility == View.INVISIBLE)
                                     story_recycler.visibility = View.VISIBLE

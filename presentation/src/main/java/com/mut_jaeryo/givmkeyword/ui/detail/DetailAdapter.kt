@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mut_jaeryo.givmkeyword.R
+import com.mut_jaeryo.givmkeyword.entities.FavoriteItem
 
-import com.mut_jaeryo.givmkeyword.view.Items.favoriteitem
 import com.mut_jaeryo.givmkeyword.view.ViewHolders.favoriteHolder
 
-class FavoriteAdapter(private val arrayList: ArrayList<favoriteitem>) : RecyclerView.Adapter<favoriteHolder>() {
+class DetailAdapter(private val arrayList: List<FavoriteItem>) : RecyclerView.Adapter<favoriteHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): favoriteHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.favorite_person_list, parent, false)
@@ -18,7 +18,7 @@ class FavoriteAdapter(private val arrayList: ArrayList<favoriteitem>) : Recycler
     override fun getItemCount(): Int = arrayList.size
 
     override fun onBindViewHolder(holder: favoriteHolder, position: Int) {
-        val item: favoriteitem = arrayList[position]
+        val item: FavoriteItem = arrayList[position]
         holder.name.text = item.name
     }
 }
