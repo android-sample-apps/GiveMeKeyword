@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".application.MyApp"
+        android:name="com.mut_jaeryo.givmkeyword.application.MyApp"
         android:allowBackup="false"
         android:icon="@mipmap/app_name"
         android:largeHeap="true"
@@ -23,10 +23,10 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
 
-        <activity android:name=".ui.detail.DetailActivity"/>
-        <activity android:name=".ui.upload.UploadActivity" />
-        <activity android:name=".ui.opensource.OpenSourceActivity" />
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name="com.mut_jaeryo.presentation.ui.detail.DetailActivity"/>
+        <activity android:name="com.mut_jaeryo.presentation.ui.upload.UploadActivity" />
+        <activity android:name="com.mut_jaeryo.presentation.ui.opensource.OpenSourceActivity" />
+        <activity android:name="com.mut_jaeryo.presentation.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".utils.services.ShowNotify"
+            android:name="com.mut_jaeryo.givmkeyword.utils.services.ShowNotify"
             android:enabled="true" />
     </application>
 

@@ -4,12 +4,4 @@
     <color name="colorPrimaryDark">#4285f4</color>
     <color name="colorAccent">#4285F4</color>
     <color name="colorNotAccent">#c8d2fe</color>
-
-    <color name="yellow">#f6d257</color>
-    <color name="green">#88b14b</color>
-    <color name="pink">#efcec5</color>
-    <color name="wood">#d1af94</color>
-    <color name="red">#ef562d</color>
-    <color name="darkBlue">#5587a2</color>
-    <color name="darkGreen">#5c7148</color>
 </resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SwitchThumb" parent="Widget.AppCompat.CompoundButton.Switch">
+
+        <item name="android:colorForeground">#ffffff</item>
+        <item name="android:colorControlActivated">#ffffff</item>
+    </style>
+</resources>

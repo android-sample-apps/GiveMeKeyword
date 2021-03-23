@@ -1,4 +1,4 @@
-package com.mut_jaeryo.givmkeyword.view;
+package com.mut_jaeryo.presentation.custom;
 
 /*
  * Copyright (c) 2016 Mastercard
@@ -30,8 +30,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-
-import com.mut_jaeryo.givmkeyword.R;
+import com.mut_jaeryo.presentation.R;
 
 import java.util.ArrayList;
 

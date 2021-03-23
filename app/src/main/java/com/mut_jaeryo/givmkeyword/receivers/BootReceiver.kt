@@ -3,7 +3,6 @@ package com.mut_jaeryo.givmkeyword.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.mut_jaeryo.givmkeyword.utils.services.SendAlert
 import java.util.*
 

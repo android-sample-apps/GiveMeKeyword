@@ -2,7 +2,6 @@ package com.mut_jaeryo.givmkeyword.utils.database
 
 import android.content.Context
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mut_jaeryo.givmkeyword.utils.AlertUtills
 import com.mut_jaeryo.givmkeyword.entities.DrawingItem
 
 

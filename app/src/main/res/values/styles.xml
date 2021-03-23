@@ -14,11 +14,4 @@
         <item name="android:windowSharedElementExitTransition">@transition/custom_trans</item>
 
     </style>
-
-    <style name="SwitchThumb" parent="Widget.AppCompat.CompoundButton.Switch">
-
-        <item name="android:colorForeground">#ffffff</item>
-        <item name="android:colorControlActivated">#ffffff</item>
-    </style>
-
 </resources>
