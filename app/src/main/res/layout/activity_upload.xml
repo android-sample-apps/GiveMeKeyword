@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.mut_jaeryo.givmkeyword.ui.upload.UploadViewModel"/>
+        <variable
+            name="viewModel"
+            type="UploadViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.upload.UploadActivity">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/upload_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/upload_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#ffffff">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/upload_success"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@null"
+                        android:text="완료"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="업로드"
+                        android:onClick="@{() -> viewModel.uploadDrawing()}"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <ImageView
+            android:id="@+id/upload_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="18dp"
+            imageUrl="@{viewModel.drawingImageUrl}"
+            android:background="@drawable/round_storke_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_appbar"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/upload_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/upload_image"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/upload_image"
+            android:text="작가 이름"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toEndOf="@+id/upload_image"
+            app:layout_constraintTop_toTopOf="@+id/upload_image" />
+
+        <TextView
+            android:id="@+id/upload_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/upload_name_tv"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            android:gravity="center"
+            android:text="@{viewModel.userName}"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/upload_image"
+            app:layout_constraintTop_toBottomOf="@id/upload_name_tv" />
+
+
+        <TextView
+            android:id="@+id/upload_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:text="하고 싶은 말"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_image" />
+
+        <EditText
+            android:id="@+id/upload_content_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="18dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="ex) 키워드 평가.."
+            android:text="@={viewModel.drawingContent}"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:maxLines="30"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_content_tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
