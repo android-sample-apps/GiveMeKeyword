@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.mut_jaeryo.givmkeyword.entities.DrawingItem"/>
-        <import type="com.mut_jaeryo.givmkeyword.ui.detail.DetailViewModel"/>
+        <import type="com.mut_jaeryo.presentation.entities.DrawingItem"/>
+        <import type="com.mut_jaeryo.presentation.ui.detail.DetailViewModel"/>
         <variable
             name="viewModel"
             type="DetailViewModel" />
@@ -39,7 +39,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="10dp"
                         android:background="@null"
-                        android:src="@drawable/ic_menu_dot"/>
+                        android:src="@drawable/ic_menu_dot"
+                        tools:ignore="ContentDescription" />
 
                     <ImageButton
                         android:id="@+id/drawing_main_favorite"
@@ -47,7 +48,8 @@
                         android:layout_height="40dp"
                         android:layout_toStartOf="@id/drawing_main_more"
                         android:background="@null"
-                        favoriteIsHeart="@{viewModel.drawingItem.heart}"/>
+                        favoriteIsHeart="@{viewModel.drawingItem.heart}"
+                        tools:ignore="ContentDescription" />
 
                     <ImageButton
                         android:id="@+id/detail_keyword_btn"
@@ -153,9 +155,8 @@
                                 android:layout_alignTop="@id/drawing_keyword"
                                 android:layout_centerVertical="true"
                                 android:layout_toRightOf="@id/drawing_keyword"
-                                android:src="@drawable/ic_format_left">
-
-                            </ImageView>
+                                android:src="@drawable/ic_format_left"
+                                tools:ignore="ContentDescription" />
                         </RelativeLayout>
                     </RelativeLayout>
 
@@ -211,7 +212,7 @@
                         app:civ_circle_background_color="@color/colorNotAccent"
                         android:src="@drawable/ic_person"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/drawing_main_content" />
+                        app:layout_constraintTop_toBottomOf="@id/drawing_main_content" />
 
                     <TextView
                         android:id="@+id/drawing_main_name"
@@ -222,9 +223,9 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginBottom="10dp"
                         android:text="@{viewModel.drawingItem.name}"
-                        android:textColor="#000000"
-                        app:layout_constraintBottom_toBottomOf="@+id/drawing_main_profile_image"
-                        app:layout_constraintStart_toEndOf="@+id/drawing_main_profile_image" />
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@id/drawing_main_profile_image"
+                        app:layout_constraintStart_toEndOf="@id/drawing_main_profile_image" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </ScrollView>
 
@@ -233,19 +234,19 @@
                 android:layout_height="match_parent"
                 android:id="@+id/dragview"
                 android:clickable="true"
-                android:focusable="false"
+                android:focusable="true"
                 android:background="#eeeeee"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    favoriteCount="@{viewModel.drawingItem.heartCount}"
                     android:id="@+id/drawing_slide_favorite_count"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textColor="#000000"
-                    android:drawableTop="@drawable/favorite"/>
+                    android:text="@{@string/detail_favorite_count(viewModel.drawingItem.heartCount)}"
+                    android:textColor="@color/black"
+                    app:drawableTopCompat="@drawable/ic_favorite" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -278,7 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="불러오는 중"/>
+                        android:text="@string/detail_loading"/>
                 </LinearLayout>
 
                 <com.pnikosis.materialishprogress.ProgressWheel

@@ -16,7 +16,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentDrawingBinding
 import com.mut_jaeryo.presentation.ui.main.MainViewModel
-import com.mut_jaeryo.presentation.utils.rewardAlert
+import com.mut_jaeryo.presentation.extensions.rewardAlert
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -116,11 +116,15 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     private fun initKeywordLayout() {
         with(binding) {
             keywordRefresh.setOnClickListener {
-                requireActivity().rewardAlert { sweetAlertDialog ->
-                    sweetAlertDialog.dismiss()
-                    showAds()
-                }
+                drawingViewModel.requestNewKeyword()
             }
+        }
+    }
+
+    private fun showAdMobDialog() {
+        requireActivity().rewardAlert { sweetAlertDialog ->
+            sweetAlertDialog.dismiss()
+            showAds()
         }
     }
 
@@ -203,6 +207,9 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
                 else -> {
                 }
             }
+        }
+        drawingViewModel.adMobDialogEvent.observe(viewLifecycleOwner) {
+            showAdMobDialog()
         }
     }
 

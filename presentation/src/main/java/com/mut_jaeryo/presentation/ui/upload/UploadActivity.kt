@@ -7,8 +7,8 @@ import androidx.activity.viewModels
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityUploadBinding
-import com.mut_jaeryo.presentation.utils.errorAlert
-import com.mut_jaeryo.presentation.utils.successAlert
+import com.mut_jaeryo.presentation.extensions.errorAlert
+import com.mut_jaeryo.presentation.extensions.successAlert
 import com.tistory.blackjinbase.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 

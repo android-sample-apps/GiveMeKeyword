@@ -5,11 +5,11 @@
     <string name="app_id">ca-app-pub-5645268985361077~6814954433</string>
     <string name="ad_reward_test_id">ca-app-pub-3940256099942544/5224354917</string>
     <string name="ad_reward_id">ca-app-pub-5645268985361077/7082741267</string>
-    <string name="keyword_drawing_none"><![CDATA[ 이 <font color=\"#2a7de2\">키워드</font>에 대한 그림이 존재하지 않습니다.\n <b>사용자의 그림</b>을 올려 사람들에게 보여주세요!!]]></string>
+    <string name="keyword_drawing_none">그림이 존재하지 않습니다! 그림을 그려 사용자들에게 보여주세요!</string>
     <string name="menu_draw">그림</string>
     <string name="menu_story">스토리</string>
     <string name="menu_setting">설정</string>
-<!--    그림 그리는 화면-->
+    <!--    그림 그리는 화면-->
     <string name="drawing_new_keyword">새로운 주제</string>
     <string name="drawing_keyword_title">오늘의 주제</string>
     <!--    업로드-->
@@ -20,7 +20,19 @@
     <!--    설정 화면-->
     <string name="setting_dialog_title">이름 변경</string>
     <string name="setting_develop_contract">개발자 연락처</string>
+    <string name="setting_personal">기타</string>
+    <string name="setting_notification">알림 설정</string>
+    <string name="setting_opensource">오픈소스 라이선스</string>
     <string name="setting_develop_mail">jaeryo2357@gmail.com</string>
+    <string name="setting_name_empty_message">올바른 이름을 입력해주세요.</string>
     <!--    자세한 그림 보기 화면-->
     <string name="detail_favorite_count">좋아하는 사람 (%1$d)</string>
+    <string name="detail_loading">불러오는중..</string>
+    <string name="detail_report">신고하기</string>
+    <!--  스토리  -->
+    <string name="story_all_button">전체</string>
+    <string name="story_keyword_button">이번 주제</string>
+    <!--    알람-->
+    <string name="notification_title">오늘의 주제는.</string>
+    <string name="notification_description">오늘도 광고없이 그림 주제를 받아보세요! 하루에 최대 3번 새로운 그림 주제를 받을 수 있습니다.</string>
 </resources>

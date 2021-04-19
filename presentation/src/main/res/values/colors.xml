@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#4285f4</color>
     <color name="colorAccent">#4285F4</color>
     <color name="colorNotAccent">#c8d2fe</color>
+    <color name="surface_color">#eeeeee</color>
 
+    <color name="black">#000000</color>
     <color name="yellow">#f6d257</color>
     <color name="green">#88b14b</color>
     <color name="pink">#efcec5</color>

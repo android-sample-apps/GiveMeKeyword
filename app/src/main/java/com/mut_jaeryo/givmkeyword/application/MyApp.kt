@@ -8,8 +8,8 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MyApp : Application() {
-    companion object { //kotlin에는 static이 없고 companion으로 선언해준다.
-        val CANNEL_ID = "getKeyword"
+    companion object {
+        const val CHANNEL_ID = "getKeyword"
     }
 
     override fun onCreate() {
@@ -20,7 +20,7 @@ class MyApp : Application() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
-                    CANNEL_ID,
+                    CHANNEL_ID,
                     "getKeyword_Service",
                     NotificationManager.IMPORTANCE_DEFAULT
             )

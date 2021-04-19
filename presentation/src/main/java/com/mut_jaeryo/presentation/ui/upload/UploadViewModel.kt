@@ -1,12 +1,11 @@
 package com.mut_jaeryo.presentation.ui.upload
 
 import androidx.lifecycle.*
-import com.mut_jaeryo.givmkeyword.domain.common.Result
-import com.mut_jaeryo.givmkeyword.domain.entities.Drawing
-import com.mut_jaeryo.givmkeyword.domain.usecase.GetKeywordUseCase
-import com.mut_jaeryo.givmkeyword.domain.usecase.GetUserUseCase
-import com.mut_jaeryo.givmkeyword.domain.usecase.UpdateWorkUseCase
-import com.mut_jaeryo.givmkeyword.domain.usecase.UploadImageUseCase
+import com.mut_jaeryo.domain.common.Result
+import com.mut_jaeryo.domain.entities.Drawing
+import com.mut_jaeryo.domain.usecase.GetKeywordUseCase
+import com.mut_jaeryo.domain.usecase.GetUserUseCase
+import com.mut_jaeryo.domain.usecase.UploadImageUseCase
 import com.mut_jaeryo.presentation.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -18,7 +17,6 @@ class UploadViewModel @Inject constructor(
         private val uploadImageUseCase: UploadImageUseCase,
         private val getKeywordUseCase: GetKeywordUseCase,
         private val getUserUseCase: GetUserUseCase,
-        private val updateWorkUseCase: UpdateWorkUseCase,
         private val savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     private val _drawingImageUrl = savedStateHandle.getLiveData<String>("imageUrl")
@@ -46,7 +44,7 @@ class UploadViewModel @Inject constructor(
     fun getUserNameAsync() = viewModelScope.launch {
         getUserUseCase(Unit).let {
             if (it is Result.Success) {
-                _userName.value = it.data.name
+                _userName.postValue(it.data.name)
             }
         }
     }
@@ -60,17 +58,9 @@ class UploadViewModel @Inject constructor(
         )
         uploadImageUseCase(drawing).let {
             if (it is Result.Success) {
-               _isUploadSuccess.value = true
+               _isUploadSuccess.postValue(true)
             } else {
-                _uploadErrorMessage.value = (it as Result.Error).exception.message
-            }
-        }
-    }
-
-    private suspend fun updateWork() = viewModelScope.launch {
-        updateWorkUseCase(Unit).let {
-            if (it is Result.Error) {
-                _uploadErrorMessage.value = it.exception.message
+                _uploadErrorMessage.postValue((it as Result.Error).exception.message)
             }
         }
     }
