@@ -5,8 +5,11 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
 @BindingAdapter("imageUrl")
-fun setImageUrl(view: ImageView, imageUrl: String) {
-    Glide.with(view.context)
-            .load(imageUrl)
-            .into(view)
+fun setImageUrl(view: ImageView, imageUrl: String?) {
+    imageUrl?.let {
+        Glide.with(view.context)
+                .load(imageUrl)
+                .thumbnail(0.25f)
+                .into(view)
+    }
 }

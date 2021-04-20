@@ -1,6 +1,5 @@
 package com.mut_jaeryo.presentation.ui.drawing
 
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -19,10 +18,6 @@ import com.mut_jaeryo.presentation.ui.main.MainViewModel
 import com.mut_jaeryo.presentation.extensions.rewardAlert
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 
 @AndroidEntryPoint
 class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_drawing) {
@@ -81,7 +76,7 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     private fun initAppBarButton() {
         with(binding) {
             drawingUploadBtn.setOnClickListener {
-                setImageUrl()
+                drawingViewModel.getDrawingCachePath(binding.drawingView.bitmap)
             }
             drawingDrawUtilityBtn.setOnClickListener { drawUtil ->
                 drawUtil.isSelected = !drawUtil.isSelected
@@ -106,12 +101,6 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
                 drawingDrawUtilityBtn.isSelected = false
                 hideUtilLayout()
             }
-        }
-    }
-
-    private fun setImageUrl() {
-        saveBitmapToJpeg(binding.drawingView.bitmap)?.let {
-            mainViewModel.setImageUrl(it.path)
         }
     }
 
@@ -240,6 +229,12 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
         drawingViewModel.adMobDialogEvent.observe(viewLifecycleOwner) {
             showAdMobDialog()
         }
+
+        drawingViewModel.drawingCacheImageUrl.observe(this) { imageUrl ->
+            imageUrl?.let {
+                mainViewModel.setImageUrl(it)
+            }
+        }
     }
 
     private fun showKeywordLayout() {
@@ -264,31 +259,6 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
         rewardedAd?.show(requireActivity()) {
             drawingViewModel.getNewKeyword()
             loadAd()
-        }
-    }
-
-    private fun saveBitmapToJpeg(bitmap: Bitmap) : File? {
-        //내부저장소 캐시 경로를 받아옵니다.
-        val storage: File = requireContext().cacheDir
-        //저장할 파일 이름
-        val fileName = "cacheImage.jpg"
-        //storage 에 파일 인스턴스를 생성합니다.
-        val tempFile = File(storage, fileName)
-        try {
-            // 자동으로 빈 파일을 생성합니다.
-            tempFile.createNewFile()
-            // 파일을 쓸 수 있는 스트림을 준비합니다.
-            val out = FileOutputStream(tempFile)
-            // compress 함수를 사용해 스트림에 비트맵을 저장합니다.
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-
-            // 스트림 사용후 닫아줍니다.
-            out.close()
-            return tempFile
-        } catch (e: FileNotFoundException) {
-            return null
-        } catch (e: IOException) {
-            return null
         }
     }
 

@@ -21,6 +21,7 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.viewModel = uploadViewModel
 
         setSupportActionBar(binding.uploadToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

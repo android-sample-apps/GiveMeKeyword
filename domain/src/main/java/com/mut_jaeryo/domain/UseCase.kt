@@ -3,6 +3,7 @@ package com.mut_jaeryo.domain
 import kotlinx.coroutines.withContext
 import com.mut_jaeryo.domain.common.Result
 import kotlinx.coroutines.Dispatchers
+import org.jetbrains.annotations.NotNull
 
 abstract class UseCase<P, R>() {
 

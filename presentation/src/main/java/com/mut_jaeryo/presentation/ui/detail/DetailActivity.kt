@@ -25,6 +25,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.drawingMainToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.viewModel = detailViewModel
 
         initAppBarButton()
         initSlideUpLayout()

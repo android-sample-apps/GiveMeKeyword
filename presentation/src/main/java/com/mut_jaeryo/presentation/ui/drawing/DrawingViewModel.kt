@@ -1,5 +1,6 @@
 package com.mut_jaeryo.presentation.ui.drawing
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
 import androidx.lifecycle.*
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class DrawingViewModel @Inject constructor(
         private val getKeywordUseCase: GetKeywordUseCase,
         private val requestNewKeywordUseCase: RequestNewKeywordUseCase,
-        private val getKeywordRequestCountUseCase: GetKeywordRequestCountUseCase
+        private val getKeywordRequestCountUseCase: GetKeywordRequestCountUseCase,
+        private val getDrawingCachePathUseCase: GetDrawingCachePathUseCase
 ): ViewModel() {
     private val _selectedDrawingMode = MutableLiveData(DrawingMode.BRUSH)
     val selectedDrawingMode: LiveData<DrawingMode> = _selectedDrawingMode
@@ -26,6 +28,8 @@ class DrawingViewModel @Inject constructor(
     val adMobDialogEvent: SingleLiveEvent<Unit> = _adMobDialogEvent
     private val _keyword = MutableLiveData<String>()
     val keyword: LiveData<String> = _keyword
+    private val _drawingCacheImageUrl = SingleLiveEvent<String?>()
+    val drawingCacheImageUrl: SingleLiveEvent<String?> = _drawingCacheImageUrl
 
     fun loadKeyword() = viewModelScope.launch {
         getKeywordUseCase(Unit).let {
@@ -62,6 +66,14 @@ class DrawingViewModel @Inject constructor(
 
     fun setBrushColor(color: Int) {
         _selectedDrawingColor.value = color
+    }
+
+    fun getDrawingCachePath(bitmap: Bitmap) = viewModelScope.launch {
+        getDrawingCachePathUseCase(bitmap).let {
+            if (it is Result.Success) {
+                _drawingCacheImageUrl.postValue(it.data)
+            }
+        }
     }
 
     companion object {

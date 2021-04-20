@@ -24,6 +24,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.viewModel = viewModel
         initLayout()
         initRecyclerView()
         observeViewModel()
