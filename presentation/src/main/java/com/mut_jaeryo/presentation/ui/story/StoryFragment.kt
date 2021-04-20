@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentStoryBinding
 import com.mut_jaeryo.presentation.ui.detail.DetailActivity
+import com.mut_jaeryo.presentation.ui.story.adapter.StoryAdapter
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +27,8 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = storyViewModel
+        storyViewModel.getDrawingAll()
+
         initLayout()
 
         initRecyclerView()
@@ -45,6 +48,9 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         binding.storyRecycler.apply {
             layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
             addItemDecoration(StoryDecoration(40))
+            adapter = StoryAdapter() {
+                storyViewModel.setDetailEvent(it)
+            }
         }
     }
 
@@ -84,14 +90,18 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
             if (it) {
                 binding.drawingStoryProgress.apply {
                     visibility = View.VISIBLE
+                    spin()
                 }
             } else {
-                binding.drawingStoryProgress.stopSpinning()
+                binding.drawingStoryProgress.apply {
+                    visibility = View.INVISIBLE
+                    stopSpinning()
+                }
             }
         }
         storyViewModel.showDetailEventWithItem.observe(viewLifecycleOwner) {
-            val intent = Intent(activity, DetailActivity::class.java).apply {
-                putExtra("id",it)
+            val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
+                putExtra("drawing", it)
             }
             requireActivity().startActivity(intent)
         }

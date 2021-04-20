@@ -21,7 +21,7 @@ class StoryViewModel @Inject constructor(
         private val getKeywordUseCase: GetKeywordUseCase,
         private val getDrawingKeywordUseCase: GetDrawingKeywordUseCase,
         private val getDrawingAllUseCase: GetDrawingAllUseCase
-): ViewModel() {
+) : ViewModel() {
     private val _storyMode = MutableLiveData(StoryMode.ALL)
     val storyMode: LiveData<StoryMode> = _storyMode
     private val _storyList = MutableLiveData<List<DrawingItem>>(emptyList())
@@ -40,7 +40,7 @@ class StoryViewModel @Inject constructor(
         }
     }
 
-    private fun getDrawingAll() = viewModelScope.launch {
+    fun getDrawingAll() = viewModelScope.launch {
         _isStoryLoading.postValue(true)
         getDrawingAllUseCase(Unit).let {
             if (it is Result.Success) {
@@ -50,7 +50,7 @@ class StoryViewModel @Inject constructor(
         }
     }
 
-    private fun getKeywordAsync() = viewModelScope.async {
+    fun getKeywordAsync() = viewModelScope.async {
         getKeywordUseCase(Unit).let { result ->
             if (result is Result.Success) {
                 result.data.keyword
@@ -72,9 +72,7 @@ class StoryViewModel @Inject constructor(
         }
     }
 
-    fun setDetailEvent(position: Int) {
-        _storyList.value?.let {
-            _showDetailEventWithItem.value = it[position]
-        }
+    fun setDetailEvent(item: DrawingItem) {
+        _showDetailEventWithItem.value = item
     }
 }

@@ -11,13 +11,13 @@ import com.mut_jaeryo.presentation.ui.story.StoryViewModel
 
 
 class StoryAdapter(
-        private val viewModel: StoryViewModel
+        private val clickEvent: (DrawingItem) -> Unit
 ) : ListAdapter<DrawingItem, StoryHolder>(DrawingItem.DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryHolder {
         return StoryHolder(
                 ItemDrawingBinding.inflate(LayoutInflater.from(parent.context),
-                        parent, false), viewModel
+                        parent, false), clickEvent
         )
     }
 
@@ -28,18 +28,14 @@ class StoryAdapter(
 
 class StoryHolder(
         private val binding: ItemDrawingBinding,
-        private val viewModel: StoryViewModel
+        private val clickEvent: (DrawingItem) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-
-    init {
-        binding.root.setOnClickListener {
-            viewModel.setDetailEvent(adapterPosition)
-        }
-    }
 
    fun bind(item: DrawingItem) {
        binding.item = item
-       binding.executePendingBindings()
+       binding.root.setOnClickListener {
+           clickEvent(item)
+       }
    }
 }
 

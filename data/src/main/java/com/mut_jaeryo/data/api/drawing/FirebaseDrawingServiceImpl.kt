@@ -16,14 +16,16 @@ import com.google.firebase.storage.StorageReference
 import com.mut_jaeryo.data.dto.DrawingModel
 import com.mut_jaeryo.data.dto.FavoriteModel
 import com.mut_jaeryo.domain.entities.Drawing
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
 import javax.inject.Inject
 
 class FirebaseDrawingServiceImpl @Inject constructor(
-     @ApplicationContext private val context: Context
+        @ApplicationContext private val context: Context
 ) : DrawingService {
     @SuppressLint("CheckResult")
     override suspend fun uploadDrawing(drawingModel: DrawingModel) {
@@ -32,10 +34,11 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         val imagesRef: StorageReference = FirebaseStorage.getInstance().reference.child("images/" + drawingDocument.id + ".png")
         val byteStream = ByteArrayOutputStream()
         Glide.with(context).asBitmap().load(drawingModel.imageUrl)
-                .addListener(object: RequestListener<Bitmap> {
+                .addListener(object : RequestListener<Bitmap> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                         throw Exception("image load failed")
                     }
+
                     override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                         resource?.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
                         return false
@@ -65,52 +68,64 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getDrawingAll(): List<DrawingModel> {
-        val drawingList = mutableListOf<DrawingModel>()
-        val db = Firebase.firestore
+    override suspend fun getDrawingAll() =
+            suspendCancellableCoroutine<List<DrawingModel>> { coroutine ->
+                val db = Firebase.firestore
+                val drawingList = mutableListOf<DrawingModel>()
 
-        db.collection("images")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        drawingList.add(
-                                DrawingModel(document.id,
-                                        document.getString("keyword") ?: "알수없음",
-                                        document.getString("name") ?: "알수없음",
-                                        content = document.getString("content") ?: "알수없음",
-                                        heartCount = document.getLong("heart")?.toInt() ?: 0,
-                                        isHeart = false))
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    throw exception
-                }
-        return drawingList
-    }
+                db.collection("images")
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                drawingList.add(
+                                        DrawingModel(
+                                                document.id,
+                                                document.getString("keyword") ?: "알수없음",
+                                                document.getString("name") ?: "알수없음",
+                                                content = document.getString("content") ?: "알수없음",
+                                                heartCount = document.getLong("heart")?.toInt()
+                                                        ?: 0,
+                                                isHeart = false
+                                        )
+                                )
+                            }
 
-    override suspend fun getDrawingWithKeyword(keyword: String): List<DrawingModel> {
-        val drawingList = mutableListOf<DrawingModel>()
-        val db = Firebase.firestore
+                            coroutine.resume(drawingList) {
+                                throw it
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            throw exception
+                        }
+            }
 
-        db.collection("images")
-                .whereEqualTo("keyword", keyword)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        drawingList.add(
-                                DrawingModel(document.id,
-                                        document.getString("keyword") ?: "알수없음",
-                                        document.getString("name") ?: "알수없음",
-                                        content = document.getString("content") ?: "알수없음",
-                                        heartCount = document.getLong("heart")?.toInt() ?: 0,
-                                        isHeart = false))
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    throw exception
-                }
-        return drawingList
-    }
+    override suspend fun getDrawingWithKeyword(keyword: String) =
+            suspendCancellableCoroutine<List<DrawingModel>> { coroutine ->
+                val drawingList = mutableListOf<DrawingModel>()
+                val db = Firebase.firestore
+
+                db.collection("images")
+                        .whereEqualTo("keyword", keyword)
+                        .get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                drawingList.add(
+                                        DrawingModel(document.id,
+                                                document.getString("keyword") ?: "알수없음",
+                                                document.getString("name") ?: "알수없음",
+                                                content = document.getString("content") ?: "알수없음",
+                                                heartCount = document.getLong("heart")?.toInt()
+                                                        ?: 0,
+                                                isHeart = false))
+                            }
+                            coroutine.resume(drawingList) {
+                                throw it
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            throw exception
+                        }
+            }
 
     override suspend fun getFavoriteList(drawing: Drawing): List<FavoriteModel> {
         val favoriteList = mutableListOf<FavoriteModel>()
@@ -144,7 +159,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         }.addOnSuccessListener {
 
         }.addOnFailureListener { exception ->
-           throw exception
+            throw exception
         }
 
     }
@@ -166,7 +181,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         }.addOnSuccessListener {
 
         }.addOnFailureListener { exception ->
-           throw exception
+            throw exception
         }
     }
 }

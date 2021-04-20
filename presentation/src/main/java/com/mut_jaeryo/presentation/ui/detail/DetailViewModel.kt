@@ -23,7 +23,7 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
     private val _drawingItem = savedStateHandle.getLiveData<DrawingItem>("drawing")
     val drawingItem: LiveData<DrawingItem> = _drawingItem
-    private val _favoriteList = MutableLiveData<List<FavoriteItem>>()
+    private val _favoriteList = MutableLiveData<List<FavoriteItem>>(emptyList())
     val favoriteItemList: LiveData<List<FavoriteItem>> = _favoriteList
     private val _errorMessage = SingleLiveEvent<String>()
     val errorMessage: SingleLiveEvent<String> = _errorMessage
