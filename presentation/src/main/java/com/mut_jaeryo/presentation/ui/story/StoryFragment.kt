@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mut_jaeryo.presentation.R
@@ -17,25 +18,26 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override var logTag: String = "StoryFragment"
 
-    private val viewModel: StoryViewModel by viewModels()
+    private val storyViewModel: StoryViewModel by viewModels()
 
     companion object {
         const val SPAN_COUNT = 2
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.viewModel = viewModel
+        binding.viewModel = storyViewModel
         initLayout()
+
         initRecyclerView()
         observeViewModel()
     }
 
     private fun initLayout() {
         binding.storySortAll.setOnClickListener {
-            viewModel.setStoryMode(StoryMode.ALL)
+            storyViewModel.setStoryMode(StoryMode.ALL)
         }
         binding.storySortKeyword.setOnClickListener {
-            viewModel.setStoryMode(StoryMode.KEYWORD)
+            storyViewModel.setStoryMode(StoryMode.KEYWORD)
         }
     }
 
@@ -47,20 +49,38 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     }
 
     private fun observeViewModel() {
-        viewModel.storyMode.observe(viewLifecycleOwner) {
+        storyViewModel.storyMode.observe(viewLifecycleOwner) {
             when (it) {
                 StoryMode.ALL -> {
-                    binding.storySortKeyword.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.surface_color)
-                    binding.storySortAll.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.githubBlack)
+                    binding.storySortAll.apply {
+                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_shape_square, null)
+                        backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorAccent)
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    }
+
+                    binding.storySortKeyword.apply {
+                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_round_ripple, null)
+                        backgroundTintList = null
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                    }
                 }
 
                 else -> {
-                    binding.storySortAll.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.surface_color)
-                    binding.storySortKeyword.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.githubBlack)
+                    binding.storySortKeyword.apply {
+                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_shape_square, null)
+                        backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorAccent)
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    }
+
+                    binding.storySortAll.apply {
+                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_round_ripple, null)
+                        backgroundTintList = null
+                        setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                    }
                 }
             }
         }
-        viewModel.isStoryLoading.observe(viewLifecycleOwner) {
+        storyViewModel.isStoryLoading.observe(viewLifecycleOwner) {
             if (it) {
                 binding.drawingStoryProgress.apply {
                     visibility = View.VISIBLE
@@ -69,12 +89,11 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 binding.drawingStoryProgress.stopSpinning()
             }
         }
-        viewModel.showDetailEventWithItem.observe(viewLifecycleOwner) {
+        storyViewModel.showDetailEventWithItem.observe(viewLifecycleOwner) {
             val intent = Intent(activity, DetailActivity::class.java).apply {
                 putExtra("id",it)
             }
             requireActivity().startActivity(intent)
         }
     }
-
 }
