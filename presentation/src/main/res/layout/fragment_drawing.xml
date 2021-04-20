@@ -3,31 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <import type="com.mut_jaeryo.presentation.ui.drawing.DrawingViewModel"/>
-        <variable
-            name="viewModel"
-            type="DrawingViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#eeeeee"
         tools:context=".ui.drawing.DrawingFragment">
-
-        <TextView
-            android:id="@+id/drawing_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/menu_draw"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/drawing_upload_btn"
@@ -37,6 +17,7 @@
             android:layout_marginEnd="18dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
+            android:elevation="2dp"
             android:src="@drawable/ic_send"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,8 +31,9 @@
             android:layout_marginEnd="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_draw"
+            android:elevation="2dp"
             android:tint="@drawable/selector_draw_icon_select"
-            app:layout_constraintEnd_toStartOf="@+id/drawing_upload_btn"
+            app:layout_constraintEnd_toStartOf="@id/drawing_upload_btn"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
 
@@ -63,11 +45,26 @@
             android:layout_marginEnd="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
+            android:elevation="2dp"
             android:src="@drawable/ic_keyword"
             android:tint="@drawable/selector_draw_icon_select"
-            app:layout_constraintEnd_toStartOf="@+id/drawing_draw_utility_btn"
+            app:layout_constraintEnd_toStartOf="@id/drawing_draw_utility_btn"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/drawing_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/menu_draw"
+            android:elevation="2dp"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,11 +72,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="10dp"
-            android:paddingBottom="10dp"
+            android:layout_marginEnd="18dp"
             android:background="@drawable/bg_shape_square"
+            android:clickable="true"
             android:elevation="4dp"
-            android:visibility="gone"
+            android:focusable="true"
+            android:paddingBottom="10dp"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/drawing_title">
@@ -110,7 +111,7 @@
                 android:rotation="180"
                 android:src="@drawable/ic_format_left"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/keyword_refresh"
+                app:layout_constraintTop_toBottomOf="@id/keyword_refresh"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -121,7 +122,7 @@
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_format_left"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/keyword_refresh"
+                app:layout_constraintTop_toBottomOf="@id/keyword_refresh"
                 tools:ignore="ContentDescription">
 
             </ImageView>
@@ -132,16 +133,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:maxHeight="500dp"
+                android:maxLines="5"
                 android:scrollbars="vertical"
                 android:text="@{viewModel.keyword}"
-                android:textColor="#000000"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/keyword_format_right"
-                app:layout_constraintStart_toEndOf="@+id/keyword_left_format"
-                app:layout_constraintTop_toBottomOf="@+id/keyword_refresh">
-            </TextView>
+                app:layout_constraintEnd_toStartOf="@id/keyword_format_right"
+                app:layout_constraintStart_toEndOf="@id/keyword_left_format"
+                app:layout_constraintTop_toBottomOf="@id/keyword_refresh" />
 
 
             <TextView
@@ -155,36 +155,25 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </TextView>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/util_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="18dp"
             android:background="@drawable/bg_shape_square"
+            android:clickable="true"
             android:elevation="4dp"
+            android:focusable="true"
             android:paddingBottom="10dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/drawing_title">
-
-            <ImageView
-                android:id="@+id/util_selected_color"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                backgroundColor="@{viewModel.selectedDrawingColor}"
-                android:src="@drawable/bg_shape_stroke_square"
-                app:layout_constraintBottom_toTopOf="@+id/util_line_2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/util_line_1"
-                tools:ignore="ContentDescription" />
 
             <HorizontalScrollView
                 android:id="@+id/util_color_list"
@@ -315,7 +304,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
-
             <ImageButton
                 android:id="@+id/util_draw_zoom"
                 android:layout_width="24dp"
@@ -329,6 +317,7 @@
                 app:layout_constraintStart_toEndOf="@id/util_draw_eraser"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
+
 
             <ImageButton
                 android:id="@+id/util_draw_delete"
@@ -370,6 +359,18 @@
                 android:tint="@drawable/selector_draw_icon_press"
                 app:layout_constraintEnd_toStartOf="@id/util_draw_redo"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/util_selected_color"
+                backgroundColor="@{viewModel.selectedDrawingColor}"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/bg_shape_stroke_square"
+                app:layout_constraintBottom_toTopOf="@+id/util_line_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/util_line_1"
                 tools:ignore="ContentDescription" />
 
 
@@ -516,13 +517,13 @@
 
         <com.mut_jaeryo.presentation.custom.InkView
             android:id="@+id/drawing_view"
+            brushColor="@{viewModel.selectedDrawingColor}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            brushColor="@{viewModel.selectedDrawingColor}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -531,4 +532,13 @@
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="com.mut_jaeryo.presentation.ui.drawing.DrawingViewModel" />
+
+        <variable
+            name="viewModel"
+            type="DrawingViewModel" />
+    </data>
 </layout>

@@ -7,7 +7,7 @@ import androidx.preference.PreferenceManager
 
 
 object MyPreferences {
-    private const val PREF_KEYWORD = "Keyword"
+    private const val PREF_KEYWORD = "keyword"
     private const val PREF_NAME = "name"
     private const val PREF_DATE = "Date"
     private const val PREF_INIT = "init"

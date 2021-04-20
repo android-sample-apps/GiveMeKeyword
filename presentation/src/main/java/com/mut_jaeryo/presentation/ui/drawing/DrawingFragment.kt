@@ -35,10 +35,17 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     private var rewardedAd: RewardedAd? = null
     private var brushColor = DEFAULT_COLOR
 
+    override fun onResume() {
+        super.onResume()
+        drawingViewModel.loadKeyword()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = drawingViewModel
 
         drawingViewModel.loadKeyword()
+        loadAd()
 
         initSelectedButton()
         initAppBarButton()
@@ -76,21 +83,28 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
             drawingUploadBtn.setOnClickListener {
                 setImageUrl()
             }
-            drawingDrawUtilityBtn.setOnClickListener {
-                it.isSelected = !it.isSelected
-                if (it.isSelected) {
+            drawingDrawUtilityBtn.setOnClickListener { drawUtil ->
+                drawUtil.isSelected = !drawUtil.isSelected
+                if (drawUtil.isSelected) {
                     showUtilLayout()
                 } else {
                     hideUtilLayout()
                 }
+
+                drawingKeywordBtn.isSelected = false
+                hideKeywordLayout()
             }
-            drawingKeywordBtn.setOnClickListener {
-                it.isSelected = !it.isSelected
-                if (it.isSelected) {
+            drawingKeywordBtn.setOnClickListener { keyword ->
+                keyword.isSelected = !keyword.isSelected
+                if (keyword.isSelected) {
                     showKeywordLayout()
+                    drawingViewModel.loadKeyword()
                 } else {
                     hideKeywordLayout()
                 }
+
+                drawingDrawUtilityBtn.isSelected = false
+                hideUtilLayout()
             }
         }
     }
@@ -129,6 +143,15 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     }
 
     private fun initDrawUtilLayout() {
+        binding.utilDrawBrush.setOnClickListener {
+            drawingViewModel.setDrawingMode(DrawingMode.BRUSH)
+        }
+        binding.utilDrawZoom.setOnClickListener {
+            drawingViewModel.setDrawingMode(DrawingMode.ZOOM)
+        }
+        binding.utilDrawEraser.setOnClickListener {
+            drawingViewModel.setDrawingMode(DrawingMode.ERASER)
+        }
         binding.utilDrawRedo.setOnClickListener {
             binding.drawingView.redo()
         }
@@ -198,6 +221,12 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
                 DrawingMode.ZOOM -> binding.drawingView.setZoomMode(true)
                 else -> drawingViewModel.setBrushColor(ERASER_COLOR)
             }
+
+            with(binding) {
+                utilDrawBrush.isSelected = drawingMode == DrawingMode.BRUSH
+                utilDrawZoom.isSelected = drawingMode == DrawingMode.ZOOM
+                utilDrawEraser.isSelected = drawingMode == DrawingMode.ERASER
+            }
         }
         drawingViewModel.unSelectedDrawingMode.observe(viewLifecycleOwner) { drawingMode ->
             when (drawingMode) {
@@ -233,7 +262,7 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
 
     private fun showAds() {
         rewardedAd?.show(requireActivity()) {
-            drawingViewModel.requestNewKeyword()
+            drawingViewModel.getNewKeyword()
             loadAd()
         }
     }

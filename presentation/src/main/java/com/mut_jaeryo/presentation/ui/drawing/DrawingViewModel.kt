@@ -1,6 +1,7 @@
 package com.mut_jaeryo.presentation.ui.drawing
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.*
 import com.mut_jaeryo.domain.common.Result
 import com.mut_jaeryo.domain.usecase.*
@@ -23,14 +24,13 @@ class DrawingViewModel @Inject constructor(
     val selectedDrawingColor = _selectedDrawingColor
     private val _adMobDialogEvent = SingleLiveEvent<Unit>()
     val adMobDialogEvent: SingleLiveEvent<Unit> = _adMobDialogEvent
-
     private val _keyword = MutableLiveData<String>()
     val keyword: LiveData<String> = _keyword
 
     fun loadKeyword() = viewModelScope.launch {
         getKeywordUseCase(Unit).let {
             if (it is Result.Success) {
-                _keyword.value = it.data.keyword
+                _keyword.postValue(it.data.keyword)
             }
         }
     }
@@ -38,8 +38,10 @@ class DrawingViewModel @Inject constructor(
     fun requestNewKeyword() = viewModelScope.launch {
         getKeywordRequestCountUseCase(Unit).let {
             if (it is Result.Success) {
-                if (it.data > FREE_MAX_REQUEST_COUNT) {
-                    _adMobDialogEvent.value = Unit
+                if (it.data >= FREE_MAX_REQUEST_COUNT) {
+                    _adMobDialogEvent.postValue(Unit)
+                } else {
+                    getNewKeyword()
                 }
             }
         }
@@ -48,9 +50,14 @@ class DrawingViewModel @Inject constructor(
     fun getNewKeyword() = viewModelScope.launch {
         requestNewKeywordUseCase(Unit).let {
             if (it is Result.Success) {
-                _keyword.value = it.data.keyword
+                _keyword.postValue(it.data.keyword)
             }
         }
+    }
+
+    fun setDrawingMode(drawingMode: DrawingMode) {
+        _unSelectedDrawingMode.value = _selectedDrawingMode.value
+        _selectedDrawingMode.value = drawingMode
     }
 
     fun setBrushColor(color: Int) {
