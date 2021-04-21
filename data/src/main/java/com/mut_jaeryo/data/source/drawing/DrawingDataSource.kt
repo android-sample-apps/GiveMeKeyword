@@ -12,8 +12,6 @@ interface DrawingDataSource {
 
     suspend fun getDrawingListWithKeyword(keyword: String): List<DrawingModel>
 
-    suspend fun getFavoriteList(drawing: Drawing): List<FavoriteModel>
-
     suspend fun reportDrawing(drawing: Drawing)
 
     suspend fun changeDrawingHeart(drawing: Drawing)

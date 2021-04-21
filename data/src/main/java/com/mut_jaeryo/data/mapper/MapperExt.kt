@@ -5,7 +5,6 @@ import com.mut_jaeryo.data.dto.FavoriteModel
 import com.mut_jaeryo.data.dto.KeywordModel
 import com.mut_jaeryo.data.dto.UserModel
 import com.mut_jaeryo.domain.entities.Drawing
-import com.mut_jaeryo.domain.entities.Favorite
 import com.mut_jaeryo.domain.entities.Keyword
 import com.mut_jaeryo.domain.entities.User
 
@@ -41,8 +40,4 @@ fun User.toData() = UserModel(
 fun List<DrawingModel>.toDomain() = this.map {
     Drawing(id = it.id, keyword = it.keyword, userName = it.userName,
     imageUrl = it.imageUrl, content = it.content, heartCount = it.heartCount, isHeart = it.isHeart)
-}
-
-fun List<FavoriteModel>.toDomain() = this.map {
-    Favorite(name = it.name)
 }

@@ -7,11 +7,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityDetailBinding
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.tistory.blackjinbase.base.BaseActivity
 import com.tistory.blackjinbase.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,8 +26,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         binding.viewModel = detailViewModel
 
         initAppBarButton()
-        initSlideUpLayout()
-        initFavoriteList()
+        initDrawingImage()
 
         observeViewModel()
     }
@@ -52,24 +49,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             builder.show()
         }
 
-        binding.drawingMainFavorite.setOnClickListener {
-            detailViewModel.changeDrawingHeart()
-        }
     }
 
-    private fun initSlideUpLayout() {
-        binding.drawingSlideUp.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
-            override fun onPanelSlide(panel: View?, slideOffset: Float) {}
-
-            override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    binding.drawingFriendProgress.visibility = View.VISIBLE
-                    binding.drawingFriendProgress.spin()
-
-                    detailViewModel.loadFavoriteList()
-                }
-            }
-        })
+    private fun initDrawingImage() {
         binding.drawingMainImage.setOnClickListener(
                 DoubleClick(object : DoubleClick.DoubleClickListener {
                     override fun onDoubleClick(view: View?) {
@@ -85,7 +67,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                                 drawable.start()
                             }
                         }
-                        binding.drawingMainFavorite.setImageResource(R.drawable.ic_favorite)
                     }
                     override fun onSingleClick(view: View?) {
                     }
@@ -97,20 +78,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         detailViewModel.errorMessage.observe(this) {
             toast(it)
         }
-    }
-
-
-    private fun initFavoriteList() {
-        binding.drawSlideFavoriteList.apply {
-            layoutManager = LinearLayoutManager(applicationContext)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (binding.drawingSlideUp.panelState == SlidingUpPanelLayout.PanelState.EXPANDED)
-            binding.drawingSlideUp.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-        else
-            finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

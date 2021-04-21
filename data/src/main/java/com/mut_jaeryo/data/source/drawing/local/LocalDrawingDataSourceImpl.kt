@@ -30,10 +30,6 @@ class LocalDrawingDataSourceImpl @Inject constructor(
         return emptyList()
     }
 
-    override suspend fun getFavoriteList(drawing: Drawing): List<FavoriteModel> {
-        return emptyList()
-    }
-
     override suspend fun reportDrawing(drawing: Drawing) {
     }
 

@@ -9,6 +9,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -74,6 +75,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                 val drawingList = mutableListOf<DrawingModel>()
 
                 db.collection("images")
+                        .orderBy("heart", Query.Direction.DESCENDING)
                         .get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
@@ -127,23 +129,6 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                         }
             }
 
-    override suspend fun getFavoriteList(drawing: Drawing): List<FavoriteModel> {
-        val favoriteList = mutableListOf<FavoriteModel>()
-        val db = Firebase.firestore
-
-        db.collection("images").document(drawing.id).collection("hearts")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        favoriteList.add(FavoriteModel(document.id))
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    throw exception
-                }
-        return favoriteList
-    }
-
     override suspend fun reportDrawing(drawing: Drawing) {
         val db = FirebaseFirestore.getInstance()
 
@@ -172,9 +157,9 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         db.runTransaction { transaction ->
             val snapshot = transaction.get(drawingFireStore)
 
-            val heartNum = snapshot.getLong("heart")?.toInt() ?: 0 + 1
+            val heartNum = snapshot.getLong("heart")?.toInt() ?: 0
 
-            transaction.update(drawingFireStore, "heart", heartNum)
+            transaction.update(drawingFireStore, "heart", heartNum + 1)
 
             // Success
             null
