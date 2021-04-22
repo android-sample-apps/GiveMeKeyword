@@ -12,6 +12,7 @@
     <!--    그림 그리는 화면-->
     <string name="drawing_new_keyword">새로운 주제</string>
     <string name="drawing_keyword_title">오늘의 주제</string>
+    <string name="drawing_create_user_message">그림을 업로드하기 위해서는 사용자를 등록해야 합니다</string>
     <!--    업로드-->
     <string name="upload_success">저장에 성공했습니다</string>
     <string name="upload_content">그림을 설명하는 문구는 무엇일까요?? </string>
@@ -19,12 +20,14 @@
     <string name="upload_name_tv">작가 이름</string>
     <!--    설정 화면-->
     <string name="setting_dialog_title">이름 변경</string>
+    <string name="setting_not_user">미등록 계정</string>
     <string name="setting_develop_contract">개발자 연락처</string>
     <string name="setting_personal">기타</string>
     <string name="setting_notification">알림 설정</string>
     <string name="setting_opensource">오픈소스 라이선스</string>
     <string name="setting_develop_mail">jaeryo2357@gmail.com</string>
     <string name="setting_name_empty_message">올바른 이름을 입력해주세요.</string>
+    <string name="setting_name_dialog_content_hint">최초 1회 변경가능합니다</string>
     <!--    자세한 그림 보기 화면-->
     <string name="detail_keyword_title">그림의 주제</string>
     <string name="detail_favorite_count">좋아하는 사람 (%1$d)</string>

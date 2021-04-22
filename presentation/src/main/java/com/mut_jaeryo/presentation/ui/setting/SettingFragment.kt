@@ -24,6 +24,11 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         super.onCreate(savedInstanceState)
         binding.viewModel = settingViewModel
 
+        initView()
+        observeViewModel()
+    }
+
+    private fun initView() {
         binding.settingNotificationSetting.apply {
             visibility = View.GONE
         }
@@ -31,22 +36,16 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
         binding.settingProfileNameEdit.setOnClickListener {
             showNameEditDialog()
         }
-
-        observeViewModel()
     }
 
     private fun observeViewModel() {
         settingViewModel.errorMessage.observe(viewLifecycleOwner) {
             toast(it)
         }
-        settingViewModel.userName.observe(viewLifecycleOwner) {
-            binding.settingProfileNameEdit.visibility =
-                    if (it == "이름 미정") View.VISIBLE else View.GONE
-        }
     }
 
     private fun showNameEditDialog() {
-        val viewInflated = LayoutInflater.from(context).inflate(R.layout.alert_dialog, view as ViewGroup, false)
+        val viewInflated = LayoutInflater.from(context).inflate(R.layout.dailog_name_change, view as ViewGroup, false)
 
         val input = viewInflated.findViewById(R.id.input) as EditText
         val builder = AlertDialog.Builder(context)

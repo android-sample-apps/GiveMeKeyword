@@ -11,8 +11,10 @@ import javax.inject.Inject
 class LocalUserDataSource @Inject constructor(
         @ApplicationContext private val context: Context
 ) : UserDataSource {
-    override suspend fun getUser(): UserModel =
-        UserModel(MyPreferences.getName(context) ?: "알 수없음", 0)
+    override suspend fun getUser(): UserModel? =
+            MyPreferences.getName(context)?.let { name ->
+                UserModel(name, 0)
+            }
 
     override suspend fun createUser(user: UserModel) {
         MyPreferences.setName(context, user.name)

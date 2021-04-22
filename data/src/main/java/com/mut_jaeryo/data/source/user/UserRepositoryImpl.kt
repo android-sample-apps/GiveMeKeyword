@@ -10,8 +10,8 @@ class UserRepositoryImpl @Inject constructor(
     private val localUserDataSource: UserDataSource,
     private val remoteUserDataSource: UserDataSource
 ) : UserRepository {
-    override suspend fun getUser(): User {
-        return localUserDataSource.getUser().toDomain()
+    override suspend fun getUser(): User? {
+        return localUserDataSource.getUser()?.toDomain()
     }
 
     override suspend fun createUser(user: User) {

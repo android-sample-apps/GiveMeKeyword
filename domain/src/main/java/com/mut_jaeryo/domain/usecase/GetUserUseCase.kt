@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class GetUserUseCase @Inject constructor(
         private val userRepository: UserRepository
-) : UseCase<Any, User>() {
+) : UseCase<Any, User?>() {
     override suspend fun execute(parameter: Any) =
             userRepository.getUser()
 }

@@ -23,8 +23,8 @@ class UploadViewModel @Inject constructor(
     val drawingImageUrl: LiveData<String> = _drawingImageUrl
     val drawingContent = MutableLiveData<String>()
     private val _isUploading = SingleLiveEvent<Boolean>()
-    private val _userName = MutableLiveData<String>()
-    val userName: LiveData<String> = _userName
+    private val _userName = MutableLiveData<String?>()
+    val userName: LiveData<String?> = _userName
     val isUploading: SingleLiveEvent<Boolean> = _isUploading
     private val _isUploadSuccess = SingleLiveEvent<Boolean>()
     val isUploadSuccess: SingleLiveEvent<Boolean> = _isUploadSuccess
@@ -44,7 +44,7 @@ class UploadViewModel @Inject constructor(
     fun getUserNameAsync() = viewModelScope.launch {
         getUserUseCase(Unit).let {
             if (it is Result.Success) {
-                _userName.postValue(it.data.name)
+                _userName.postValue(it.data?.name)
             }
         }
     }

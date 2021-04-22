@@ -32,8 +32,8 @@ class SettingViewModel @Inject constructor(
     private fun loadUserName() = viewModelScope.launch {
         getUserUseCase(Unit).let {
             if (it is Result.Success) {
-                _userName.value = it.data.name
-                _userEditAvailable.value = it.data.name == "이름 미정"
+                _userName.value = it.data?.name
+                _userEditAvailable.value = it.data?.name == null
             }
         }
     }
@@ -43,8 +43,10 @@ class SettingViewModel @Inject constructor(
             if (it is Result.Success) {
                 _userName.value = name
                 _userEditAvailable.value = false
-            } else if (it is Result.Error){
-                _errorMessage.value = it.exception.message
+            } else if (it is Result.Error) {
+                it.exception.message?.let { message ->
+                    _errorMessage.postValue(message)
+                }
             }
         }
     }

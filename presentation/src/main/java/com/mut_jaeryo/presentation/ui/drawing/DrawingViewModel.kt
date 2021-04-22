@@ -16,7 +16,8 @@ class DrawingViewModel @Inject constructor(
         private val getKeywordUseCase: GetKeywordUseCase,
         private val requestNewKeywordUseCase: RequestNewKeywordUseCase,
         private val getKeywordRequestCountUseCase: GetKeywordRequestCountUseCase,
-        private val getDrawingCachePathUseCase: GetDrawingCachePathUseCase
+        private val getDrawingCachePathUseCase: GetDrawingCachePathUseCase,
+        private val getUserUseCase: GetUserUseCase
 ): ViewModel() {
     private val _selectedDrawingMode = MutableLiveData(DrawingMode.BRUSH)
     val selectedDrawingMode: LiveData<DrawingMode> = _selectedDrawingMode
@@ -30,6 +31,8 @@ class DrawingViewModel @Inject constructor(
     val keyword: LiveData<String> = _keyword
     private val _drawingCacheImageUrl = SingleLiveEvent<String?>()
     val drawingCacheImageUrl: SingleLiveEvent<String?> = _drawingCacheImageUrl
+    private val _needCreateUser = SingleLiveEvent<Unit>()
+    val needCreateUser: SingleLiveEvent<Unit> = _needCreateUser
 
     fun loadKeyword() = viewModelScope.launch {
         getKeywordUseCase(Unit).let {
@@ -68,7 +71,19 @@ class DrawingViewModel @Inject constructor(
         _selectedDrawingColor.value = color
     }
 
-    fun getDrawingCachePath(bitmap: Bitmap) = viewModelScope.launch {
+    fun requestDrawingUpload(bitmap: Bitmap) = viewModelScope.launch {
+        getUserUseCase(Unit).let { result ->
+            if (result is Result.Success) {
+                if (result.data == null) {
+                    _needCreateUser.postValue(Unit)
+                } else {
+                    getDrawingCachePath(bitmap)
+                }
+            }
+        }
+    }
+
+    private fun getDrawingCachePath(bitmap: Bitmap) = viewModelScope.launch {
         getDrawingCachePathUseCase(bitmap).let {
             if (it is Result.Success) {
                 _drawingCacheImageUrl.postValue(it.data)

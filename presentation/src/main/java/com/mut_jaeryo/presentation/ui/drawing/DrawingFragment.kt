@@ -17,6 +17,7 @@ import com.mut_jaeryo.presentation.databinding.FragmentDrawingBinding
 import com.mut_jaeryo.presentation.ui.main.MainViewModel
 import com.mut_jaeryo.presentation.extensions.rewardAlert
 import com.tistory.blackjinbase.base.BaseFragment
+import com.tistory.blackjinbase.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,7 +77,7 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     private fun initAppBarButton() {
         with(binding) {
             drawingUploadBtn.setOnClickListener {
-                drawingViewModel.getDrawingCachePath(binding.drawingView.bitmap)
+                drawingViewModel.requestDrawingUpload(binding.drawingView.bitmap)
             }
             drawingDrawUtilityBtn.setOnClickListener { drawUtil ->
                 drawUtil.isSelected = !drawUtil.isSelected
@@ -234,6 +235,9 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
             imageUrl?.let {
                 mainViewModel.setImageUrl(it)
             }
+        }
+        drawingViewModel.needCreateUser.observe(this) {
+            toast(R.string.drawing_create_user_message)
         }
     }
 

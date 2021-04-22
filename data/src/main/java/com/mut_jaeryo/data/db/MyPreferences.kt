@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.SharedPreferences
 
 import androidx.preference.PreferenceManager
+import com.mut_jaeryo.data.R
 
 
 object MyPreferences {
     private const val PREF_KEYWORD = "keyword"
     private const val PREF_NAME = "name"
     private const val PREF_DATE = "Date"
-    private const val PREF_INIT = "init"
     private const val PREF_REQUEST_COUNT = "today_newKeywordCount"
     private const val PREF_SOUND = "sound"
     private const val PREF_VIB = "vibration"
@@ -21,7 +21,7 @@ object MyPreferences {
     }
 
     fun getKeyword(ctx: Context): String {
-        return getSharedPreferences(ctx).getString(PREF_KEYWORD, "가로등 밑에서 비를 맞고 있는 사람") ?: ""
+        return getSharedPreferences(ctx).getString(PREF_KEYWORD, ctx.getString(R.string.init_keyword)) ?: ""
     }
 
     fun getSound(ctx: Context): Boolean {
@@ -60,19 +60,8 @@ object MyPreferences {
         editor.apply()
     }
 
-
-    fun setInit(ctx: Context, init: Boolean) {
-        val editor: SharedPreferences.Editor = getSharedPreferences(ctx).edit()
-        editor.putBoolean(PREF_INIT, init)
-        editor.apply()
-    }
-
-    fun getInit(ctx: Context): Boolean {
-        return getSharedPreferences(ctx).getBoolean(PREF_INIT, false)
-    }
-
     fun getName(ctx: Context): String? {
-        return getSharedPreferences(ctx).getString(PREF_NAME, "이름 미정")
+        return getSharedPreferences(ctx).getString(PREF_NAME, null)
     }
 
     fun setDate(ctx: Context, date: String) {
@@ -82,7 +71,7 @@ object MyPreferences {
     }
 
     fun getDate(ctx: Context): String? {
-        return getSharedPreferences(ctx).getString(PREF_DATE, "2019-12-19")
+        return getSharedPreferences(ctx).getString(PREF_DATE, null)
     }
 
     fun setKeyword(ctx: Context, keyword: String) {
