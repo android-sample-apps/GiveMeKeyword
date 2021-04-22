@@ -1,4 +1,4 @@
-package com.mut_jaeryo.data.api.drawing
+package com.mut_jaeryo.data.api.firebase
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -14,20 +14,18 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.mut_jaeryo.data.R
 import com.mut_jaeryo.data.dto.DrawingModel
-import com.mut_jaeryo.data.dto.FavoriteModel
+import com.mut_jaeryo.data.dto.UserModel
 import com.mut_jaeryo.domain.entities.Drawing
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class FirebaseDrawingServiceImpl @Inject constructor(
         @ApplicationContext private val context: Context
-) : DrawingService {
+) : FirebaseService {
     @SuppressLint("CheckResult")
     override suspend fun uploadDrawing(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { coroutine ->
 
@@ -173,6 +171,33 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         }.addOnSuccessListener {
             coroutine.resume(Unit) {
 
+            }
+        }.addOnFailureListener { exception ->
+            coroutine.cancel(exception)
+        }
+    }
+
+    override suspend fun createUser(userModel: UserModel) = suspendCancellableCoroutine<Unit> { coroutine ->
+        val db = FirebaseFirestore.getInstance().collection("users")
+        val doc = db.document(userModel.name) //고유 id를 자동으로 생성
+
+        doc.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                coroutine.cancel(Exception(context.getString(R.string.error_duplicated_user_name)))
+            } else {
+                val data = hashMapOf(
+                        "name" to userModel.name,
+                        "like" to userModel.like
+                )
+                doc.set(data)
+                        .addOnSuccessListener {
+                            coroutine.resume(Unit) {
+
+                            }
+                        }
+                        .addOnCanceledListener {
+                            coroutine.cancel(Exception(context.getString(R.string.error_cancel_create_user)))
+                        }
             }
         }.addOnFailureListener { exception ->
             coroutine.cancel(exception)

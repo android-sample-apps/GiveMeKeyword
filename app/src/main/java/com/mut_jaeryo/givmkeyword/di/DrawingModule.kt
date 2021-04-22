@@ -1,12 +1,10 @@
 package com.mut_jaeryo.givmkeyword.di
 
-import com.mut_jaeryo.data.api.drawing.DrawingService
-import com.mut_jaeryo.data.api.drawing.FirebaseDrawingServiceImpl
+import com.mut_jaeryo.data.api.firebase.FirebaseService
+import com.mut_jaeryo.data.api.firebase.FirebaseDrawingServiceImpl
 import com.mut_jaeryo.data.source.drawing.DrawingDataSource
-import com.mut_jaeryo.data.source.drawing.DrawingRepositoryImpl
 import com.mut_jaeryo.data.source.drawing.local.LocalDrawingDataSourceImpl
 import com.mut_jaeryo.data.source.drawing.remote.RemoteDrawingDataSourceImpl
-import com.mut_jaeryo.domain.repositories.DrawingRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,7 +26,7 @@ abstract class DrawingModule {
     @Binds
     abstract fun bindDrawingService(
             firebaseDrawingServiceImpl: FirebaseDrawingServiceImpl
-    ): DrawingService
+    ): FirebaseService
 
     @RemoteLabel
     @Binds
