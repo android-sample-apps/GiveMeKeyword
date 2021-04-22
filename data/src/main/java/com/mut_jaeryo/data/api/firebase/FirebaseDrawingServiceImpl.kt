@@ -3,11 +3,17 @@ package com.mut_jaeryo.data.api.firebase
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -19,6 +25,9 @@ import com.mut_jaeryo.data.dto.DrawingModel
 import com.mut_jaeryo.data.dto.UserModel
 import com.mut_jaeryo.domain.entities.Drawing
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -30,46 +39,54 @@ class FirebaseDrawingServiceImpl @Inject constructor(
     override suspend fun uploadDrawing(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { coroutine ->
 
         val drawingDocument = FirebaseFirestore.getInstance()
-                .collection(drawingModel.keyword).document()
-        val imagesRef: StorageReference = FirebaseStorage.getInstance().reference.child("images/" + drawingDocument.id + ".png")
+                .collection("images").document()
+        val imagesRef = FirebaseStorage.getInstance().reference.child("images/" + drawingDocument.id + ".png")
         val byteStream = ByteArrayOutputStream()
-        Glide.with(context).asBitmap().load(drawingModel.imageUrl)
-                .addListener(object : RequestListener<Bitmap> {
-                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+        Log.d("firebase","이미지 업로드")
+        Glide.with(context)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .load(drawingModel.imageUrl)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onLoadFailed(placeholder: Drawable?) {
                         coroutine.cancel(Exception("image load failed"))
-                        return false
                     }
 
-                    override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                        resource?.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
-                        return false
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        Log.d("firebase","Bitmap 변환")
+                        resource.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
+                        val imageByte = byteStream.toByteArray()
+                        val uploadTask = imagesRef.putBytes(imageByte)
+
+                        uploadTask.addOnFailureListener {
+                            coroutine.cancel(Exception("image load failed"))
+                        }.addOnSuccessListener {
+
+                            val drawingData = hashMapOf(
+                                    "name" to drawingModel.userName,
+                                    "content" to drawingModel.content,
+                                    "heart" to 0,
+                                    "hate" to 0
+                            )
+                            drawingDocument.set(drawingData)
+                                    .addOnSuccessListener {
+                                        coroutine.resume(Unit) {
+
+                                        }
+                                    }.addOnCanceledListener {
+                                        imagesRef.delete()
+                                        coroutine.cancel()
+                                    }.addOnFailureListener {
+                                        imagesRef.delete()
+                                        coroutine.cancel(Exception("image load failed"))
+                                    }
+                        }
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        coroutine.cancel()
                     }
                 })
-
-        val imageByte = byteStream.toByteArray()
-        val uploadTask = imagesRef.putBytes(imageByte)
-        uploadTask.addOnFailureListener {
-            coroutine.cancel(Exception("image load failed"))
-        }.addOnSuccessListener {
-            val drawingData = hashMapOf(
-                    "name" to drawingModel.userName,
-                    "content" to drawingModel.content,
-                    "heart" to 0,
-                    "hate" to 0
-            )
-            drawingDocument.set(drawingData)
-                    .addOnSuccessListener {
-                        coroutine.resume(Unit) {
-
-                        }
-                    }.addOnCanceledListener {
-                        imagesRef.delete()
-                        coroutine.cancel()
-                    }.addOnFailureListener {
-                        imagesRef.delete()
-                        coroutine.cancel(Exception("image load failed"))
-                    }
-        }
     }
 
     override suspend fun getDrawingAll() =

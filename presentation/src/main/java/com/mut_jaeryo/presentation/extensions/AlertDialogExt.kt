@@ -33,8 +33,11 @@ fun Activity.errorAlert(content: String) {
             .show()
 }
 
-fun Activity.successAlert(content: String) {
+fun Activity.successAlert(content: String, clickEvent: () -> Unit) {
     SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
             .setContentText(content)
+            .setConfirmClickListener {
+                clickEvent()
+            }
             .show()
 }

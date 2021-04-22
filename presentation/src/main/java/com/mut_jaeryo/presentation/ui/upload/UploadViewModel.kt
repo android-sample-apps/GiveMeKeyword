@@ -22,9 +22,9 @@ class UploadViewModel @Inject constructor(
     private val _drawingImageUrl = savedStateHandle.getLiveData<String>("imageUrl")
     val drawingImageUrl: LiveData<String> = _drawingImageUrl
     val drawingContent = MutableLiveData<String>()
-    private val _isUploading = SingleLiveEvent<Boolean>()
     private val _userName = MutableLiveData<String?>()
     val userName: LiveData<String?> = _userName
+    private val _isUploading = SingleLiveEvent<Boolean>()
     val isUploading: SingleLiveEvent<Boolean> = _isUploading
     private val _isUploadSuccess = SingleLiveEvent<Boolean>()
     val isUploadSuccess: SingleLiveEvent<Boolean> = _isUploadSuccess
@@ -50,6 +50,7 @@ class UploadViewModel @Inject constructor(
     }
 
     fun uploadDrawing() = viewModelScope.launch {
+        _isUploading.postValue(true)
         val drawing = Drawing(
                 userName = _userName.value ?: return@launch,
                 keyword = getKeywordAsync().await() ?: return@launch,
@@ -57,6 +58,7 @@ class UploadViewModel @Inject constructor(
                 imageUrl = drawingImageUrl.value ?: return@launch
         )
         uploadImageUseCase(drawing).let {
+            _isUploading.postValue(false)
             if (it is Result.Success) {
                _isUploadSuccess.postValue(true)
             } else {
