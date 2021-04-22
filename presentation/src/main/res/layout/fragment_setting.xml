@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/setting_t1"
+            android:background="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/setting_t1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <Button
+                    android:id="@+id/setting_open_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setting_v4"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="start|center"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/setting_opensource"
+                    android:textColor="#808080"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/setting_notification_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setting_profile_layout"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="left|center"
+                    android:paddingStart="15dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone"
+                    android:text="@string/setting_notification"
+                    android:textColor="#808080"
+                    android:textSize="15sp" />
+
+                <RelativeLayout
+                    android:id="@+id/setting_profile_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#eeeeee"
+                    android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/setting_profile_name_edit"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/round_stroke_layout"
+                        android:text="@string/setting_dialog_title"
+                        android:visibility="@{viewModel.userEditAvailable ? View.VISIBLE : View.GONE}"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/setting_profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_toRightOf="@id/setting_profile_image"
+                        android:text="@{viewModel.userName ?? @string/setting_not_user}"
+                        android:textColor="#000000"
+                        android:textSize="23sp"
+                        android:textStyle="bold"
+                        tools:text="MinUk" />
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/setting_profile_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:src="@drawable/ic_person"
+                        app:civ_circle_background_color="@color/colorNotAccent" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/setting_personal_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setting_v3"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/setting_personal"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/setting_personal_email_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setting_v5"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/setting_develop_contract"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/setting_personal_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/setting_v5"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/setting_develop_mail"
+                    android:textColor="#a0a0a0"
+                    android:textSize="15sp" />
+
+                <View
+                    android:id="@+id/setting_v5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/setting_open_source"
+                    android:background="#eeeeee" />
+
+                <View
+                    android:id="@+id/setting_v4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/setting_personal_title"
+                    android:layout_marginTop="10dp"
+                    android:background="#eeeeee" />
+
+                <View
+                    android:id="@+id/setting_v3"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/setting_notification_setting"
+                    android:background="#eeeeee" />
+
+                <View
+                    android:id="@+id/setting_v6"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_below="@id/setting_personal_email"
+                    android:layout_marginTop="10dp"
+                    android:background="#eeeeee" />
+            </RelativeLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/setting_t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/menu_setting"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="com.mut_jaeryo.presentation.ui.setting.SettingViewModel" />
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="SettingViewModel" />
+    </data>
+</layout>

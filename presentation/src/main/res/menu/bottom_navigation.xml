@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_drawing"
+        android:enabled="true"
+        android:icon="@drawable/ic_draw"
+        android:title="@string/menu_draw"/>
+    <item
+        android:id="@+id/action_story"
+        android:enabled="true"
+        android:icon="@drawable/ic_story"
+        android:title="@string/menu_story"/>
+    <item
+        android:id="@+id/action_setting"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/menu_setting"/>
+</menu>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nounOfPlace_array">
+        <item>공원의 낡은 벤치</item>
+        <item>창가</item>
+        <item>혼자 남은 병원</item>
+        <item>얼어붙은 한강</item>
+        <item>지하철 안</item>
+        <item>뒷산의 작은 연못</item>
+        <item>버스 정류장</item>
+        <item>침대</item>
+        <item>한적한 스키장</item>
+        <item>달빛에 빛나는 옥상</item>
+        <item>크리스마스 트리 앞</item>
+        <item>버려진 피아노</item>
+        <item>헬스장</item>
+        <item>하늘 구름 위</item>
+        <item>불이 간당간당한 가로등 밑</item>
+        <item>비가 내리는 육교 위</item>
+    </string-array>
+
+    <string-array name="nounOfVerb_array">
+        <item>기타를 연주하는 사람</item>
+        <item>비를 맞고 있는 사람</item>
+        <item>담배피는 사람</item>
+        <item>자전거와 고양이</item>
+        <item>걸터앉은 사람</item>
+        <item>약속에 늦어 다급한 학생</item>
+        <item>토끼와 초콜릿</item>
+        <item>근육많은 아저씨</item>
+        <item>마법사와 고양이</item>
+        <item>배고픈 노숙자</item>
+        <item>넘어지는 사람</item>
+        <item>암살을 준비하는 킬러</item>
+        <item>오열하는 사람</item>
+        <item>누워있는 사람</item>
+    </string-array>
+
+    <string-array name="question_array">
+        <item>가장 좋아하는 과일을 그려주세요</item>
+        <item>좋아했던 영화를 표현해주세요</item>
+        <item>가장 기억남는 영화의 명장면을 그려주세요</item>
+        <item>나의 애완동물을 그려주세요</item>
+        <item>나무 근처에서 쉬는 나의 모습</item>
+        <item>좋아하는 나만의 장소.</item>
+        <item>지구 멸망하기 10초전의 모습.</item>
+        <item>내가 좋아하는 과자</item>
+        <item>나의 취미를 보여주세요</item>
+        <item>공부할때 나의 모습은?</item>
+        <item>남들보다 잘할 자신이 있는 것은?</item>
+        <item>나만의 컵을 그려주세요</item>
+        <item>나의 저금통을 그려주세요.</item>
+        <item>부모님이 좋아하시는 음식은?</item>
+        <item>만약 쓸모없는 선물을 사야한다면 무엇을 살것인가요?</item>
+        <item>만약 쓸모있는 선물을 사야한다면 무엇을 살것인가요?</item>
+        <item>가장 좋아했던 옷은 무엇일까요?</item>
+        <item>나의 방을 그려주세요</item>
+        <item>내가 좋아하는 과자는 무엇인가요?</item>
+        <item>가장 좋아하는 명언을 써주세요</item>
+        <item>제일 화가났을 때는?</item>
+        <item>잠들기전 나의 모습은?</item>
+        <item>내가 초능력이 생긴다면 어떤 능력일까요?</item>
+        <item>음악을 들을때 나의 모습은?</item>
+        <item>사람의 근육을 표현해주세요.</item>
+        <item>받고 싶은 선물은?</item>
+        <item>가장 먹고싶은 음식을 그려주세요</item>
+        <item>나만의 캐릭터은 무엇일까요?</item>
+    </string-array>
+</resources>

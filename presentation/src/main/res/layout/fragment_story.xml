@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/surface_color"
+        tools:context=".ui.story.StoryFragment">
+
+
+        <LinearLayout
+            android:id="@+id/today_story_sort_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/today_story_t1"
+            android:orientation="horizontal"
+            android:padding="20dp">
+
+            <Button
+                android:id="@+id/story_sort_all"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_round_ripple"
+                android:text="@string/story_all_button" />
+
+
+            <Button
+                android:id="@+id/story_sort_keyword"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_round_ripple"
+                android:text="@string/story_keyword_button" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/today_story_t1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/menu_story"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/story_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/keyword_drawing_none"
+            android:textColor="@color/black"
+            android:visibility="@{viewModel.storyList.empty ? View.VISIBLE : View.INVISIBLE}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/story_recycler"
+            storyDrawingItems="@{viewModel.storyList}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/today_story_sort_layout"
+            android:padding="10dp" />
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/drawing_story_progress"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            app:barColor="@color/colorPrimary"
+            app:barWidth="1.5dp" />
+    </RelativeLayout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.mut_jaeryo.presentation.ui.story.StoryViewModel" />
+
+        <variable
+            name="viewModel"
+            type="StoryViewModel" />
+    </data>
+</layout>

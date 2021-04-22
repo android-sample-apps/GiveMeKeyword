@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name=".Application.MyApp"
+        android:name=".application.MyApp"
         android:allowBackup="false"
         android:icon="@mipmap/app_name"
         android:largeHeap="true"
@@ -21,12 +21,12 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_id"/>
+            android:value="@string/app_id" />
 
-        <activity android:name=".DrawingMainActivity"></activity>
-        <activity android:name=".UploadActivity" />
-        <activity android:name=".OpenSourceActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.mut_jaeryo.presentation.ui.detail.DetailActivity"/>
+        <activity android:name="com.mut_jaeryo.presentation.ui.upload.UploadActivity" />
+        <activity android:name="com.mut_jaeryo.presentation.ui.opensource.OpenSourceActivity" />
+        <activity android:name="com.mut_jaeryo.presentation.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,11 +35,11 @@
         </activity>
 
         <receiver
-            android:name=".utills.receivers.AlertReceiver"
-            android:enabled="true" />
+            android:name="com.mut_jaeryo.presentation.receiver.AlarmReceiver"
+            android:enabled="false" />
         <receiver
-            android:name=".utills.receivers.BootReceiver"
-            android:enabled="true" >
+            android:name="com.mut_jaeryo.presentation.receiver.BootReceiver"
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -47,8 +47,8 @@
         </receiver>
 
         <service
-            android:name=".utills.services.ShowNotify"
-            android:enabled="true" />
+            android:name="com.mut_jaeryo.presentation.service.NotificationService"
+            android:enabled="false" />
     </application>
 
 </manifest>
