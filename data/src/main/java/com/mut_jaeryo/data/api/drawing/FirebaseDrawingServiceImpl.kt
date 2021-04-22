@@ -29,7 +29,8 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         @ApplicationContext private val context: Context
 ) : DrawingService {
     @SuppressLint("CheckResult")
-    override suspend fun uploadDrawing(drawingModel: DrawingModel) {
+    override suspend fun uploadDrawing(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { coroutine ->
+
         val drawingDocument = FirebaseFirestore.getInstance()
                 .collection(drawingModel.keyword).document()
         val imagesRef: StorageReference = FirebaseStorage.getInstance().reference.child("images/" + drawingDocument.id + ".png")
@@ -37,7 +38,8 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         Glide.with(context).asBitmap().load(drawingModel.imageUrl)
                 .addListener(object : RequestListener<Bitmap> {
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
-                        throw Exception("image load failed")
+                        coroutine.cancel(Exception("image load failed"))
+                        return false
                     }
 
                     override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
@@ -49,7 +51,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         val imageByte = byteStream.toByteArray()
         val uploadTask = imagesRef.putBytes(imageByte)
         uploadTask.addOnFailureListener {
-            throw Exception("image load failed")
+            coroutine.cancel(Exception("image load failed"))
         }.addOnSuccessListener {
             val drawingData = hashMapOf(
                     "name" to drawingModel.userName,
@@ -59,12 +61,15 @@ class FirebaseDrawingServiceImpl @Inject constructor(
             )
             drawingDocument.set(drawingData)
                     .addOnSuccessListener {
+                        coroutine.resume(Unit) {
 
+                        }
                     }.addOnCanceledListener {
                         imagesRef.delete()
+                        coroutine.cancel()
                     }.addOnFailureListener {
                         imagesRef.delete()
-                        throw Exception("image load failed")
+                        coroutine.cancel(Exception("image load failed"))
                     }
         }
     }
@@ -93,11 +98,11 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                             }
 
                             coroutine.resume(drawingList) {
-                                throw it
+
                             }
                         }
                         .addOnFailureListener { exception ->
-                            throw exception
+                            coroutine.cancel(exception)
                         }
             }
 
@@ -125,11 +130,11 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                             }
                         }
                         .addOnFailureListener { exception ->
-                            throw exception
+                            coroutine.cancel(exception)
                         }
             }
 
-    override suspend fun reportDrawing(drawing: Drawing) {
+    override suspend fun reportDrawing(drawing: Drawing) = suspendCancellableCoroutine<Unit> { corountine ->
         val db = FirebaseFirestore.getInstance()
 
         val drawingFireStore = db.collection("images").document(drawing.id)
@@ -142,14 +147,16 @@ class FirebaseDrawingServiceImpl @Inject constructor(
 
             null
         }.addOnSuccessListener {
+            corountine.resume(Unit) {
 
+            }
         }.addOnFailureListener { exception ->
-            throw exception
+            corountine.cancel(exception)
         }
 
     }
 
-    override suspend fun changeDrawingHeart(drawing: Drawing) {
+    override suspend fun changeDrawingHeart(drawing: Drawing) = suspendCancellableCoroutine<Unit> { coroutine ->
         val db = FirebaseFirestore.getInstance()
 
         val drawingFireStore = db.collection("images").document(drawing.id)
@@ -164,9 +171,11 @@ class FirebaseDrawingServiceImpl @Inject constructor(
             // Success
             null
         }.addOnSuccessListener {
+            coroutine.resume(Unit) {
 
+            }
         }.addOnFailureListener { exception ->
-            throw exception
+            coroutine.cancel(exception)
         }
     }
 }
