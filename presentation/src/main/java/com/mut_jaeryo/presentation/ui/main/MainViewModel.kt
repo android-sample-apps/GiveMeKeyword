@@ -37,6 +37,7 @@ class MainViewModel @Inject constructor(
                 it.data?.let { date ->
                     if (getDaysDiffUserInfoDate(date) >= RESET_DAY_DIFF) {
                         setRequestCount()
+                        setUserDate()
                     }
                 }
             }
@@ -54,7 +55,7 @@ class MainViewModel @Inject constructor(
         currentDate.set(Calendar.SECOND, 0)
         currentDate.set(Calendar.MINUTE, 0)
 
-        val month = currentDate[Calendar.MONTH]+1
+        val month = currentDate[Calendar.MONTH] + 1
 
         val date = "${currentDate[Calendar.YEAR]}-$month-${currentDate[Calendar.DAY_OF_MONTH]}"
         setDateUseCase(date)
