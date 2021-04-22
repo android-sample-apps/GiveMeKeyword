@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentStoryBinding
 import com.mut_jaeryo.presentation.ui.detail.DetailActivity
@@ -46,7 +48,9 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     private fun initRecyclerView() {
         binding.storyRecycler.apply {
-            layoutManager = GridLayoutManager(requireContext(), SPAN_COUNT)
+            layoutManager = StaggeredGridLayoutManager(SPAN_COUNT, LinearLayoutManager.VERTICAL).apply {
+                gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+            }
             addItemDecoration(StoryDecoration(40))
             adapter = StoryAdapter() {
                 storyViewModel.setDetailEvent(it)

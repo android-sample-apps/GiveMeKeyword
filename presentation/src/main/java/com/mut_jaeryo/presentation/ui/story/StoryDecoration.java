@@ -23,7 +23,10 @@ public class StoryDecoration extends RecyclerView.ItemDecoration {
 
         if (parent.getChildAdapterPosition(view) % 2 == 0) {
             outRect.right = divHeight;
-        } else
+            outRect.left = 0;
+        } else {
             outRect.left = divHeight;
+            outRect.right = 0;
+        }
     }
 }
