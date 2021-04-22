@@ -6,4 +6,8 @@ interface UserRepository {
     suspend fun getUser() : User?
 
     suspend fun createUser(user: User)
+
+    suspend fun getDate(): String?
+
+    suspend fun setDate(date: String)
 }

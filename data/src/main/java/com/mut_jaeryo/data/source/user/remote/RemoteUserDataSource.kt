@@ -15,4 +15,11 @@ class RemoteUserDataSource @Inject constructor(
     override suspend fun createUser(user: UserModel) {
         return firebaseService.createUser(user)
     }
+
+    override suspend fun getDate(): String? {
+        return null
+    }
+
+    override suspend fun setDate(date: String) {
+    }
 }

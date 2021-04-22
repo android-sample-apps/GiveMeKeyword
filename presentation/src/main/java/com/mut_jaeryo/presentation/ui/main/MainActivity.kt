@@ -26,8 +26,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //TODO: 알람 설정
+        mainViewModel.requestResetKeywordRequestCount()
 
         initMobileAds()
         initViewPager()
@@ -85,7 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        AlertDialog.Builder(this).setMessage("나가면 그림이 저장되지 않습니다. \n 나가시겠습니까?")
+        AlertDialog.Builder(this).setMessage(getString(R.string.main_dialog_content))
                 .setPositiveButton("나가기") { _: DialogInterface, _: Int ->
                     super.onBackPressed()
                 }.setNegativeButton("취소") { _: DialogInterface, _: Int ->

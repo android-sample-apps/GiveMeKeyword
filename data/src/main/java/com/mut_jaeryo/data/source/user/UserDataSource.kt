@@ -6,4 +6,8 @@ interface UserDataSource {
     suspend fun getUser() : UserModel?
 
     suspend fun createUser(user: UserModel)
+
+    suspend fun getDate(): String?
+
+    suspend fun setDate(date: String)
 }

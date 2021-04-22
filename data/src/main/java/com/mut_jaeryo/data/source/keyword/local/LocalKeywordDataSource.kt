@@ -20,6 +20,13 @@ class LocalKeywordDataSource @Inject constructor(
         val newKeyword = keywordModel.getKeyword(context).apply {
             MyPreferences.setKeyword(context, this)
         }
+        val count = MyPreferences.getRequestCount(context)
+        MyPreferences.setRequestKeywordCount(context, count + 1)
+
         return KeywordModel(newKeyword)
+    }
+
+    override suspend fun setRequestCount(count: Int) {
+        MyPreferences.setRequestKeywordCount(context, count)
     }
 }

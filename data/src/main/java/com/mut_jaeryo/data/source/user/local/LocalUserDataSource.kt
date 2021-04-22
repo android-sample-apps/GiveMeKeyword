@@ -19,4 +19,12 @@ class LocalUserDataSource @Inject constructor(
     override suspend fun createUser(user: UserModel) {
         MyPreferences.setName(context, user.name)
     }
+
+    override suspend fun getDate(): String? {
+       return MyPreferences.getDate(context)
+    }
+
+    override suspend fun setDate(date: String) {
+        MyPreferences.setDate(context, date)
+    }
 }

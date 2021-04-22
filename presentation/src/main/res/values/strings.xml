@@ -9,6 +9,7 @@
     <string name="menu_draw">그림</string>
     <string name="menu_story">스토리</string>
     <string name="menu_setting">설정</string>
+    <string name="main_dialog_content">나가면 그림이 저장되지 않습니다. 나가시겠습니까?</string>
     <!--    그림 그리는 화면-->
     <string name="drawing_new_keyword">새로운 주제</string>
     <string name="drawing_keyword_title">오늘의 주제</string>

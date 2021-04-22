@@ -16,11 +16,13 @@ class KeywordRepositoryImpl @Inject constructor(
             keywordDataSource.getKeyword().toDomain()
 
     override suspend fun requestNewKeyword() : Keyword {
-        val count = MyPreferences.getRequestCount(context)
-        MyPreferences.setRequestKeywordCount(context, count + 1)
         return keywordDataSource.requestNewKeyword().toDomain()
     }
 
     override suspend fun getRequestCount(): Int =
             MyPreferences.getRequestCount(context)
+
+    override suspend fun setRequestCount(count: Int) {
+        keywordDataSource.setRequestCount(count)
+    }
 }

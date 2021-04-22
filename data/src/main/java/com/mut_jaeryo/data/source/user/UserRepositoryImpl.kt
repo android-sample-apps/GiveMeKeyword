@@ -18,4 +18,12 @@ class UserRepositoryImpl @Inject constructor(
         localUserDataSource.createUser(user.toData())
         remoteUserDataSource.createUser(user.toData())
     }
+
+    override suspend fun getDate(): String? {
+        return localUserDataSource.getDate()
+    }
+
+    override suspend fun setDate(date: String) {
+        TODO("Not yet implemented")
+    }
 }

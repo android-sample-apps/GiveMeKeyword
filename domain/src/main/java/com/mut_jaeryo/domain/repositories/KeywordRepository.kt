@@ -8,4 +8,6 @@ interface KeywordRepository {
     suspend fun requestNewKeyword() : Keyword
 
     suspend fun getRequestCount() : Int
+
+    suspend fun setRequestCount(count: Int)
 }
