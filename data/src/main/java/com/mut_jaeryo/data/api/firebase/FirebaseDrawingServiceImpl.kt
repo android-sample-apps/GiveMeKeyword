@@ -30,7 +30,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
     override suspend fun uploadDrawing(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { coroutine ->
 
         val drawingDocument = FirebaseFirestore.getInstance()
-                .collection(drawingModel.keyword).document()
+                .collection("images").document()
         val imagesRef: StorageReference = FirebaseStorage.getInstance().reference.child("images/" + drawingDocument.id + ".png")
         val byteStream = ByteArrayOutputStream()
         Glide.with(context).asBitmap().load(drawingModel.imageUrl)

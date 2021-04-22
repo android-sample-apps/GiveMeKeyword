@@ -37,8 +37,9 @@ class UploadActivity : BaseActivity<ActivityUploadBinding>(R.layout.activity_upl
     private fun observeViewModel() {
         uploadViewModel.isUploadSuccess.observe(this) {
             if (it) {
-                successAlert(getString(R.string.upload_success))
-                finish()
+                successAlert(getString(R.string.upload_success)) {
+                    finish()
+                }
             }
         }
         uploadViewModel.uploadErrorMessage.observe(this) {
