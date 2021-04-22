@@ -78,7 +78,6 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                 val drawingList = mutableListOf<DrawingModel>()
 
                 db.collection("images")
-                        .orderBy("heart", Query.Direction.DESCENDING)
                         .get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
