@@ -170,8 +170,8 @@ class FirebaseDrawingServiceImpl @Inject constructor(
         db.runTransaction { transaction ->
             val snapshot = transaction.get(drawingFireStore)
 
-            val heartNum = snapshot.getLong("hate")?.toInt() ?: 0 + 1
-            transaction.update(drawingFireStore, "heart", heartNum)
+            val hateNum = snapshot.getLong("hate")?.toInt() ?: 0
+            transaction.update(drawingFireStore, "hate", hateNum + 1)
 
             null
         }.addOnSuccessListener {
