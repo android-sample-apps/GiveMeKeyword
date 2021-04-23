@@ -13,11 +13,12 @@ import com.mut_jaeryo.presentation.R
 @BindingAdapter("storyFirebaseImageWithId")
 fun setStoryDrawing(view: ImageView, id: String) {
 
-    val storageReference = FirebaseStorage.getInstance().
-    reference.child("images/$id.png")
+    val storageReference = FirebaseStorage.getInstance()
+            .reference.child("images/$id.png")
 
     Glide.with(view.context)
             .load(storageReference)
+            .thumbnail(0.25f)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
                     .placeholder(R.drawable.bg_shape_square_size)
             )
