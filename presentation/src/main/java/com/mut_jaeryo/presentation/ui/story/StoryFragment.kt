@@ -2,19 +2,25 @@ package com.mut_jaeryo.presentation.ui.story
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentStoryBinding
+import com.mut_jaeryo.presentation.mapper.toPresentation
 import com.mut_jaeryo.presentation.ui.detail.DetailActivity
 import com.mut_jaeryo.presentation.ui.story.adapter.StoryAdapter
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story) {
@@ -22,6 +28,11 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     override var logTag: String = "StoryFragment"
 
     private val storyViewModel: StoryViewModel by viewModels()
+    private val storyAdapter: StoryAdapter by lazy {
+        StoryAdapter {
+            storyViewModel.setDetailEvent(it.toPresentation())
+        }
+    }
 
     companion object {
         const val SPAN_COUNT = 2
@@ -52,9 +63,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
             }
             addItemDecoration(StoryDecoration(40))
-            adapter = StoryAdapter() {
-                storyViewModel.setDetailEvent(it)
-            }
+            adapter = storyAdapter
         }
     }
 
@@ -108,6 +117,11 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 putExtra("drawing", it)
             }
             requireActivity().startActivity(intent)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            storyViewModel.storyList.asFlow().collectLatest { pagingData ->
+                storyAdapter.submitData(pagingData)
+            }
         }
     }
 }

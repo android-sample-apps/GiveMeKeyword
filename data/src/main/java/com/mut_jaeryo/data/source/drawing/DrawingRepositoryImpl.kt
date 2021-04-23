@@ -1,6 +1,12 @@
 package com.mut_jaeryo.data.source.drawing
 
 import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.liveData
+import com.google.firebase.firestore.DocumentSnapshot
 import com.mut_jaeryo.data.mapper.toData
 import com.mut_jaeryo.data.mapper.toDomain
 import com.mut_jaeryo.domain.entities.Drawing
@@ -16,22 +22,22 @@ class DrawingRepositoryImpl @Inject constructor(
     }
 
     override suspend fun reportDrawing(drawing: Drawing) {
-        remoteDrawingDataSource.reportDrawing(drawing)
+        remoteDrawingDataSource.reportDrawing(drawing.toData())
     }
 
     override suspend fun changeDrawingHeart(drawing: Drawing) {
-        remoteDrawingDataSource.changeDrawingHeart(drawing)
+        remoteDrawingDataSource.changeDrawingHeart(drawing.toData())
     }
 
-    override suspend fun getDrawingListAll(): List<Drawing> {
-        return remoteDrawingDataSource.getDrawingListAll().toDomain()
+    override suspend fun getDrawingListAll(): LiveData<PagingData<Drawing>> {
+        return remoteDrawingDataSource.getDrawingListAll()!!.liveData
     }
 
     override suspend fun getDrawingCachePath(bitmap: Bitmap): String? {
         return localDrawingDataSource.getDrawingCachePath(bitmap)
     }
 
-    override suspend fun getDrawingListWithKeyword(keyword: String): List<Drawing> {
-        return remoteDrawingDataSource.getDrawingListWithKeyword(keyword).toDomain()
+    override suspend fun getDrawingListWithKeyword(keyword: String): LiveData<PagingData<Drawing>> {
+        return remoteDrawingDataSource.getDrawingListWithKeyword(keyword)!!.liveData
     }
 }

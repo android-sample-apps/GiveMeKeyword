@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.mut_jaeryo.domain.common.Result
+import com.mut_jaeryo.domain.entities.Drawing
 import com.mut_jaeryo.domain.usecase.GetDrawingAllUseCase
 import com.mut_jaeryo.domain.usecase.GetDrawingKeywordUseCase
 import com.mut_jaeryo.domain.usecase.GetKeywordUseCase
 import com.mut_jaeryo.presentation.SingleLiveEvent
 import com.mut_jaeryo.presentation.entities.DrawingItem
-import com.mut_jaeryo.presentation.mapper.toPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -24,8 +26,7 @@ class StoryViewModel @Inject constructor(
 ) : ViewModel() {
     private val _storyMode = MutableLiveData(StoryMode.ALL)
     val storyMode: LiveData<StoryMode> = _storyMode
-    private val _storyList = MutableLiveData<List<DrawingItem>>(emptyList())
-    val storyList: LiveData<List<DrawingItem>> = _storyList
+    var storyList: LiveData<PagingData<Drawing>> = MutableLiveData()
     private val _showDetailEventWithItem = MutableLiveData<DrawingItem>()
     val showDetailEventWithItem: LiveData<DrawingItem> = _showDetailEventWithItem
     private val _isStoryLoading = SingleLiveEvent<Boolean>()
@@ -44,7 +45,7 @@ class StoryViewModel @Inject constructor(
         _isStoryLoading.postValue(true)
         getDrawingAllUseCase(Unit).let {
             if (it is Result.Success) {
-                _storyList.postValue(it.data.toPresentation())
+                storyList = it.data.cachedIn(viewModelScope)
                 _isStoryLoading.postValue(false)
             }
         }
@@ -65,7 +66,7 @@ class StoryViewModel @Inject constructor(
         getKeywordAsync().await()?.let { keyword ->
             getDrawingKeywordUseCase(keyword).let {
                 if (it is Result.Success) {
-                    _storyList.postValue(it.data.toPresentation())
+                    storyList = it.data.cachedIn(viewModelScope)
                     _isStoryLoading.postValue(false)
                 }
             }

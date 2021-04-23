@@ -10,6 +10,9 @@ fun DrawingItem.toDomain() = Drawing(
         content = this.content
 )
 
+fun Drawing.toPresentation() =  DrawingItem(id = id, keyword = keyword, name = userName,
+        content = content, heartCount = heartCount, isHeart = isHeart)
+
 @JvmName("toPresentationDrawing")
 fun List<Drawing>.toPresentation() : List<DrawingItem> {
     return this.map {

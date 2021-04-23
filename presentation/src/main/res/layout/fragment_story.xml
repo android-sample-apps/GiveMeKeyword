@@ -62,13 +62,12 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="@string/keyword_drawing_none"
-            android:textColor="@color/black"
-            android:visibility="@{viewModel.storyList.empty ? View.VISIBLE : View.INVISIBLE}" />
+            android:textColor="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/story_recycler"
-            storyDrawingItems="@{viewModel.storyList}"
             android:layout_width="match_parent"
+            android:background="#eeeeee"
             android:layout_height="match_parent"
             android:layout_below="@id/today_story_sort_layout"
             android:padding="10dp" />

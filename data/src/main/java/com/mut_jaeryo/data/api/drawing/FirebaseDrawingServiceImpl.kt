@@ -1,4 +1,4 @@
-package com.mut_jaeryo.data.api.firebase
+package com.mut_jaeryo.data.api.drawing
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,35 +6,26 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.mut_jaeryo.data.R
 import com.mut_jaeryo.data.dto.DrawingModel
 import com.mut_jaeryo.data.dto.UserModel
-import com.mut_jaeryo.domain.entities.Drawing
+import com.mut_jaeryo.data.reponse.DrawingResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class FirebaseDrawingServiceImpl @Inject constructor(
         @ApplicationContext private val context: Context
-) : FirebaseService {
+) : DrawingService {
     @SuppressLint("CheckResult")
     override suspend fun uploadDrawing(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { coroutine ->
 
@@ -42,7 +33,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                 .collection("images").document()
         val imagesRef = FirebaseStorage.getInstance().reference.child("images/" + drawingDocument.id + ".png")
         val byteStream = ByteArrayOutputStream()
-        Log.d("firebase","이미지 업로드")
+        Log.d("firebase", "이미지 업로드")
         Glide.with(context)
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -53,7 +44,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                     }
 
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        Log.d("firebase","Bitmap 변환")
+                        Log.d("firebase", "Bitmap 변환")
                         resource.compress(Bitmap.CompressFormat.PNG, 100, byteStream)
                         val imageByte = byteStream.toByteArray()
                         val uploadTask = imagesRef.putBytes(imageByte)
@@ -89,13 +80,19 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                 })
     }
 
-    override suspend fun getDrawingAll() =
-            suspendCancellableCoroutine<List<DrawingModel>> { coroutine ->
+    override suspend fun getDrawingAll(lastVisible: DocumentSnapshot?) =
+            suspendCancellableCoroutine<DrawingResponse> { coroutine ->
                 val db = Firebase.firestore
                 val drawingList = mutableListOf<DrawingModel>()
 
-                db.collection("images")
-                        .get()
+                var query = db.collection("images")
+                        .orderBy("hate")
+
+                lastVisible?.let {
+                    query = query.startAfter(it)
+                }
+
+                query.get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
                                 drawingList.add(
@@ -111,7 +108,12 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                                 )
                             }
 
-                            coroutine.resume(drawingList) {
+                            coroutine.resume(
+                                    DrawingResponse(
+                                            data = drawingList,
+                                            nextPageNumber = result.documents[result.size() - 1]
+                                    )
+                            ) {
 
                             }
                         }
@@ -120,14 +122,18 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                         }
             }
 
-    override suspend fun getDrawingWithKeyword(keyword: String) =
-            suspendCancellableCoroutine<List<DrawingModel>> { coroutine ->
+    override suspend fun getDrawingWithKeyword(keyword: String, lastVisible: DocumentSnapshot?) =
+            suspendCancellableCoroutine<DrawingResponse> { coroutine ->
                 val drawingList = mutableListOf<DrawingModel>()
                 val db = Firebase.firestore
 
-                db.collection("images")
+                var query = db.collection("images")
                         .whereEqualTo("keyword", keyword)
-                        .get()
+                        .orderBy("hate")
+
+                lastVisible?.let { query = query.startAfter(it) }
+
+                query.get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
                                 drawingList.add(
@@ -139,8 +145,13 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                                                         ?: 0,
                                                 isHeart = false))
                             }
-                            coroutine.resume(drawingList) {
-                                throw it
+                            coroutine.resume(
+                                    DrawingResponse(
+                                            data = drawingList,
+                                            nextPageNumber = result.documents[result.size() - 1]
+                                    )
+                            ) {
+
                             }
                         }
                         .addOnFailureListener { exception ->
@@ -148,10 +159,10 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                         }
             }
 
-    override suspend fun reportDrawing(drawing: Drawing) = suspendCancellableCoroutine<Unit> { corountine ->
+    override suspend fun reportDrawing(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { corountine ->
         val db = FirebaseFirestore.getInstance()
 
-        val drawingFireStore = db.collection("images").document(drawing.id)
+        val drawingFireStore = db.collection("images").document(drawingModel.id)
 
         db.runTransaction { transaction ->
             val snapshot = transaction.get(drawingFireStore)
@@ -170,10 +181,10 @@ class FirebaseDrawingServiceImpl @Inject constructor(
 
     }
 
-    override suspend fun changeDrawingHeart(drawing: Drawing) = suspendCancellableCoroutine<Unit> { coroutine ->
+    override suspend fun changeDrawingHeart(drawingModel: DrawingModel) = suspendCancellableCoroutine<Unit> { coroutine ->
         val db = FirebaseFirestore.getInstance()
 
-        val drawingFireStore = db.collection("images").document(drawing.id)
+        val drawingFireStore = db.collection("images").document(drawingModel.id)
 
         db.runTransaction { transaction ->
             val snapshot = transaction.get(drawingFireStore)
