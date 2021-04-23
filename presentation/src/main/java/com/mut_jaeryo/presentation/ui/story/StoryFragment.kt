@@ -9,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -31,6 +32,20 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     private val storyAdapter: StoryAdapter by lazy {
         StoryAdapter {
             storyViewModel.setDetailEvent(it.toPresentation())
+        }.apply {
+            addLoadStateListener { loadStates ->
+                if (loadStates.refresh == LoadState.Loading) {
+                    binding.drawingStoryProgress.apply {
+                        visibility = View.VISIBLE
+                        spin()
+                    }
+                }else {
+                    binding.drawingStoryProgress.apply {
+                        visibility = View.INVISIBLE
+                        stopSpinning()
+                    }
+                }
+            }
         }
     }
 
@@ -40,7 +55,6 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = storyViewModel
-        storyViewModel.getDrawingAll()
 
         initLayout()
 
@@ -71,6 +85,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         storyViewModel.storyMode.observe(viewLifecycleOwner) {
             when (it) {
                 StoryMode.ALL -> {
+                    storyViewModel.getDrawingAll()
                     binding.storySortAll.apply {
                         background = ResourcesCompat.getDrawable(resources, R.drawable.bg_shape_square, null)
                         backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorAccent)
@@ -85,6 +100,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 }
 
                 else -> {
+                    storyViewModel.getDrawingWithKeyword()
                     binding.storySortKeyword.apply {
                         background = ResourcesCompat.getDrawable(resources, R.drawable.bg_shape_square, null)
                         backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorAccent)
@@ -99,29 +115,15 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 }
             }
         }
-        storyViewModel.isStoryLoading.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.drawingStoryProgress.apply {
-                    visibility = View.VISIBLE
-                    spin()
-                }
-            } else {
-                binding.drawingStoryProgress.apply {
-                    visibility = View.INVISIBLE
-                    stopSpinning()
-                }
-            }
-        }
+
         storyViewModel.showDetailEventWithItem.observe(viewLifecycleOwner) {
             val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
                 putExtra("drawing", it)
             }
             requireActivity().startActivity(intent)
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            storyViewModel.storyList.asFlow().collectLatest { pagingData ->
-                storyAdapter.submitData(pagingData)
-            }
+        storyViewModel.storyList.observe(viewLifecycleOwner) { pagingData ->
+            pagingData?.let {  storyAdapter.submitData(viewLifecycleOwner.lifecycle, it) }
         }
     }
 }

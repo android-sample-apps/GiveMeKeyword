@@ -92,7 +92,8 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                     query = query.startAfter(it)
                 }
 
-                query.get()
+                query.limit(25)
+                        .get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
                                 drawingList.add(
@@ -111,7 +112,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                             coroutine.resume(
                                     DrawingResponse(
                                             data = drawingList,
-                                            nextPageNumber = result.documents[result.size() - 1]
+                                            nextPageNumber = if (result.size() > 0) result.documents[result.size() - 1] else null
                                     )
                             ) {
 
@@ -133,7 +134,8 @@ class FirebaseDrawingServiceImpl @Inject constructor(
 
                 lastVisible?.let { query = query.startAfter(it) }
 
-                query.get()
+                query.limit(25)
+                        .get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
                                 drawingList.add(
@@ -145,6 +147,7 @@ class FirebaseDrawingServiceImpl @Inject constructor(
                                                         ?: 0,
                                                 isHeart = false))
                             }
+                            Log.d("firebasePaging", "data")
                             coroutine.resume(
                                     DrawingResponse(
                                             data = drawingList,
