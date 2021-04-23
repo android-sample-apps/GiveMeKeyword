@@ -10,16 +10,4 @@ data class DrawingItem(
         val content: String,
         val heartCount: Int = 0,
         val isHeart: Boolean = false) : Serializable {
-
-    companion object {
-        val DiffUtilCallback =  object : DiffUtil.ItemCallback<DrawingItem>() {
-            override fun areItemsTheSame(oldItem: DrawingItem, newItem: DrawingItem): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: DrawingItem, newItem: DrawingItem): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 }

@@ -2,19 +2,26 @@ package com.mut_jaeryo.presentation.ui.story
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentStoryBinding
+import com.mut_jaeryo.presentation.mapper.toPresentation
 import com.mut_jaeryo.presentation.ui.detail.DetailActivity
 import com.mut_jaeryo.presentation.ui.story.adapter.StoryAdapter
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story) {
@@ -22,6 +29,25 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     override var logTag: String = "StoryFragment"
 
     private val storyViewModel: StoryViewModel by viewModels()
+    private val storyAdapter: StoryAdapter by lazy {
+        StoryAdapter {
+            storyViewModel.setDetailEvent(it.toPresentation())
+        }.apply {
+            addLoadStateListener { loadStates ->
+                if (loadStates.refresh == LoadState.Loading) {
+                    binding.drawingStoryProgress.apply {
+                        visibility = View.VISIBLE
+                        spin()
+                    }
+                }else {
+                    binding.drawingStoryProgress.apply {
+                        visibility = View.INVISIBLE
+                        stopSpinning()
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
         const val SPAN_COUNT = 2
@@ -29,7 +55,6 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = storyViewModel
-        storyViewModel.getDrawingAll()
 
         initLayout()
 
@@ -52,9 +77,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
             }
             addItemDecoration(StoryDecoration(40))
-            adapter = StoryAdapter() {
-                storyViewModel.setDetailEvent(it)
-            }
+            adapter = storyAdapter
         }
     }
 
@@ -62,6 +85,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         storyViewModel.storyMode.observe(viewLifecycleOwner) {
             when (it) {
                 StoryMode.ALL -> {
+                    storyViewModel.getDrawingAll()
                     binding.storySortAll.apply {
                         background = ResourcesCompat.getDrawable(resources, R.drawable.bg_shape_square, null)
                         backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorAccent)
@@ -76,6 +100,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 }
 
                 else -> {
+                    storyViewModel.getDrawingWithKeyword()
                     binding.storySortKeyword.apply {
                         background = ResourcesCompat.getDrawable(resources, R.drawable.bg_shape_square, null)
                         backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.colorAccent)
@@ -90,24 +115,15 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 }
             }
         }
-        storyViewModel.isStoryLoading.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.drawingStoryProgress.apply {
-                    visibility = View.VISIBLE
-                    spin()
-                }
-            } else {
-                binding.drawingStoryProgress.apply {
-                    visibility = View.INVISIBLE
-                    stopSpinning()
-                }
-            }
-        }
+
         storyViewModel.showDetailEventWithItem.observe(viewLifecycleOwner) {
             val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
                 putExtra("drawing", it)
             }
             requireActivity().startActivity(intent)
+        }
+        storyViewModel.storyList.observe(viewLifecycleOwner) { pagingData ->
+            pagingData?.let {  storyAdapter.submitData(viewLifecycleOwner.lifecycle, it) }
         }
     }
 }

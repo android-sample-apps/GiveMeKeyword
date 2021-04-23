@@ -15,6 +15,92 @@
         android:layout_height="match_parent"
         tools:context=".ui.upload.UploadActivity">
 
+        <EditText
+            android:id="@+id/upload_content_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="18dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="@string/upload_content_hint"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:maxLines="30"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:text="@={viewModel.drawingContent}"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_content_tv" />
+
+
+        <ImageView
+            android:id="@+id/upload_image"
+            imageUrl="@{viewModel.drawingImageUrl}"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="18dp"
+            android:background="@drawable/round_stroke_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_appbar"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/upload_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/upload_name_tv"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="18dp"
+            android:gravity="center"
+            android:text="@{viewModel.userName ?? @string/setting_not_user}"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/upload_image"
+            app:layout_constraintTop_toBottomOf="@id/upload_name_tv" />
+
+        <TextView
+            android:id="@+id/upload_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:text="@string/upload_content"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_image" />
+
+
+        <TextView
+            android:id="@+id/upload_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/upload_image"
+            android:layout_marginStart="18dp"
+            android:layout_toRightOf="@id/upload_image"
+            android:text="@string/upload_name_tv"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toEndOf="@+id/upload_image"
+            app:layout_constraintTop_toTopOf="@+id/upload_image" />
+
+        <TextView
+            android:id="@+id/upload_notice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/upload_notice"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/upload_appbar"
             android:layout_width="match_parent"
@@ -39,8 +125,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:background="@null"
-                        android:text="@string/upload_upload_button"
                         android:onClick="@{() -> viewModel.uploadDrawing()}"
+                        android:text="@string/upload_upload_button"
                         android:textColor="@color/colorPrimary"
                         android:textSize="17sp"
                         android:textStyle="bold" />
@@ -58,79 +144,6 @@
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-
-
-        <ImageView
-            android:id="@+id/upload_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="18dp"
-            imageUrl="@{viewModel.drawingImageUrl}"
-            android:background="@drawable/round_stroke_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upload_appbar"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/upload_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/upload_image"
-            android:layout_marginStart="18dp"
-            android:layout_toRightOf="@id/upload_image"
-            android:text="@string/upload_name_tv"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintStart_toEndOf="@+id/upload_image"
-            app:layout_constraintTop_toTopOf="@+id/upload_image" />
-
-        <TextView
-            android:id="@+id/upload_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/upload_name_tv"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="18dp"
-            android:gravity="center"
-            android:text="@{viewModel.userName ?? @string/setting_not_user}"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/upload_image"
-            app:layout_constraintTop_toBottomOf="@id/upload_name_tv" />
-
-
-        <TextView
-            android:id="@+id/upload_content_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/upload_content"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upload_image" />
-
-        <EditText
-            android:id="@+id/upload_content_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="18dp"
-            android:background="@null"
-            android:gravity="top"
-            android:hint="@string/upload_content_hint"
-            android:text="@={viewModel.drawingContent}"
-            android:inputType="textMultiLine"
-            android:lines="5"
-            android:maxLines="30"
-            android:padding="10dp"
-            android:scrollbars="vertical"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upload_content_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

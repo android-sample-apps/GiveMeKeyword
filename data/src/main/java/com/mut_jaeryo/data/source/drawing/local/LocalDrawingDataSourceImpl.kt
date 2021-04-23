@@ -3,6 +3,10 @@ package com.mut_jaeryo.data.source.drawing.local
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.google.firebase.firestore.DocumentSnapshot
 import com.mut_jaeryo.data.dto.DrawingModel
 import com.mut_jaeryo.data.dto.FavoriteModel
 import com.mut_jaeryo.data.source.drawing.DrawingDataSource
@@ -22,18 +26,18 @@ class LocalDrawingDataSourceImpl @Inject constructor(
 
     }
 
-    override suspend fun getDrawingListAll(): List<DrawingModel> {
-        return emptyList()
+    override suspend fun getDrawingListAll(): Pager<DocumentSnapshot, Drawing>? {
+        return null
     }
 
-    override suspend fun getDrawingListWithKeyword(keyword: String): List<DrawingModel> {
-        return emptyList()
+    override suspend fun getDrawingListWithKeyword(keyword: String): Pager<DocumentSnapshot, Drawing>? {
+        return null
     }
 
-    override suspend fun reportDrawing(drawing: Drawing) {
+    override suspend fun reportDrawing(drawingModel: DrawingModel) {
     }
 
-    override suspend fun changeDrawingHeart(drawing: Drawing) {
+    override suspend fun changeDrawingHeart(drawingModel: DrawingModel) {
 
     }
 
