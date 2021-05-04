@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <Button
+            android:id="@+id/version_update_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:background="@color/colorPrimaryDark"
+            android:padding="10dp"
+            android:text="@string/version_update"
+            android:textColor="@color/white"
+            android:visibility="@{viewModel.isNewVersion() ? View.INVISIBLE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/version_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="479dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/version_appbar"
+            app:srcCompat="@mipmap/app_logo"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/version_current_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/version_logo_description" />
+
+        <TextView
+            android:id="@+id/version_logo_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@{viewModel.isNewVersion() ? @string/version_new_version : @string/version_old_version}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/version_logo" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/version_appbar"
+            android:layout_width="0dp"
+            android:layout_height="?android:actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/version_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#ffffff">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/version_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/version_title"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="com.mut_jaeryo.presentation.ui.version.VersionViewModel" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="VersionViewModel" />
+    </data>
+</layout>

@@ -1,6 +1,7 @@
 package com.mut_jaeryo.presentation.ui.setting
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import android.widget.EditText
 import androidx.fragment.app.viewModels
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentSettingBinding
+import com.mut_jaeryo.presentation.ui.opensource.OpenSourceActivity
+import com.mut_jaeryo.presentation.ui.version.VersionActivity
 import com.tistory.blackjinbase.base.BaseFragment
 import com.tistory.blackjinbase.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,12 +32,18 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
     }
 
     private fun initView() {
-        binding.settingNotificationSetting.apply {
-            visibility = View.GONE
-        }
-
-        binding.settingProfileNameEdit.setOnClickListener {
-            showNameEditDialog()
+        binding.apply {
+            settingProfileNameEdit.setOnClickListener {
+                showNameEditDialog()
+            }
+            settingOpenSource.setOnClickListener {
+                val intent = Intent(requireContext(), OpenSourceActivity::class.java)
+                startActivity(intent)
+            }
+            settingAppVersion.setOnClickListener {
+                val intent = Intent(requireContext(), VersionActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

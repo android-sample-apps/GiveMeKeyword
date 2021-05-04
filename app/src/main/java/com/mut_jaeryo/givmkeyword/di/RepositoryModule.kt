@@ -1,11 +1,13 @@
 package com.mut_jaeryo.givmkeyword.di
 
+import com.mut_jaeryo.data.source.app.AppRepositoryImpl
 import com.mut_jaeryo.data.source.drawing.DrawingDataSource
 import com.mut_jaeryo.data.source.drawing.DrawingRepositoryImpl
 import com.mut_jaeryo.data.source.drawing.local.LocalDrawingDataSourceImpl
 import com.mut_jaeryo.data.source.drawing.remote.RemoteDrawingDataSourceImpl
 import com.mut_jaeryo.data.source.user.UserDataSource
 import com.mut_jaeryo.data.source.user.UserRepositoryImpl
+import com.mut_jaeryo.domain.repositories.AppRepository
 import com.mut_jaeryo.domain.repositories.DrawingRepository
 import com.mut_jaeryo.domain.repositories.UserRepository
 import dagger.Binds
@@ -32,5 +34,10 @@ object RepositoryModule {
            @DrawingModule.RemoteLabel remoteDrawingDataSourceImpl: DrawingDataSource
     ): DrawingRepository {
         return DrawingRepositoryImpl(localDrawingDataSourceImpl, remoteDrawingDataSourceImpl)
+    }
+
+    @Provides
+    fun provideAppRepository(): AppRepository {
+        return AppRepositoryImpl()
     }
 }
