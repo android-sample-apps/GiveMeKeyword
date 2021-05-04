@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.FragmentSettingBinding
 import com.mut_jaeryo.presentation.ui.opensource.OpenSourceActivity
+import com.mut_jaeryo.presentation.ui.version.VersionActivity
 import com.tistory.blackjinbase.base.BaseFragment
 import com.tistory.blackjinbase.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,10 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
             }
             settingOpenSource.setOnClickListener {
                 val intent = Intent(requireContext(), OpenSourceActivity::class.java)
+                startActivity(intent)
+            }
+            settingAppVersion.setOnClickListener {
+                val intent = Intent(requireContext(), VersionActivity::class.java)
                 startActivity(intent)
             }
         }

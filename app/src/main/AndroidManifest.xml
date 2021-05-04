@@ -25,6 +25,7 @@
 
         <activity android:name="com.mut_jaeryo.presentation.ui.detail.DetailActivity"/>
         <activity android:name="com.mut_jaeryo.presentation.ui.upload.UploadActivity" />
+        <activity android:name="com.mut_jaeryo.presentation.ui.version.VersionActivity"/>
         <activity android:name="com.mut_jaeryo.presentation.ui.opensource.OpenSourceActivity" />
         <activity android:name="com.mut_jaeryo.presentation.ui.main.MainActivity">
             <intent-filter>
