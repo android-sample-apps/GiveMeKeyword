@@ -56,7 +56,7 @@ class DrawingFragment : BaseFragment<FragmentDrawingBinding>(R.layout.fragment_d
     private fun loadAd() {
         val adRequest = AdRequest.Builder().build()
 
-        RewardedAd.load(requireContext(), getString(R.string.ad_reward_test_id), adRequest, object : RewardedAdLoadCallback() {
+        RewardedAd.load(requireContext(), getString(R.string.ad_reward_id), adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 rewardedAd = null
             }
