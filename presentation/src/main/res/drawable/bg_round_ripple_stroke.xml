@@ -3,12 +3,9 @@
     android:color="@color/colorAccent">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <solid android:color="@color/black" />
+            <solid android:color="#000000" />
+            <corners android:radius="15dp" />
         </shape>
     </item>
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/white"/>
-        </shape>
-    </item>
+    <item android:drawable="@drawable/round_stroke_black_layout" />
 </ripple>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="loading_name">오늘의\n주제는.</string>
-
-    <string name="app_id">ca-app-pub-5645268985361077~6814954433</string>
     <string name="ad_reward_test_id">ca-app-pub-3940256099942544/5224354917</string>
     <string name="ad_reward_id">ca-app-pub-5645268985361077/7082741267</string>
     <string name="keyword_drawing_none">그림이 존재하지 않습니다! 그림을 그려 사용자들에게 보여주세요!</string>
@@ -29,6 +27,7 @@
     <string name="setting_personal">기타</string>
     <string name="setting_notification">알림 설정</string>
     <string name="setting_opensource">오픈소스 라이선스</string>
+    <string name="setting_version">버전 정보</string>
     <string name="setting_develop_mail">jaeryo2357@gmail.com</string>
     <string name="setting_name_empty_message">올바른 이름을 입력해주세요.</string>
     <string name="setting_name_dialog_content_hint">최초 1회 변경가능합니다</string>
@@ -43,4 +42,11 @@
     <!--    알람-->
     <string name="notification_title">오늘의 주제는.</string>
     <string name="notification_description">오늘도 광고없이 그림 주제를 받아보세요! 하루에 최대 3번 새로운 그림 주제를 받을 수 있습니다.</string>
+    <!--  버전 정보 -->
+    <string name="version_title">버전정보</string>
+    <string name="version_new_version">최신 버전을 사용 중입니다</string>
+    <string name="version_old_version">지난 버전을 사용 중입니다</string>
+    <string name="version_name_not_found">unknown version</string>
+    <string name="version_info">현재 버전 %1$s</string>
+    <string name="version_update">앱 업데이트 하러가기</string>
 </resources>

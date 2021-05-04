@@ -2,15 +2,11 @@ package com.mut_jaeryo.presentation.ui.story
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mut_jaeryo.presentation.R
@@ -20,8 +16,6 @@ import com.mut_jaeryo.presentation.ui.detail.DetailActivity
 import com.mut_jaeryo.presentation.ui.story.adapter.StoryAdapter
 import com.tistory.blackjinbase.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story) {
@@ -93,7 +87,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                     }
 
                     binding.storySortKeyword.apply {
-                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_round_ripple, null)
+                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_round_ripple_stroke, null)
                         backgroundTintList = null
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
                     }
@@ -108,7 +102,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                     }
 
                     binding.storySortAll.apply {
-                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_round_ripple, null)
+                        background = ResourcesCompat.getDrawable(resources, R.drawable.bg_round_ripple_stroke, null)
                         backgroundTintList = null
                         setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
                     }

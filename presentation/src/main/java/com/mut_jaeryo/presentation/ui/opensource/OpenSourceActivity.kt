@@ -12,8 +12,6 @@ class OpenSourceActivity :
     override var logTag: String = "OpenSourceActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_open_source)
-
         setSupportActionBar(binding.openSourceToolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

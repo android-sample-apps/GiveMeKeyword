@@ -1,16 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-    </data>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#ffffff"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/open_source_appbar"
+            android:layout_marginTop="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/open_source_okhttp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="viewpager2"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/open_source_okhttp_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_okhttp"
+                    android:layout_marginLeft="30dp"
+                    android:text="https://developer.android.com/viewpager2" />
+
+                <TextView
+                    android:id="@+id/open_source_okhttp_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_okhttp_link"
+                    android:layout_marginLeft="30dp"
+                    android:text="Copyright 2019 Google, Inc" />
+
+                <TextView
+                    android:id="@+id/open_source_okhttp_license"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_okhttp_tv"
+                    android:layout_marginLeft="30dp"
+                    android:text="Apache License, Version 2.0" />
+
+                <TextView
+                    android:id="@+id/open_source_ink_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_okhttp_license"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="ink_android"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/open_source_ink_view_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_ink_view"
+                    android:layout_marginLeft="30dp"
+                    android:text="https://github.com/simplifycom/ink-android" />
+
+                <TextView
+                    android:id="@+id/open_source_ink_view_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_ink_view_link"
+                    android:layout_marginLeft="30dp"
+                    android:text="Copyright 2019 Simplifycom" />
+
+                <TextView
+                    android:id="@+id/open_source_ink_view_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_ink_view_tv"
+                    android:layout_marginLeft="30dp"
+                    android:text="Apache License, Version 2.0" />
+
+                <TextView
+                    android:id="@+id/open_source_readMoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_ink_view_tv2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="ReadMoreTextView"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/open_source_readMoreText_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_readMoreText"
+                    android:layout_marginLeft="30dp"
+                    android:text="https://github.com/bravoborja/ReadMoreTextView" />
+
+                <TextView
+                    android:id="@+id/open_source_readMoreText_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_readMoreText_link"
+                    android:layout_marginLeft="30dp"
+                    android:text="Copyright 2016 Borja Bravo" />
+
+                <TextView
+                    android:id="@+id/open_source_readMoreText_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_readMoreText_tv"
+                    android:layout_marginLeft="30dp"
+                    android:text="Apache License, Version 2.0" />
+
+
+                <TextView
+                    android:id="@+id/open_source_sweet_alert_dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_readMoreText_tv2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="sweet-alert-dialog"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/open_source_sweet_alert_dialog_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_sweet_alert_dialog"
+                    android:layout_marginLeft="30dp"
+                    android:text="https://github.com/pedant/sweet-alert-dialog" />
+
+                <TextView
+                    android:id="@+id/open_source_sweet_alert_dialog_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_sweet_alert_dialog_link"
+                    android:layout_marginLeft="30dp"
+                    android:text="Copyright (c) 2014 Pedant(http://pedant.cn)" />
+
+                <TextView
+                    android:id="@+id/open_source_sweet_alert_dialog_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_sweet_alert_dialog_tv"
+                    android:layout_marginLeft="30dp"
+                    android:text="The MIT License (MIT)" />
+
+                <TextView
+                    android:id="@+id/open_source_firebase"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_sweet_alert_dialog_tv2"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    android:text="firebase-android-sdk"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/open_source_firebase_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_firebase"
+                    android:layout_marginLeft="30dp"
+                    android:text="https://github.com/firebase/firebase-android-sdk" />
+
+                <TextView
+                    android:id="@+id/open_source_firebase_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_firebase_link"
+                    android:layout_marginLeft="30dp"
+                    android:text="Copyright Google" />
+
+                <TextView
+                    android:id="@+id/open_source_firebase_tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_source_firebase_tv"
+                    android:layout_marginLeft="30dp"
+                    android:text="Apache License, Version 2.0" />
+            </RelativeLayout>
+
+        </ScrollView>
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -30,15 +217,15 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/open_source_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
                         android:text="오픈 소스"
                         android:textColor="#000000"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        android:layout_centerVertical="true"
                         android:textSize="17sp"
-                        android:id="@+id/open_source_title">
+                        android:textStyle="bold">
 
                     </TextView>
 
@@ -47,274 +234,9 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/open_source_appbar"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/open_source_okhttp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="viewpager2"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://developer.android.com/viewpager2"
-                    android:id="@+id/open_source_okhttp_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_okhttp"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright 2019 Google, Inc"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_okhttp_link"
-                    android:id="@+id/open_source_okhttp_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/open_source_okhttp_license"
-                    android:text="Apache License, Version 2.0"
-                    android:layout_below="@id/open_source_okhttp_tv"
-                    android:layout_marginLeft="30dp"></TextView>
-
-                <TextView
-                    android:id="@+id/open_source_vision"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/open_source_okhttp_license"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="ink_android"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://github.com/simplifycom/ink-android"
-                    android:id="@+id/open_source_vision_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_vision"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright 2019 Simplifycom"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_vision_link"
-                    android:id="@+id/open_source_vision_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apache License, Version 2.0"
-                    android:id="@+id/open_source_vision_tv2"
-                    android:layout_below="@id/open_source_vision_tv"
-                    android:layout_marginLeft="30dp"></TextView>
-
-
-                <TextView
-                    android:id="@+id/open_source_Chart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/open_source_vision_tv2"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="williamchart"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://github.com/diogobernardino/williamchart"
-                    android:id="@+id/open_source_Chart_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_Chart"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright 2019 Diogo Bernardino"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_Chart_link"
-                    android:id="@+id/open_source_Chart_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/open_source_Chart_tv2"
-                    android:text="Apache License, Version 2.0"
-                    android:layout_below="@id/open_source_Chart_tv"
-                    android:layout_marginLeft="30dp"></TextView>
-
-
-                <TextView
-                    android:id="@+id/open_source_readMoreText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/open_source_Chart_tv2"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="ReadMoreTextView"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://github.com/bravoborja/ReadMoreTextView"
-                    android:id="@+id/open_source_readMoreText_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_readMoreText"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright 2016 Borja Bravo"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_readMoreText_link"
-                    android:id="@+id/open_source_readMoreText_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apache License, Version 2.0"
-                    android:layout_below="@id/open_source_readMoreText_tv"
-                    android:id="@+id/open_source_readMoreText_tv2"
-                    android:layout_marginLeft="30dp"></TextView>
-
-
-                <TextView
-                    android:id="@+id/open_source_sweet_alert_dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/open_source_readMoreText_tv2"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="sweet-alert-dialog"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://github.com/pedant/sweet-alert-dialog"
-                    android:id="@+id/open_source_sweet_alert_dialog_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_sweet_alert_dialog"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright umano"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_slide_up_link"
-                    android:id="@+id/open_source_slide_up_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="The MIT License (MIT)"
-                    android:layout_below="@id/open_source_sweet_alert_dialog_tv"
-                    android:id="@+id/open_source_sweet_alert_dialog_tv2"
-                    android:layout_marginLeft="30dp"></TextView>
-
-
-                <TextView
-                    android:id="@+id/open_source_slide_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/open_source_sweet_alert_dialog_tv2"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="AndroidSlidingUpPanel"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://github.com/umano/AndroidSlidingUpPanel"
-                    android:id="@+id/open_source_slide_up_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_slide_up"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright (c) 2014 Pedant(http://pedant.cn)"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_sweet_alert_dialog_link"
-                    android:id="@+id/open_source_sweet_alert_dialog_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apache License, Version 2.0"
-                    android:layout_below="@id/open_source_slide_up_tv"
-                    android:id="@+id/open_source_slide_up_tv2"
-                    android:layout_marginLeft="30dp"></TextView>
-
-
-                <TextView
-                    android:id="@+id/open_source_firebase"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_below="@id/open_source_slide_up_tv2"
-                    android:textSize="16sp"
-                    android:layout_marginLeft="15dp"
-                    android:text="firebase-android-sdk"
-                    android:textColor="#000000"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="https://github.com/firebase/firebase-android-sdk"
-                    android:id="@+id/open_source_firebase_link"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_firebase"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Copyright Google"
-                    android:layout_marginLeft="30dp"
-                    android:layout_below="@id/open_source_firebase_link"
-                    android:id="@+id/open_source_firebase_tv"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apache License, Version 2.0"
-                    android:layout_below="@id/open_source_firebase_tv"
-                    android:id="@+id/open_source_firebase_tv2"
-                    android:layout_marginLeft="30dp"></TextView>
-            </RelativeLayout>
-
-        </ScrollView>
-
-
     </RelativeLayout>
+
+    <data>
+
+    </data>
 </layout>
