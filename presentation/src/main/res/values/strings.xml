@@ -29,6 +29,7 @@
     <string name="setting_personal">기타</string>
     <string name="setting_notification">알림 설정</string>
     <string name="setting_opensource">오픈소스 라이선스</string>
+    <string name="setting_version">버전 정보</string>
     <string name="setting_develop_mail">jaeryo2357@gmail.com</string>
     <string name="setting_name_empty_message">올바른 이름을 입력해주세요.</string>
     <string name="setting_name_dialog_content_hint">최초 1회 변경가능합니다</string>
