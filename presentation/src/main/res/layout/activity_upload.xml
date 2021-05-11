@@ -17,7 +17,7 @@
 
         <EditText
             android:id="@+id/upload_content_edit"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="20dp"
@@ -27,11 +27,11 @@
             android:hint="@string/upload_content_hint"
             android:inputType="textMultiLine"
             android:lines="5"
-            android:maxLines="30"
+            android:maxLength="50"
             android:padding="10dp"
             android:scrollbars="vertical"
             android:text="@={viewModel.drawingContent}"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/upload_content_tv" />
@@ -58,7 +58,7 @@
             android:layout_marginEnd="18dp"
             android:gravity="center"
             android:text="@{viewModel.userName ?? @string/setting_not_user}"
-            android:textColor="#000000"
+            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/upload_image"
@@ -137,13 +137,24 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:text="@string/upload_title"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/upload_content_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="18dp"
+            android:text="@{@string/upload_content_limit(viewModel.drawingContent.length)}"
+            tools:text="0/50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/upload_content_edit" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

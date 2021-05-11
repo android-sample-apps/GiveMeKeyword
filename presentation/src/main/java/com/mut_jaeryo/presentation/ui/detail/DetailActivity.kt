@@ -3,6 +3,7 @@ package com.mut_jaeryo.presentation.ui.detail
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
@@ -25,10 +26,15 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.viewModel = detailViewModel
 
+        initContentLayout()
         initAppBarButton()
         initDrawingImage()
 
         observeViewModel()
+    }
+
+    private fun initContentLayout() {
+        binding.drawingMainContent.movementMethod = ScrollingMovementMethod()
     }
 
     private fun initAppBarButton() {
