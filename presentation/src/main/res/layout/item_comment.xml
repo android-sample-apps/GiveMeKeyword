@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/item_comment_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="18dp"
-        android:src="@drawable/ic_person"
-        app:civ_circle_background_color="@color/colorNotAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <import type="com.mut_jaeryo.domain.entities.Comment"/>
+        <variable
+            name="item"
+            type="Comment" />
+    </data>
 
-    <TextView
-        android:id="@+id/item_comment_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:lines="1"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@id/item_comment_icon"
-        app:layout_constraintTop_toTopOf="@id/item_comment_icon"
-        tools:text="존잘" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/item_comment_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="10dp"
-        android:layou_marginEnd="18dp"
-        android:maxLines="5"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_comment_icon"
-        tools:text="댓글" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_comment_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="18dp"
+            android:src="@drawable/ic_person"
+            app:civ_circle_background_color="@color/colorNotAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/item_comment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:lines="1"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:text="@{item.userId}"
+            app:layout_constraintStart_toEndOf="@id/item_comment_icon"
+            app:layout_constraintTop_toTopOf="@id/item_comment_icon"
+            tools:text="존잘" />
+
+        <TextView
+            android:id="@+id/item_comment_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="18dp"
+            android:maxLines="5"
+            android:text="@{item.comment}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_comment_icon"
+            tools:text="댓글" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -57,15 +57,12 @@ class StoryViewModel @Inject constructor(
                         }
             }
         }
-
-        MutableLiveData<PagingData<Drawing>>()
     }
 
      fun getDrawingWithKeyword() = viewModelScope.launch {
         keyword.await()?.let { keyword ->
             getDrawingKeywordUseCase(keyword).let {
                 if (it is Result.Success) {
-                    Log.d("StoryViewModel", "firebase LiveData")
                     it.data.cachedIn(viewModelScope)
                             .collect {  pagingData ->
                                 _storyList.postValue(pagingData)
@@ -73,8 +70,6 @@ class StoryViewModel @Inject constructor(
                 }
             }
         }
-
-        MutableLiveData<PagingData<Drawing>>()
     }
 
     fun setDetailEvent(item: DrawingItem) {

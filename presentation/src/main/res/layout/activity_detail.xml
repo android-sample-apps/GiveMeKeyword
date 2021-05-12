@@ -142,7 +142,6 @@
             android:text="@{viewModel.drawingItem.content}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:colorClickableText="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/detail_comment_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

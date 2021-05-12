@@ -2,16 +2,29 @@ package com.mut_jaeryo.presentation.ui.comment
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityCommentBinding
+import com.mut_jaeryo.presentation.ui.comment.adapter.CommentAdapter
 import com.tistory.blackjinbase.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_comment) {
     override var logTag: String = "CommentActivity"
+    private val commentViewModel: CommentViewModel by viewModels()
+    private val commentAdapter: CommentAdapter by lazy {
+        CommentAdapter {
+            //TODO: 사용자 정보
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initAppBarButton()
+        initCommentRecyclerView()
+        observeViewModel()
     }
 
     private fun initAppBarButton() {
@@ -23,6 +36,17 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    private fun initCommentRecyclerView() {
+        binding.commentRecyclerview.apply {
+            adapter = commentAdapter
+        }
+    }
+
+    private fun observeViewModel() {
+        commentViewModel.commentList.observe(this) { pagingData ->
+            pagingData?.let { commentAdapter.submitData(lifecycle, it) }
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
