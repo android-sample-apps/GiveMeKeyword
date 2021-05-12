@@ -22,7 +22,7 @@
             android:background="@drawable/bg_shape_square"
             android:minHeight="100dp"
             android:transitionName="draw"
-            app:layout_constraintBottom_toTopOf="@+id/drawing_main_profile_image"
+            app:layout_constraintBottom_toTopOf="@+id/item_comment_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/drawing_main_appbar"
@@ -38,7 +38,8 @@
             app:layout_constraintBottom_toBottomOf="@id/drawing_main_image"
             app:layout_constraintEnd_toEndOf="@id/drawing_main_image"
             app:layout_constraintStart_toStartOf="@id/drawing_main_image"
-            app:layout_constraintTop_toTopOf="@id/drawing_main_image" />
+            app:layout_constraintTop_toTopOf="@id/drawing_main_image"
+            tools:ignore="ContentDescription" />
 
         <RelativeLayout
             android:id="@+id/drawing_main_goal_layout"
@@ -99,7 +100,6 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold">
-
                 </TextView>
             </RelativeLayout>
 
@@ -128,8 +128,8 @@
             android:text="@{viewModel.drawingItem.name}"
             android:textColor="@color/black"
             tools:text="점냥"
-            app:layout_constraintBottom_toBottomOf="@id/drawing_main_profile_image"
-            app:layout_constraintStart_toEndOf="@id/drawing_main_profile_image" />
+            app:layout_constraintBottom_toBottomOf="@id/item_comment_icon"
+            app:layout_constraintStart_toEndOf="@id/item_comment_icon" />
 
         <TextView
             android:id="@+id/drawing_main_content"
@@ -192,7 +192,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/drawing_main_profile_image"
+            android:id="@+id/item_comment_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
@@ -202,13 +202,16 @@
             app:layout_constraintBottom_toTopOf="@+id/drawing_main_content"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <TextView
             android:id="@+id/detail_comment_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="댓글 (5)"
+            android:text="@string/detail_comment_button"
             android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
             android:padding="10dp"
+            android:textColor="@color/black"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
