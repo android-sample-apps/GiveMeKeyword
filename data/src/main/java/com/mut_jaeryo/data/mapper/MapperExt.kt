@@ -1,18 +1,23 @@
 package com.mut_jaeryo.data.mapper
 
-import com.mut_jaeryo.data.dto.DrawingModel
-import com.mut_jaeryo.data.dto.FavoriteModel
-import com.mut_jaeryo.data.dto.KeywordModel
-import com.mut_jaeryo.data.dto.UserModel
+import com.mut_jaeryo.data.dto.*
+import com.mut_jaeryo.domain.entities.Comment
 import com.mut_jaeryo.domain.entities.Drawing
 import com.mut_jaeryo.domain.entities.Keyword
 import com.mut_jaeryo.domain.entities.User
 
 fun DrawingModel.toDomain() = Drawing(
-        userName = this.userName,
-        content = this.content,
-        keyword = this.keyword,
-        imageUrl = this.imageUrl
+        id = id, keyword = keyword,
+        userName = userName, imageUrl = imageUrl,
+        content = content, heartCount = heartCount,
+        isHeart = isHeart
+)
+
+fun CommentModel.toDomain() = Comment(
+        userId = userId,
+        id = id,
+        comment = comment,
+        drawingId = drawingId
 )
 
 fun Drawing.toData() = DrawingModel(
@@ -36,8 +41,18 @@ fun User.toData() = UserModel(
         like = this.like
 )
 
+fun Comment.toData() = CommentModel(
+        userId = userId,
+        id = id,
+        comment = comment,
+        drawingId = drawingId
+)
+
 @JvmName("toDomainDrawingModel")
 fun List<DrawingModel>.toDomain() = this.map {
-    Drawing(id = it.id, keyword = it.keyword, userName = it.userName,
-    imageUrl = it.imageUrl, content = it.content, heartCount = it.heartCount, isHeart = it.isHeart)
+    it.toDomain()
+}
+
+fun List<CommentModel>.toDomain() = this.map {
+    it.toDomain()
 }

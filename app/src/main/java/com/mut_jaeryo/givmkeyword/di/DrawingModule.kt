@@ -23,11 +23,6 @@ abstract class DrawingModule {
     @Retention(AnnotationRetention.RUNTIME)
     annotation class LocalLabel
 
-    @Binds
-    abstract fun bindDrawingService(
-            firebaseDrawingServiceImpl: FirebaseDrawingServiceImpl
-    ): DrawingService
-
     @RemoteLabel
     @Binds
     abstract fun bindRemoteDrawingDataSource(
