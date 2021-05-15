@@ -23,6 +23,7 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
 
+        <activity android:name="com.mut_jaeryo.presentation.ui.comment.CommentActivity"/>
         <activity android:name="com.mut_jaeryo.presentation.ui.detail.DetailActivity"/>
         <activity android:name="com.mut_jaeryo.presentation.ui.upload.UploadActivity" />
         <activity android:name="com.mut_jaeryo.presentation.ui.version.VersionActivity"/>

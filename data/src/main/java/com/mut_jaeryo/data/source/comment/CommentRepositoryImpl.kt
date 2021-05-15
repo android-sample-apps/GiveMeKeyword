@@ -22,4 +22,8 @@ class CommentRepositoryImpl @Inject constructor(
 
     override suspend fun createComment(comment: Comment) =
             commentService.createComments(comment.toData())
+
+    override suspend fun deleteComment(comment: Comment) {
+        commentService.deleteComment(comment.toData())
+    }
 }

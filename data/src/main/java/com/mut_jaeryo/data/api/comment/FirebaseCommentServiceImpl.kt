@@ -77,4 +77,18 @@ class FirebaseCommentServiceImpl @Inject constructor(
             coroutine.cancel(exception)
         }
     }
+
+    override suspend fun deleteComment(commentModel: CommentModel) =
+            suspendCancellableCoroutine<Unit> { coroutine ->
+                val db = FirebaseFirestore.getInstance().collection("comments")
+                val doc = db.document(commentModel.id)
+
+                doc.delete().addOnSuccessListener {
+                    coroutine.resume(Unit) {
+
+                    }
+                }.addOnFailureListener { exception ->
+                    coroutine.cancel(exception)
+                }
+            }
 }

@@ -8,4 +8,6 @@ interface CommentService {
     suspend fun getComments(drawingId: String, lastVisible: DocumentSnapshot?): CommentResponse
 
     suspend fun createComments(commentModel: CommentModel)
+
+    suspend fun deleteComment(commentModel: CommentModel)
 }

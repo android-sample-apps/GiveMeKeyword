@@ -8,4 +8,6 @@ interface CommentRepository {
     suspend fun getComments(drawingId: String): Flow<PagingData<Comment>>
 
     suspend fun createComment(comment: Comment)
+
+    suspend fun deleteComment(comment: Comment)
 }
