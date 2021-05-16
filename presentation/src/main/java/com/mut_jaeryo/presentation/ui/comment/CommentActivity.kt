@@ -3,6 +3,7 @@ package com.mut_jaeryo.presentation.ui.comment
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityCommentBinding
@@ -47,7 +48,9 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
 
     private fun observeViewModel() {
         commentViewModel.commentList.observe(this) { pagingData ->
-            pagingData?.let { commentAdapter.submitData(lifecycle, it) }
+            lifecycleScope.launchWhenCreated {
+                pagingData?.let { commentAdapter.submitData(lifecycle, it) }
+            }
         }
         commentViewModel.needCreateUser.observe(this) {
             toast(R.string.drawing_create_user_message)
