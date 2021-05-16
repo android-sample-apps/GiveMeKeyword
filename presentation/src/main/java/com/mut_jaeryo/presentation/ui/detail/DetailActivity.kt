@@ -28,17 +28,17 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.viewModel = detailViewModel
 
-        initContentLayout()
+        initLayout()
         initAppBarButton()
         initDrawingImage()
 
         observeViewModel()
     }
 
-    private fun initContentLayout() {
+    private fun initLayout() {
         binding.apply {
             drawingMainContent.movementMethod = ScrollingMovementMethod()
-            drawingMainContent.setOnClickListener {
+            detailCommentButton.setOnClickListener {
                 val intent = Intent(this@DetailActivity, CommentActivity::class.java)
                 startActivity(intent)
             }
