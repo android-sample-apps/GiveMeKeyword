@@ -30,6 +30,9 @@ class CommentViewModel @Inject constructor(
 
     val editComment = MutableLiveData("")
 
+    private val _needCreateUser = SingleLiveEvent<Unit>()
+    val needCreateUser: SingleLiveEvent<Unit> = _needCreateUser
+
     private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: SingleLiveEvent<Boolean>
         get() = _isLoading
@@ -39,6 +42,10 @@ class CommentViewModel @Inject constructor(
 
     private val userId: String?
         get() = savedStateHandle.get<String>("userId")
+
+    init {
+        getUserId()
+    }
 
     private fun getComments(drawingId: String) = viewModelScope.launch {
         getCommentUseCase(
@@ -60,10 +67,13 @@ class CommentViewModel @Inject constructor(
                 Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
-        null
     }
 
     fun uploadComment() = viewModelScope.launch {
+        if (userId == null) {
+            _needCreateUser.call()
+            return@launch
+        }
         _isLoading.postValue(true)
         val inputComment = editComment.value
         if (inputComment.isNullOrEmpty()) {
