@@ -11,6 +11,8 @@ import com.mut_jaeryo.presentation.ui.comment.adapter.CommentAdapter
 import com.tistory.blackjinbase.base.BaseActivity
 import com.tistory.blackjinbase.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_comment) {
@@ -43,13 +45,14 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
     private fun initCommentRecyclerView() {
         binding.commentRecyclerview.apply {
             adapter = commentAdapter
+            setHasFixedSize(true)
         }
     }
 
     private fun observeViewModel() {
-        commentViewModel.commentList.observe(this) { pagingData ->
-            lifecycleScope.launchWhenCreated {
-                pagingData?.let { commentAdapter.submitData(lifecycle, it) }
+        lifecycleScope.launch {
+            commentViewModel.commentList?.collectLatest {
+                commentAdapter.submitData(it)
             }
         }
         commentViewModel.needCreateUser.observe(this) {

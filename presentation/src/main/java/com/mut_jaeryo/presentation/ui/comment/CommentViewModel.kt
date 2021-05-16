@@ -13,7 +13,7 @@ import com.mut_jaeryo.domain.usecase.DeleteCommentUseCase
 import com.mut_jaeryo.presentation.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -27,8 +27,7 @@ class CommentViewModel @Inject constructor(
         private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _commentList = MutableLiveData<PagingData<Comment>>()
-    val commentList: LiveData<PagingData<Comment>> = _commentList
+    var commentList: Flow<PagingData<Comment>>? = null
 
     val editComment = MutableLiveData("")
 
@@ -62,9 +61,7 @@ class CommentViewModel @Inject constructor(
                 drawingId!! to userId!!
         ).let { result ->
             if (result is Result.Success) {
-                result.data.cachedIn(viewModelScope).collect {
-                    _commentList.value = it
-                }
+                commentList = result.data.cachedIn(viewModelScope)
             }
         }
     }
