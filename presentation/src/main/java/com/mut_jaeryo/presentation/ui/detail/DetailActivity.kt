@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityDetailBinding
+import com.mut_jaeryo.presentation.entities.DrawingItem
 import com.mut_jaeryo.presentation.ui.comment.CommentActivity
 import com.tistory.blackjinbase.base.BaseActivity
 import com.tistory.blackjinbase.ext.toast
@@ -39,7 +40,11 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         binding.apply {
             drawingMainContent.movementMethod = ScrollingMovementMethod()
             detailCommentButton.setOnClickListener {
-                val intent = Intent(this@DetailActivity, CommentActivity::class.java)
+                val intent = Intent(this@DetailActivity,
+                        CommentActivity::class.java).apply {
+                    val drawingItem = intent.extras?.get("drawing") as? DrawingItem
+                            putExtra("drawingId", drawingItem?.id)
+                }
                 startActivity(intent)
             }
         }

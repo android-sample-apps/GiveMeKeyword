@@ -12,8 +12,10 @@ import com.mut_jaeryo.domain.usecase.GetUserUseCase
 import com.mut_jaeryo.domain.usecase.DeleteCommentUseCase
 import com.mut_jaeryo.presentation.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,10 +27,17 @@ class CommentViewModel @Inject constructor(
         private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _commentList = MutableLiveData<PagingData<Comment>>()
-    val commentList: LiveData<PagingData<Comment>> = _commentList
+    private val _commentList = MutableLiveData<Flow<PagingData<Comment>>?>(null)
+    val commentList: LiveData<Flow<PagingData<Comment>>?>
+        get() = _commentList
 
     val editComment = MutableLiveData("")
+
+    private val _needCreateUser = SingleLiveEvent<Unit>()
+    val needCreateUser: SingleLiveEvent<Unit> = _needCreateUser
+
+    private val _isCommentEmpty = SingleLiveEvent<Unit>()
+    val isCommentEmpty: SingleLiveEvent<Unit> = _isCommentEmpty
 
     private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: SingleLiveEvent<Boolean>
@@ -40,14 +49,21 @@ class CommentViewModel @Inject constructor(
     private val userId: String?
         get() = savedStateHandle.get<String>("userId")
 
-    private fun getComments(drawingId: String) = viewModelScope.launch {
+    init {
+        getUserId()
+        getComments()
+    }
+
+    private fun getComments() = viewModelScope.launch {
+        if (drawingId == null || userId == null) {
+            return@launch
+        }
+
         getCommentUseCase(
-                drawingId to (userId ?: "알 수 없음")
+                drawingId!! to userId!!
         ).let { result ->
             if (result is Result.Success) {
-                result.data.cachedIn(viewModelScope).collect {
-                    _commentList.value = it
-                }
+                _commentList.postValue(result.data.cachedIn(viewModelScope))
             }
         }
     }
@@ -60,13 +76,17 @@ class CommentViewModel @Inject constructor(
                 Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
-        null
     }
 
     fun uploadComment() = viewModelScope.launch {
+        if (userId == null) {
+            _needCreateUser.call()
+            return@launch
+        }
         _isLoading.postValue(true)
         val inputComment = editComment.value
         if (inputComment.isNullOrEmpty()) {
+            _isCommentEmpty.call()
             return@launch
         }
 
@@ -76,28 +96,29 @@ class CommentViewModel @Inject constructor(
                 userId = userId ?: return@launch,
                 comment = inputComment
         )
-        createCommentUseCase.invoke(comment).let {
-            _isLoading.postValue(false)
-            if (it is Result.Success) {
-                drawingId?.let { drawingId ->
-                    getComments(drawingId)
+        withContext(Dispatchers.IO) {
+            createCommentUseCase.invoke(comment).let {
+                _isLoading.postValue(false)
+                if (it is Result.Success) {
+                    getComments()
+                } else if (it is Result.Error) {
+                    Log.e("CommentViewModel", it.exception.stackTraceToString())
                 }
-            } else if (it is Result.Error) {
-                Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
     }
 
     fun deleteComment(comment: Comment) = viewModelScope.launch {
         _isLoading.postValue(true)
-        deleteCommentUseCase.invoke(comment).let {
-            _isLoading.postValue(false)
-            if (it is Result.Success) {
-                drawingId?.let { drawingId ->
-                    getComments(drawingId)
+
+        withContext(Dispatchers.IO) {
+            deleteCommentUseCase.invoke(comment).let {
+                _isLoading.postValue(false)
+                if (it is Result.Success) {
+                    getComments()
+                } else if (it is Result.Error) {
+                    Log.e("CommentViewModel", it.exception.stackTraceToString())
                 }
-            } else if (it is Result.Error) {
-                Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
     }
