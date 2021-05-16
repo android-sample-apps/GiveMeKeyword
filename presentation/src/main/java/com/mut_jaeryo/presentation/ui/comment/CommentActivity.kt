@@ -3,6 +3,7 @@ package com.mut_jaeryo.presentation.ui.comment
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityCommentBinding
 import com.mut_jaeryo.presentation.ui.comment.adapter.CommentAdapter

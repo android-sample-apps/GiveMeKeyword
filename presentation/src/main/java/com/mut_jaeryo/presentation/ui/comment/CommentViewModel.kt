@@ -12,8 +12,10 @@ import com.mut_jaeryo.domain.usecase.GetUserUseCase
 import com.mut_jaeryo.domain.usecase.DeleteCommentUseCase
 import com.mut_jaeryo.presentation.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,11 +50,16 @@ class CommentViewModel @Inject constructor(
 
     init {
         getUserId()
+        getComments()
     }
 
-    private fun getComments(drawingId: String) = viewModelScope.launch {
+    private fun getComments() = viewModelScope.launch {
+        if(drawingId == null || userId == null) {
+            return@launch
+        }
+
         getCommentUseCase(
-                drawingId to (userId ?: "알 수 없음")
+                drawingId!! to userId!!
         ).let { result ->
             if (result is Result.Success) {
                 result.data.cachedIn(viewModelScope).collect {
@@ -90,28 +97,29 @@ class CommentViewModel @Inject constructor(
                 userId = userId ?: return@launch,
                 comment = inputComment
         )
-        createCommentUseCase.invoke(comment).let {
-            _isLoading.postValue(false)
-            if (it is Result.Success) {
-                drawingId?.let { drawingId ->
-                    getComments(drawingId)
+        withContext(Dispatchers.IO){
+            createCommentUseCase.invoke(comment).let {
+                _isLoading.postValue(false)
+                if (it is Result.Success) {
+                    getComments()
+                } else if (it is Result.Error) {
+                    Log.e("CommentViewModel", it.exception.stackTraceToString())
                 }
-            } else if (it is Result.Error) {
-                Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
     }
 
     fun deleteComment(comment: Comment) = viewModelScope.launch {
         _isLoading.postValue(true)
-        deleteCommentUseCase.invoke(comment).let {
-            _isLoading.postValue(false)
-            if (it is Result.Success) {
-                drawingId?.let { drawingId ->
-                    getComments(drawingId)
+
+        withContext(Dispatchers.IO) {
+            deleteCommentUseCase.invoke(comment).let {
+                _isLoading.postValue(false)
+                if (it is Result.Success) {
+                    getComments()
+                } else if (it is Result.Error) {
+                    Log.e("CommentViewModel", it.exception.stackTraceToString())
                 }
-            } else if (it is Result.Error) {
-                Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
     }
