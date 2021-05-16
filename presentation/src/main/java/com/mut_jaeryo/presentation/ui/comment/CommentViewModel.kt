@@ -27,7 +27,9 @@ class CommentViewModel @Inject constructor(
         private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var commentList: Flow<PagingData<Comment>>? = null
+    private val _commentList = MutableLiveData<Flow<PagingData<Comment>>?>(null)
+    val commentList: LiveData<Flow<PagingData<Comment>>?>
+        get() = _commentList
 
     val editComment = MutableLiveData("")
 
@@ -53,7 +55,7 @@ class CommentViewModel @Inject constructor(
     }
 
     private fun getComments() = viewModelScope.launch {
-        if(drawingId == null || userId == null) {
+        if (drawingId == null || userId == null) {
             return@launch
         }
 
@@ -61,7 +63,7 @@ class CommentViewModel @Inject constructor(
                 drawingId!! to userId!!
         ).let { result ->
             if (result is Result.Success) {
-                commentList = result.data.cachedIn(viewModelScope)
+                _commentList.postValue(result.data.cachedIn(viewModelScope))
             }
         }
     }
@@ -94,7 +96,7 @@ class CommentViewModel @Inject constructor(
                 userId = userId ?: return@launch,
                 comment = inputComment
         )
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             createCommentUseCase.invoke(comment).let {
                 _isLoading.postValue(false)
                 if (it is Result.Success) {

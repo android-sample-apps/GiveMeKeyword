@@ -1,10 +1,11 @@
 package com.mut_jaeryo.presentation.ui.comment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.mut_jaeryo.domain.entities.Comment
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityCommentBinding
 import com.mut_jaeryo.presentation.ui.comment.adapter.CommentAdapter
@@ -20,7 +21,7 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
     private val commentViewModel: CommentViewModel by viewModels()
     private val commentAdapter: CommentAdapter by lazy {
         CommentAdapter {
-            commentViewModel.deleteComment(it)
+            showDeleteDialog(it)
         }
     }
 
@@ -50,9 +51,11 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launch {
-            commentViewModel.commentList?.collectLatest {
-                commentAdapter.submitData(it)
+        commentViewModel.commentList.observe(this) { pagingData ->
+            lifecycleScope.launch {
+                pagingData?.collectLatest {
+                    commentAdapter.submitData(it)
+                }
             }
         }
         commentViewModel.needCreateUser.observe(this) {
@@ -61,6 +64,18 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
         commentViewModel.isCommentEmpty.observe(this) {
             toast(R.string.comment_empty)
         }
+    }
+
+    private fun showDeleteDialog(comment: Comment) {
+        AlertDialog.Builder(this)
+                .setTitle(R.string.comment_delete_dialog_title)
+                .setMessage(R.string.comment_delete_dialog_content)
+                .setPositiveButton(R.string.comment_delete_dialog_positive) { dialog, _ ->
+                    commentViewModel.deleteComment(comment)
+                    dialog.dismiss()
+                }.setNegativeButton(R.string.comment_delete_dialog_negative) { dialog, _ ->
+                    dialog.dismiss()
+                }.show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
