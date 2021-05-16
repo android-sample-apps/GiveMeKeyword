@@ -112,7 +112,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
         storyViewModel.showDetailEventWithItem.observe(viewLifecycleOwner) {
             val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
-                putExtra("drawing", it)
+                putExtra("drawingId", it)
             }
             requireActivity().startActivity(intent)
         }

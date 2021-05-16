@@ -13,7 +13,7 @@ fun setFirebaseImage(view: ImageView, id: String) {
     val storageReference = FirebaseStorage.getInstance().reference.child("images/${id}.png")
     Glide.with(view.context)
             .load(storageReference)
-            .thumbnail(0.25f)
+            .thumbnail(0.1f)
             .centerCrop()
             .apply(RequestOptions.bitmapTransform(RoundedCorners(30))
                     .skipMemoryCache(true)

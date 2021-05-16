@@ -16,7 +16,7 @@ class DetailViewModel @Inject constructor(
         private val setDrawingReportUseCase: SetDrawingReportUseCase,
         private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _drawingItem = savedStateHandle.getLiveData<DrawingItem>("drawing")
+    private val _drawingItem = savedStateHandle.getLiveData<DrawingItem>("drawingId")
     val drawingItem: LiveData<DrawingItem> = _drawingItem
     private val _errorMessage = SingleLiveEvent<String>()
     val errorMessage: SingleLiveEvent<String> = _errorMessage
