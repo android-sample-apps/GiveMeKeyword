@@ -20,7 +20,7 @@ class RemoteDrawingDataSourceImpl @Inject constructor(
 
     override suspend fun getDrawingListAll(): Pager<DocumentSnapshot, Drawing>? {
         return Pager (
-                PagingConfig(pageSize = 20)
+                PagingConfig(pageSize = 25)
         ) {
             DrawingPagingSource(drawingService)
         }
@@ -28,7 +28,7 @@ class RemoteDrawingDataSourceImpl @Inject constructor(
 
     override suspend fun getDrawingListWithKeyword(keyword: String): Pager<DocumentSnapshot, Drawing>? {
         return Pager (
-                PagingConfig(pageSize = 20)
+                PagingConfig(pageSize = 25)
         ) {
             DrawingPagingSource(drawingService, keyword)
         }
