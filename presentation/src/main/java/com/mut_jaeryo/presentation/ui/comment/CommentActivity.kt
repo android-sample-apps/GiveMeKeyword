@@ -51,6 +51,9 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
         commentViewModel.needCreateUser.observe(this) {
             toast(R.string.drawing_create_user_message)
         }
+        commentViewModel.isCommentEmpty.observe(this) {
+            toast(R.string.comment_empty)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

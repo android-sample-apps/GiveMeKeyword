@@ -33,6 +33,9 @@ class CommentViewModel @Inject constructor(
     private val _needCreateUser = SingleLiveEvent<Unit>()
     val needCreateUser: SingleLiveEvent<Unit> = _needCreateUser
 
+    private val _isCommentEmpty = SingleLiveEvent<Unit>()
+    val isCommentEmpty: SingleLiveEvent<Unit> = _isCommentEmpty
+
     private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: SingleLiveEvent<Boolean>
         get() = _isLoading
@@ -77,6 +80,7 @@ class CommentViewModel @Inject constructor(
         _isLoading.postValue(true)
         val inputComment = editComment.value
         if (inputComment.isNullOrEmpty()) {
+            _isCommentEmpty.call()
             return@launch
         }
 

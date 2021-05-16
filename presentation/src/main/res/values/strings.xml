@@ -57,4 +57,5 @@
     <string name="comment_post">작성</string>
     <string name="comment_size">총 %1$d개 댓글</string>
     <string name="comment_item_delete">삭제하기</string>
+    <string name="comment_empty">비어있는 댓글은 등록할 수 없습니다</string>
 </resources>
