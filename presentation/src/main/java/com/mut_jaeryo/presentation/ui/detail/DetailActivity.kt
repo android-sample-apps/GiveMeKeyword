@@ -1,8 +1,10 @@
 package com.mut_jaeryo.presentation.ui.detail
 
+import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
@@ -10,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.mut_jaeryo.presentation.R
 import com.mut_jaeryo.presentation.databinding.ActivityDetailBinding
+import com.mut_jaeryo.presentation.ui.comment.CommentActivity
 import com.tistory.blackjinbase.base.BaseActivity
 import com.tistory.blackjinbase.ext.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,10 +28,21 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.viewModel = detailViewModel
 
+        initContentLayout()
         initAppBarButton()
         initDrawingImage()
 
         observeViewModel()
+    }
+
+    private fun initContentLayout() {
+        binding.apply {
+            drawingMainContent.movementMethod = ScrollingMovementMethod()
+            drawingMainContent.setOnClickListener {
+                val intent = Intent(this@DetailActivity, CommentActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun initAppBarButton() {
@@ -48,7 +62,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
                     }.create()
             builder.show()
         }
-
     }
 
     private fun initDrawingImage() {
