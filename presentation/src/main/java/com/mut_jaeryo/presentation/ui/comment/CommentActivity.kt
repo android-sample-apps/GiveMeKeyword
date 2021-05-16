@@ -22,6 +22,8 @@ class CommentActivity : BaseActivity<ActivityCommentBinding>(R.layout.activity_c
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding.viewModel = commentViewModel
+
         initAppBarButton()
         initCommentRecyclerView()
         observeViewModel()

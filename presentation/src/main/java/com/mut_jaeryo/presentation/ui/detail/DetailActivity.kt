@@ -39,7 +39,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         binding.apply {
             drawingMainContent.movementMethod = ScrollingMovementMethod()
             detailCommentButton.setOnClickListener {
-                val intent = Intent(this@DetailActivity, CommentActivity::class.java)
+                val intent = Intent(this@DetailActivity,
+                        CommentActivity::class.java).apply {
+                            putExtra("drawingId", intent.getStringExtra("drawingId"))
+                }
                 startActivity(intent)
             }
         }
