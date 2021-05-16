@@ -9,8 +9,11 @@ import javax.inject.Inject
 
 class GetCommentUseCase @Inject constructor(
         private val commentRepository: CommentRepository
-) : UseCase<String, Flow<PagingData<Comment>>>() {
+) : UseCase<Pair<String, String>, Flow<PagingData<Comment>>>() {
 
-    override suspend fun execute(parameter: String) =
-        commentRepository.getComments(parameter)
+    override suspend fun execute(parameter: Pair<String, String>) =
+            commentRepository.getComments(
+                    drawingId = parameter.first,
+                    userId = parameter.second
+            )
 }

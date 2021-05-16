@@ -5,4 +5,5 @@ data class CommentModel(
         val drawingId: String,
         val userId: String,
         val comment: String,
+        val isMyComment: Boolean
         )

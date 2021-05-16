@@ -9,14 +9,15 @@ import com.mut_jaeryo.domain.entities.Comment
 
 class CommentPagingSource(
         private val commentService: CommentService,
-        private val drawingId: String
+        private val drawingId: String,
+        private val userId: String
 ) : PagingSource<DocumentSnapshot, Comment>() {
     override suspend fun load(
             params: LoadParams<DocumentSnapshot>
     ): LoadResult<DocumentSnapshot, Comment> {
         return try {
             val response =
-                commentService.getComments(drawingId, params.key)
+                commentService.getComments(drawingId, userId, params.key)
            LoadResult.Page(
                     data = response.data.toDomain(),
                     prevKey = null,

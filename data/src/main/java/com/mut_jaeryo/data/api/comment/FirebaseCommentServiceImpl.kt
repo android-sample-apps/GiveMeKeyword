@@ -15,6 +15,7 @@ class FirebaseCommentServiceImpl @Inject constructor(
 ) : CommentService {
     override suspend fun getComments(
             drawingId: String,
+            userId: String,
             lastVisible: DocumentSnapshot?
     ): CommentResponse =
             suspendCancellableCoroutine { coroutine ->
@@ -38,7 +39,9 @@ class FirebaseCommentServiceImpl @Inject constructor(
                                                 id = document.id,
                                                 userId = document.getString("userId") ?: "알수없음",
                                                 comment = document.getString("comment") ?: "알수 없음",
-                                                drawingId = document.getString("documentId") ?: "알수없음"
+                                                drawingId = document.getString("documentId")
+                                                        ?: "알수없음",
+                                                isMyComment = document.getString("userId") == userId
                                         )
                                 )
                             }

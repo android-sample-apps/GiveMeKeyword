@@ -5,7 +5,11 @@ import com.mut_jaeryo.data.dto.CommentModel
 import com.mut_jaeryo.data.reponse.CommentResponse
 
 interface CommentService {
-    suspend fun getComments(drawingId: String, lastVisible: DocumentSnapshot?): CommentResponse
+    suspend fun getComments(
+            drawingId: String,
+            userId: String,
+            lastVisible: DocumentSnapshot?
+    ): CommentResponse
 
     suspend fun createComments(commentModel: CommentModel)
 

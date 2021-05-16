@@ -4,5 +4,6 @@ data class Comment(
         val id: String = "",
         val userId: String,
         val comment: String,
-        val drawingId: String
+        val drawingId: String,
+        val isMyComment: Boolean = false
         )

@@ -9,9 +9,9 @@ import com.mut_jaeryo.domain.entities.Comment
 import com.mut_jaeryo.domain.usecase.CreateCommentUseCase
 import com.mut_jaeryo.domain.usecase.GetCommentUseCase
 import com.mut_jaeryo.domain.usecase.GetUserUseCase
+import com.mut_jaeryo.domain.usecase.DeleteCommentUseCase
 import com.mut_jaeryo.presentation.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +21,9 @@ class CommentViewModel @Inject constructor(
         private val getCommentUseCase: GetCommentUseCase,
         private val createCommentUseCase: CreateCommentUseCase,
         private val getUserUseCase: GetUserUseCase,
+        private val deleteCommentUseCase: DeleteCommentUseCase,
         private val savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     private val _commentList = MutableLiveData<PagingData<Comment>>()
     val commentList: LiveData<PagingData<Comment>> = _commentList
@@ -31,16 +32,18 @@ class CommentViewModel @Inject constructor(
 
     private val _isLoading = SingleLiveEvent<Boolean>()
     val isLoading: SingleLiveEvent<Boolean>
-    get() = _isLoading
+        get() = _isLoading
 
-    init {
-        savedStateHandle.get<String>("drawingId")?.let { drawingId ->
-            getComments(drawingId)
-        }
-    }
+    private val drawingId: String?
+        get() = savedStateHandle.get<String>("drawingId")
+
+    private val userId: String?
+        get() = savedStateHandle.get<String>("userId")
 
     private fun getComments(drawingId: String) = viewModelScope.launch {
-        getCommentUseCase(drawingId).let { result ->
+        getCommentUseCase(
+                drawingId to (userId ?: "알 수 없음")
+        ).let { result ->
             if (result is Result.Success) {
                 result.data.cachedIn(viewModelScope).collect {
                     _commentList.value = it
@@ -49,11 +52,11 @@ class CommentViewModel @Inject constructor(
         }
     }
 
-    private fun getUserId() = viewModelScope.async {
+    private fun getUserId() = viewModelScope.launch {
         getUserUseCase(Unit).let {
             if (it is Result.Success) {
-                return@async it.data?.name
-            } else if (it is Result.Error){
+                savedStateHandle["userId"] = it.data?.name
+            } else if (it is Result.Error) {
                 Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }
@@ -61,6 +64,7 @@ class CommentViewModel @Inject constructor(
     }
 
     fun uploadComment() = viewModelScope.launch {
+        _isLoading.postValue(true)
         val inputComment = editComment.value
         if (inputComment.isNullOrEmpty()) {
             return@launch
@@ -68,16 +72,31 @@ class CommentViewModel @Inject constructor(
 
         editComment.value = ""
         val comment = Comment(
-            drawingId = savedStateHandle.get<String>("drawingId") ?: return@launch,
-                userId = getUserId().await() ?: return@launch,
+                drawingId = drawingId ?: return@launch,
+                userId = userId ?: return@launch,
                 comment = inputComment
         )
         createCommentUseCase.invoke(comment).let {
+            _isLoading.postValue(false)
             if (it is Result.Success) {
-                savedStateHandle.get<String>("drawingId")?.let { drawingId ->
+                drawingId?.let { drawingId ->
                     getComments(drawingId)
                 }
-        } else if (it is Result.Error) {
+            } else if (it is Result.Error) {
+                Log.e("CommentViewModel", it.exception.stackTraceToString())
+            }
+        }
+    }
+
+    fun deleteComment(comment: Comment) = viewModelScope.launch {
+        _isLoading.postValue(true)
+        deleteCommentUseCase.invoke(comment).let {
+            _isLoading.postValue(false)
+            if (it is Result.Success) {
+                drawingId?.let { drawingId ->
+                    getComments(drawingId)
+                }
+            } else if (it is Result.Error) {
                 Log.e("CommentViewModel", it.exception.stackTraceToString())
             }
         }

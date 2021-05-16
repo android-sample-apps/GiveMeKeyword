@@ -13,11 +13,11 @@ import javax.inject.Inject
 class CommentRepositoryImpl @Inject constructor(
         private val commentService: CommentService
 ) : CommentRepository {
-    override suspend fun getComments(drawingId: String): Flow<PagingData<Comment>> =
+    override suspend fun getComments(drawingId: String, userId: String): Flow<PagingData<Comment>> =
             Pager(
                     PagingConfig(pageSize = 25)
             ) {
-                CommentPagingSource(commentService, drawingId)
+                CommentPagingSource(commentService, drawingId, userId)
             }.flow
 
     override suspend fun createComment(comment: Comment) =

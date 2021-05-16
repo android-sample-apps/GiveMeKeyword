@@ -17,7 +17,8 @@ fun CommentModel.toDomain() = Comment(
         userId = userId,
         id = id,
         comment = comment,
-        drawingId = drawingId
+        drawingId = drawingId,
+        isMyComment = isMyComment
 )
 
 fun Drawing.toData() = DrawingModel(
@@ -45,7 +46,8 @@ fun Comment.toData() = CommentModel(
         userId = userId,
         id = id,
         comment = comment,
-        drawingId = drawingId
+        drawingId = drawingId,
+        isMyComment = isMyComment
 )
 
 @JvmName("toDomainDrawingModel")

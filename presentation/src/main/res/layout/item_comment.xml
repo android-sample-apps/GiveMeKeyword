@@ -5,6 +5,7 @@
 
     <data>
         <import type="com.mut_jaeryo.domain.entities.Comment"/>
+        <import type="android.view.View"/>
         <variable
             name="item"
             type="Comment" />
@@ -53,6 +54,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/item_comment_icon"
             tools:text="댓글" />
+
+        <TextView
+            android:id="@+id/comment_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="18dp"
+            android:visibility="@{item.myComment ? View.VISIBLE : View.INVISIBLE}"
+            android:text="@string/comment_item_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_comment_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
